@@ -1,0 +1,5 @@
+Plug 'flazz/vim-colorschemes'
+Plug 'itchyny/lightline.vim'
+Plug 'jby/tmux.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'kien/rainbow_parentheses.vim'
