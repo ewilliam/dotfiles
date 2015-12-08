@@ -16,6 +16,20 @@ syntax on
 " Comma is your leader
 let mapleader = ","
 
+" =============== Editor Settings ==============
+
+set esckeys                     " map missed escape sequences (enables keypad keys)
+set ignorecase                  " case insensitive searching
+set smartcase                   " but become case sensitive if you type uppercase characters)
+set shiftwidth=2                " number of spaces to use for each step of indent
+set showcmd                     " display incomplete commands
+set smartindent                 " smart autoindenting when starting a new line
+set tabstop=2                   " number of spaces that a <Tab> counts for
+set softtabstop=2               " number of spaces that a <Tab> counts for
+set expandtab                   " number of spaces that a <Tab> counts for
+set shiftround
+%retab
+
 " =============== plugs Initialization ==============
 " This loads all the plugins specified in ~/.vim/plugs.vim
 " Use plugs plugin to manage all other plugins

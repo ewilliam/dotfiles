@@ -18,9 +18,10 @@ Plug 'xolox/vim-easytags'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/vimfiler.vim'
+Plug 'Shougo/vimproc.vim', { 'do' : 'make' }
 Plug 'roman/golden-ratio'
 Plug 'osyo-manga/unite-quickfix'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'takac/vim-hardtime'

@@ -1,1 +1,2 @@
 Plug 'easymotion/vim-easymotion'
+Plug 'justinmk/vim-sneak'
