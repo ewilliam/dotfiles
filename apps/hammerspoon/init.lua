@@ -1,5 +1,7 @@
 require "settings"
 require "smart_grid"
+require "application_watcher"
+require "caffeine"
 require "bindings"
 
 -- Watch files and auto-reload config

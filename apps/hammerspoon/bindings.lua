@@ -2,7 +2,7 @@
 -- Window management
 --
 
--- Hypers
+-- Hyper
 local cmd = {"cmd"}
 local cmdalt = {"cmd", "alt"}
 
@@ -50,14 +50,42 @@ hs.hotkey.bind(cmdalt, "delete", function() hs.window.focusedWindow():applicatio
 -- Application management
 --
 
--- Hypers
+-- Hyper
 b = hs.hotkey.modal.new({"cmd"}, "return")
 b:bind({"cmd"}, "return", function() end)
 b:bind({}, "escape", function() b:exit() end)
 
 -- Launch or focus application
-b:bind({}, "c", function() hs.application.launchOrFocus("Google Chrome") b:exit() end)
-b:bind({}, "t", function() hs.application.launchOrFocus("iTerm") b:exit() end)
-b:bind({}, "s", function() hs.application.launchOrFocus("Spotify") b:exit() end)
-b:bind({}, "l", function() hs.application.launchOrFocus("Slack") b:exit() end)
-b:bind({}, "a", function() hs.application.launchOrFocus("Atom") b:exit() end)
+local key2app = {
+  c = "Google Chrome",
+  t = "iTerm",
+  s = "Spotify",
+  l = "Slack",
+  a = "Atom",
+  m = "Messages"
+}
+
+for key, app in pairs(key2app) do
+  b:bind({}, key, function() hs.application.launchOrFocus(app) b:exit() end)
+end
+
+
+--
+-- Shopify
+--
+
+-- Hyper
+s = hs.hotkey.modal.new({"ctrl"}, "space")
+s:bind({}, "escape", function() s:exit() end)
+
+-- Toggle play/pause
+s:bind({"ctrl"}, "space", function() hs.spotify.playpause() s:exit() end)
+
+-- Skip to previous track
+s:bind({}, "p", function() hs.spotify.previous() s:exit() end)
+
+-- Skip to next track
+s:bind({}, "n", function() hs.spotify.next() s:exit() end)
+
+-- Display current track
+s:bind({}, "c", function() hs.spotify.displayCurrentTrack() s:exit() end)
