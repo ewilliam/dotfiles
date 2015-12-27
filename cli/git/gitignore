@@ -1,21 +1,32 @@
-# OSX       taken from: https://github.com/github/gitignore/blob/master/Global/OSX.gitignore
+# OSX: https://github.com/github/gitignore/blob/master/Global/OSX.gitignore
 # ----------------------------------------------------------------------------------------------
+# Ignore OSX related files
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
 # Thumbnails
 ._*
-# Files that might appear on external disk
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
 .Spotlight-V100
+.TemporaryItems
 .Trashes
+.VolumeIcon.icns
 
-# Windows   taken from: https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
-# ----------------------------------------------------------------------------------------------
-# Windows image file caches
-Thumbs.db
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
-# Folder config file
-Desktop.ini
-
-# Tags      taken from: https://github.com/github/gitignore/blob/master/Global/Tags.gitignore
+# Tag: https://github.com/github/gitignore/blob/master/Global/Tags.gitignore
 # ----------------------------------------------------------------------------------------------
 # Ignore tags created by etags, ctags, gtags (GNU global) and cscope
 TAGS
@@ -30,6 +41,7 @@ cscope.files
 cscope.out
 cscope.in.out
 cscope.po.out
+.starscope.db
 
 # Vim       taken from: https://github.com/github/gitignore/blob/master/Global/vim.gitignore
 # ----------------------------------------------------------------------------------------------
@@ -39,7 +51,10 @@ cscope.po.out
 Session.vim
 .netrwhist
 *~
+.projections.json
 
 # SASS
 # ----------------------------------------------------------------------------------------------
 .sass-cache
+
+.buildpath
