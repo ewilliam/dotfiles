@@ -32,16 +32,17 @@ for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
 	defaults write "${domain}" dontAutoLoad -array \
 		"/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
 		"/System/Library/CoreServices/Menu Extras/Volume.menu" \
+		"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+		"/System/Library/CoreServices/Menu Extras/Displays.menu" \
 		"/System/Library/CoreServices/Menu Extras/User.menu"
 done
 defaults write com.apple.systemuiserver menuExtras -array \
-	"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
 	"/System/Library/CoreServices/Menu Extras/AirPort.menu" \
 	"/System/Library/CoreServices/Menu Extras/Battery.menu" \
 	"/System/Library/CoreServices/Menu Extras/Clock.menu"
 
 # Set highlight color to green
-defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
+# defaults write NSGlobalDomain AppleHighlightColor -string "0.294117647 0 0.509803922"
 
 # Set sidebar icon size to medium
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
@@ -610,7 +611,7 @@ EOD
 #defaults write org.x.X11 wm_ffm -bool true
 
 # Install the Solarized Dark theme for iTerm
-open "../apps/iterm/Solarized Dark.itermcolors"
+open "apps/iterm/Solarized Dark.itermcolors"
 
 # Don’t display the annoying prompt when quitting iTerm
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
