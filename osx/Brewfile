@@ -15,6 +15,7 @@ brew "mobile-shell"
 brew "msmtp"
 brew "mutt-kz"
 brew "neovim", args: ["HEAD"]
+brew "newsbeuter"
 brew "node"
 brew "notmuch"
 brew "nvm"
