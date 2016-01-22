@@ -28,6 +28,7 @@ set tabstop=2                   " number of spaces that a <Tab> counts for
 set softtabstop=2               " number of spaces that a <Tab> counts for
 set expandtab                   " number of spaces that a <Tab> counts for
 set shiftround
+set clipboard=unnamed
 %retab
 
 " =============== plugs Initialization ==============
