@@ -12,9 +12,9 @@ endif
 
 " Stop pressing shift all the time
 nnoremap ; :
-" nnoremap : ;
+nnoremap : ;
 vnoremap ; :
-" vnoremap : ;
+vnoremap : ;
 
 " Create window splits easier. The default
 " way is Ctrl-w,v and Ctrl-w,s. I remap
