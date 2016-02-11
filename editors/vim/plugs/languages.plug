@@ -1,1 +1,2 @@
 Plug 'sheerun/vim-polyglot'
+Plug 'dag/vim-fish'
