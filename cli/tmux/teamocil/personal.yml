@@ -1,0 +1,11 @@
+windows:
+  - name: personal
+    root: ~
+    layout: tiled
+    panes:
+      - pianobar
+      - commands:
+        - clear
+        focus: true
+      - mutt
+      - newsbeuter
