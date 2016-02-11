@@ -10,10 +10,10 @@ local cmdalt = {"cmd", "alt"}
 hs.hotkey.bind(cmd, "s", function() hs.hints.windowHints() end)
 
 -- Change window
-hs.hotkey.bind(cmd, "h", function() hs.window.focusedWindow():focusWindowWest() end)
-hs.hotkey.bind(cmd, "l", function() hs.window.focusedWindow():focusWindowEast() end)
-hs.hotkey.bind(cmd, "k", function() hs.window.focusedWindow():focusWindowNorth() end)
-hs.hotkey.bind(cmd, "j", function() hs.window.focusedWindow():focusWindowSouth() end)
+-- hs.hotkey.bind(cmd, "h", function() hs.window.focusedWindow():focusWindowWest() end)
+-- hs.hotkey.bind(cmd, "l", function() hs.window.focusedWindow():focusWindowEast() end)
+-- hs.hotkey.bind(cmd, "k", function() hs.window.focusedWindow():focusWindowNorth() end)
+-- hs.hotkey.bind(cmd, "j", function() hs.window.focusedWindow():focusWindowSouth() end)
 
 -- Toggle full screen
 hs.hotkey.bind(cmdalt, "f", function() hs.window.focusedWindow():toggleFullScreen() end)
@@ -36,7 +36,7 @@ hs.hotkey.bind(cmdalt, "]", increaseGrid)
 
 -- Push window to next/previous screen
 hs.hotkey.bind(cmdalt, "n", function() hs.grid.pushWindowNextScreen() end)
-hs.hotkey.bind(cmdalt, "p", function() hs.grid.pushWindowPreviousScreen() end)
+-- hs.hotkey.bind(cmdalt, "p", function() hs.grid.pushWindowPreviousScreen() end)
 
 -- Maximize window
 hs.hotkey.bind(cmdalt, "m", hs.grid.maximizeWindow)
@@ -59,8 +59,7 @@ b:bind({}, "escape", function() b:exit() end)
 local key2app = {
   c = "Google Chrome",
   t = "iTerm",
-  s = "Spotify",
-  l = "Slack",
+  s = "Slack",
   a = "Atom",
   m = "Messages"
 }
@@ -68,24 +67,3 @@ local key2app = {
 for key, app in pairs(key2app) do
   b:bind({}, key, function() hs.application.launchOrFocus(app) b:exit() end)
 end
-
-
---
--- Shopify
---
-
--- Hyper
-s = hs.hotkey.modal.new({"ctrl"}, "space")
-s:bind({}, "escape", function() s:exit() end)
-
--- Toggle play/pause
-s:bind({"ctrl"}, "space", function() hs.spotify.playpause() s:exit() end)
-
--- Skip to previous track
-s:bind({}, "p", function() hs.spotify.previous() s:exit() end)
-
--- Skip to next track
-s:bind({}, "n", function() hs.spotify.next() s:exit() end)
-
--- Display current track
-s:bind({}, "c", function() hs.spotify.displayCurrentTrack() s:exit() end)
