@@ -1,0 +1,19 @@
+# List
+alias l='ls -alGh'
+alias ls='ls -Gh'
+
+# Homebrew
+alias brewu='brew update; brew upgrade --all; brew cleanup; brew prune; brew doctor'
+
+# Xcode
+alias simulator='ios-sim start --devicetypeid com.apple.CoreSimulator.SimDeviceType.iPhone-6'
+
+alias showfiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+alias hidefiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+# Mou
+alias mou='open /opt/homebrew-cask/Caskroom/mou/latest/Mou.app'
+
+# nvALT
+alias notes='open nvalt://find/notes'
+alias todo='open nvalt://find/todo'

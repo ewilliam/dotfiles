@@ -1,6 +1,6 @@
 # fish functions much faster than alias eval
 function import_aliases --description 'bash aliases to .fish function files.'
-  for a in (cat ~/.dotfiles/cli/fish/aliases  | grep "^alias")
+  for a in (cat ~/.dotfiles/cli/fish/$argv  | grep "^alias")
     set aname (echo $a | grep -Eoe "[a-z0-9]+=" | sed 's/=//')
     set command (echo $a | sed 's/^alias .*=//' \
       | sed 's/^ *\'//' | sed 's/\' *$//' )
