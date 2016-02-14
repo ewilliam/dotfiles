@@ -11,6 +11,9 @@ alias simulator='ios-sim start --devicetypeid com.apple.CoreSimulator.SimDeviceT
 alias showfiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hidefiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
+# Docker
+alias startdocker='bash "/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh"'
+
 # Mou
 alias mou='open /opt/homebrew-cask/Caskroom/mou/latest/Mou.app'
 
