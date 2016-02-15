@@ -1,5 +1,8 @@
-# Reload fish
+# Fish
 alias fr='source ~/.config/fish/config.fish'
+
+# Alias
+alias ae='vi ~/.dotfiles/cli/fish/aliases'
 
 # Clear
 alias cl='clear'

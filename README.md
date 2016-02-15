@@ -51,9 +51,10 @@ Command line shell for the 90s.
 Save time with mnemonic aliases.
 
     fr  # fish reload
+    ae	# alias edit
     cl  # clear
-    l   # detailed colored list
-    psp # ps aux with peco
+    l   # list
+    psp # ps aux peco
 
 ## Vim
 
@@ -109,7 +110,7 @@ Save time with mnemonic aliases.
 * `,s"` - Surround with "quotes"
 * `,s'` - Surround with 'single quotes'
 * `,s(` - Surround with (parens)
-* `,s[` - Surround with [brakcets]
+* `,s[` - Surround with [brackets]
 * `,s{` - Surround with {braces}
 * `,s`\` - Surround with \`backticks\`
 
