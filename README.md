@@ -2,7 +2,7 @@
 
 ```
     # my dotfiles
-    
+
     $ sh -c "`curl -fsSL https://raw.github.com/ewilliam/dot/master/install.sh`"
 ```
 
@@ -59,73 +59,66 @@ Save time with mnemonic aliases.
 
 ### Buffers
 
-* `<leader>bh` - Buffer help
-* `<leader>bs` - Buffer explore
-* `<leader>bn` - Buffer next
-* `<leader>bp` - Buffer previous
-* `<leader>bd` - Buffer delete
+* `,bh` - Buffer help
+* `,bs` - Buffer explore
+* `,bn` - Buffer next
+* `,bp` - Buffer previous
+* `,bd` - Buffer delete
 
 ### Cursor
 
-* `<leader>ch` - Cursor help
-* `<leader>cg` - Cursor grep word
+* `,ch` - Cursor help
+* `,cg` - Cursor grep word
 
 ### File
 
-* `<leader>ff` - File find
-* `<leader>fs` - File search git
-* `<leader>fe` - File explore
-* `<leader>fc` - Files changed
-* `<leader>fg` - File grep
+* `,ff` - File find
+* `,fs` - File search git
+* `,fe` - File explore
+* `,fc` - Files changed
+* `,fg` - File grep
 
 ### Git
 
-* `<leader>gh` - Git help
-* `<leader>ga` - Git add
-* `<leader>gb` - Git branch
-* `<leader>gB` - Git blame
-* `<leader>gc` - Git commit
-* `<leader>gco` - Git checkout
-* `<leader>gd` - Git diff
-* `<leader>gp` - Git pull
-* `<leader>gP` - Git push
-* `<leader>gs` - Git status
+* `,gh` - Git help
+* `,ga` - Git add
+* `,gb` - Git branch
+* `,gB` - Git blame
+* `,gc` - Git commit
+* `,gco` - Git checkout
+* `,gd` - Git diff
+* `,gp` - Git pull
+* `,gP` - Git push
+* `,gs` - Git status
 
 ### Google
 
-* `<leader>ig` - Google
+* `,ig` - Google
 
 ### History
 
-* `<leader>hh` - History help
-* `<leader>hy` - History yank
-* `<leader>hu` - History undo
-* `<leader>hs` - History search
+* `,hh` - History help
+* `,hy` - History yank
+* `,hu` - History undo
+* `,hs` - History search
 
 ### REPL
 
-* `<leader>rs` - Start terminal
+* `,rs` - Start terminal
 
 ### Surround
 
-* `<leader>sh` - Surround help
-* `<leader>s#` - Surround with #{ruby interpolation}
-* `<leader>s"` - Surround with "quotes"
-* `<leader>s'` - Surround with 'single quotes'
-* `<leader>s(` - Surround with (parens)
-* `<leader>s[` - Surround with [brakcets]
-* `<leader>s{` - Surround with {braces}
-* `<leader>s`\` - Surround with \`backticks\`
+* `,sh` - Surround help
+* `,s#` - Surround with #{ruby interpolation}
+* `,s"` - Surround with "quotes"
+* `,s'` - Surround with 'single quotes'
+* `,s(` - Surround with (parens)
+* `,s[` - Surround with [brakcets]
+* `,s{` - Surround with {braces}
+* `,s`\` - Surround with \`backticks\`
 
 ### Terminal
 
-* `<leader>th` - Terminal help
-* `<leader>td` - Terminal dispatch
-* `<leader>tc` - Terminal console
-
-
-
-
-
-
-
+* `,th` - Terminal help
+* `,td` - Terminal dispatch
+* `,tc` - Terminal console
