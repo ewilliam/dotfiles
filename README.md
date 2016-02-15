@@ -102,10 +102,6 @@ Save time with mnemonic aliases.
 * `,hu` - History undo
 * `,hs` - History search
 
-### REPL
-
-* `,rs` - Start terminal
-
 ### Surround
 
 * `,sh` - Surround help
