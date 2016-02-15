@@ -1,5 +1,5 @@
-# Reload
-alias reload='source ~/.config/fish/config.fish'
+# Reload fish
+alias fr='source ~/.config/fish/config.fish'
 
 # Clear
 alias cl='clear'
