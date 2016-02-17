@@ -1,9 +1,10 @@
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+Plug 'Shougo/deoplete.nvim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'godlygeek/tabular'
 Plug 'simnalamburt/vim-mundo'
 Plug 'tpope/vim-abolish'
