@@ -17,10 +17,13 @@ vnoremap ; :
 vnoremap : ;
 
 " Create window splits easier. The default
-" way is Ctrl-w,v and Ctrl-w,s. I remap
-" this to vv and ss
+" way is Ctrl-w,v and Ctrl-w,s. Remapped
+" to vv and ss
 nnoremap <silent> vv <C-w>v
 nnoremap <silent> ss <C-w>s
+
+" Create tabs
+nnoremap <silent> tt :tabnew<CR>
 
 " Alt mappings for next and prev buffer
 nnoremap <silent><a-h> :bnext<CR>
@@ -62,6 +65,3 @@ if has('nvim') && exists(':tnoremap')
   tnoremap <c-h> <c-\><c-n><c-w>h
   tnoremap <c-l> <c-\><c-n><c-w>l
 endif
-
-" Use D to delete a range then move cursor back
-com! -range D <line1>,<line2>d | norm <C-o>

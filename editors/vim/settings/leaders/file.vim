@@ -2,9 +2,11 @@
 " <leader>f
 " File mappings
 
-" File search
-nnoremap <leader>ff :Files<CR>
+" File search git
 nnoremap <leader>fs :GitFiles<CR>
+
+" File find all
+nnoremap <leader>ff :Files<CR>
 
 " File explore
 nnoremap <leader>fe :<C-u>VimFilerSplit -winwidth=50 -force-quit<CR>
@@ -13,11 +15,19 @@ nnoremap <leader>fe :<C-u>VimFilerSplit -winwidth=50 -force-quit<CR>
 nnoremap <leader>fc :OpenChangedFiles<CR>
 
 " File grep
-" nnoremap <leader>fg :Ag<CR>
-" nnoremap <leader>fg :Unite Ag:.<cr>
+nnoremap <leader>fg :Unite grep:.<cr>
 
+" File tab open
+nnoremap <leader>ft :Unite file_rec/async -default-action=tabopen<cr>
+
+" File async open
 nnoremap <leader>fa :Unite file_rec/async<cr>
-nnoremap <leader>ft :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
-nnoremap <leader>fl :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
-nnoremap <leader>fr :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
-nnoremap <leader>fb :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+
+" File find
+" nnoremap <leader>ff :<c-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
+
+" File recent
+nnoremap <leader>fr :<c-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
+
+" File buffer
+nnoremap <leader>fb :<c-u>Unite -no-split -buffer-name=buffer  buffer<cr>
