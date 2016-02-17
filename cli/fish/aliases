@@ -10,9 +10,6 @@ alias cl='clear'
 # List
 alias lsg='ll | sift'
 
-# Sift (grep)
-alias sift='sift --binary-skip --line-number'
-
 # Concatenate
 alias catg='cat .gitignore'
 
