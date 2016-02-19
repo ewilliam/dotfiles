@@ -1,6 +1,7 @@
 function fish_greeting
-  echo (tint: red (bold: 'Master William, get shit done.'))
-  echo ""
+  set_color --bold red
+  echo "Master William, get shit done."
+  set_color normal
 
   uname -npsr
   uptime

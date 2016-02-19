@@ -1,19 +1,52 @@
-# fish functions much faster than alias eval
-function import_aliases --description 'bash aliases to .fish function files.'
+function import_aliases
   if test -n "$argv"
-    for a in (cat $argv | grep "^alias")
-      set aname (echo $a | grep -Eoe "[a-z0-9]+=" | sed 's/=//')
-      set command (echo $a | sed 's/^alias .*=//' \
-        | sed 's/^ *\'//' | sed 's/\' *$//' )
-      echo "Processing alias $aname as $command"
-      if test -f ~/.config/fish/functions/$aname.fish
-        echo Function $aname is already defined. Skipping...
-      else
-        alias $aname $command
-        funcsave $aname
+    getopts $argv | while read key value
+      for a in (cat $argv | grep "^alias")
+        set aname (echo $a | grep -Eoe "[a-z0-9.]+=" | sed 's/=//')
+        set acommand (echo $a | sed 's/^alias .*=//' \
+                              | sed 's/^ *\'//' | sed 's/\' *$//')
+
+        printf "Processing "
+        print_status yellow $aname as $acommand
+
+        if test -f ~/.config/fish/functions/$aname.fish
+          print_status red $aname "is already defined. Skipped."
+
+        else if test $key = "_"
+          alias $aname $acommand
+          funcsave $aname
+          print_status green $aname "is defined."
+
+        else if test $key = "t"
+          print_status blue $aname "will be defined."
+
+        else if test $key = "h"
+          printf "usage: $_ [-t | --test] <file>\n"
+          return
+
+        else if test $key = \*
+          printf "$_: '%s' is not a valid option.\n" $key
+          return
+        end
+        echo
       end
     end
+
   else
-    echo (tint: red (bold: 'Pick a file.'))
+    print_status red "Error:" "pick a file."
   end
+end
+
+function print_status -a color name message command
+  set_color $color
+  printf $name
+  set_color normal
+  printf " "
+  printf $message
+  if test -n $command
+    printf " "
+    set_color $color
+    echo $command
+  end
+  set_color normal
 end
