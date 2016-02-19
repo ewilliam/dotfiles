@@ -8,7 +8,6 @@ alias ae='vi ~/.dotfiles/cli/fish/aliases'
 alias cl='clear'
 
 # List
-alias l='ls -alGh'
 alias lsg='ll | sift'
 
 # Change directory

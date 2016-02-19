@@ -47,6 +47,6 @@ function print_status -a color name message command
     printf " "
     set_color $color
     echo $command
+    set_color normal
   end
-  set_color normal
 end
