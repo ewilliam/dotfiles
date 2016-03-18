@@ -128,3 +128,5 @@
 [user]
   name = William Albright
   email = ping@ewilli.am
+[credential]
+  helper = osxkeychain
