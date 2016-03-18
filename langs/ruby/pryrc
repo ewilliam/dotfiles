@@ -54,7 +54,7 @@ Pry.config.commands.import default_command_set
 
 begin
   require 'pry-theme'
-  Pry.config.theme = 'zenburn'
+  Pry.config.theme = 'solarized'
 rescue LoadError
   puts '$ gem install pry-theme  <-- Highly recommended.'
 end
