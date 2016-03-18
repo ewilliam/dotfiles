@@ -1,0 +1,12 @@
+windows:
+  - name: gnarbuddy
+    root: ~/Projects/Clients/GnarBuddy/GnarBuddy
+    layout: main-vertical
+    panes:
+      - vi Gemfile
+      - commands:
+        - clear
+        - bundle exec rails s
+      - commands:
+        - clear
+        - git status
