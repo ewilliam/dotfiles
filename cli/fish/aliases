@@ -64,6 +64,7 @@ alias tkserv='tmux kill-server'
 
 # Vim
 alias vi='nvim'
+alias ve='vi ~/.vim/vimrc'
 
 # Bundler
 alias be='bundle exec'
@@ -99,7 +100,9 @@ alias assetize='RAILS_ENV=production bundle exec rake assets:precompile'
 alias igv='echo '/vendor' >> .gitignore'
 
 ## Python
-alias pipu='pip list --outdated | cut -d " " -f1 | xargs -n1 pip install -U'
+alias pip2u='pip list --outdated | cut -d " " -f1 | xargs -n1 pip install -U'
+alias pip3u='pip3 list --outdated | cut -d " " -f1 | xargs -n1 pip3 install -U'
+alias pipu='pip2u; pip3u'
 
 # Newsbeuter
 alias news='newsbeuter'
