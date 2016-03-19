@@ -65,7 +65,13 @@ rescue LoadError
   puts '$ gem install pry-byebug  <-- Highly recommended.'
 end
 
-
+# use awesome_print for better stdout
+begin
+  require 'awesome_print'
+  Pry.config.print = proc { |output, value| Pry::Helpers::BaseHelpers.stagger_output("=> #{value.ai}", output) }
+rescue LoadError => err
+  puts "no awesome_print :("
+end
 
 # === CONVENIENCE METHODS ===
 # Stolen from https://gist.github.com/807492
