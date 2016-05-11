@@ -19,6 +19,7 @@ runtime plugs/project.plug
 runtime plugs/vim-improvements.plug
 runtime plugs/ruby.plug
 runtime plugs/languages.plug
+runtime plugs/filetype.plug
 
 " The plugins listed in ~/.vim/.plugs.local will be added here to
 " allow the user to add vim plugins without the need for a fork.
