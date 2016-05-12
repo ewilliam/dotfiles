@@ -1,6 +1,3 @@
-set fisher_home ~/.local/share/fisherman
-set fisher_config ~/.config/fisherman
-
 set -x EDITOR nvim
 
 # Python version/envirnoment management
@@ -21,7 +18,6 @@ eval (thefuck --alias | tr '\n' ';')
 # teamocil autocompletion
 complete -c teamocil -a "(teamocil --list)"
 
-fish_vi_mode
+fish_vi_key_bindings
 
-source $fisher_home/config.fish
 source ~/.secrets.fish
