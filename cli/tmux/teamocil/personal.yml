@@ -1,3 +1,4 @@
+name: zen
 windows:
   - name: personal
     root: ~
