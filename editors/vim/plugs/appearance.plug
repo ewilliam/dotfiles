@@ -1,4 +1,4 @@
-Plug 'flazz/vim-colorschemes'
+Plug 'romainl/flattened'
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'kien/rainbow_parentheses.vim'
+Plug 'luochen1990/rainbow' " better rainbow parentheses

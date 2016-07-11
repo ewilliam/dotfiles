@@ -8,5 +8,4 @@ if has("gui_running")
 endif
 
 set colorcolumn=80
-set background=dark
-colorscheme solarized
+colorscheme flattened_dark

@@ -1,5 +1,4 @@
 Plug 'ck3g/vim-change-hash-syntax', { 'for': 'ruby' }
-Plug 'ecomba/vim-ruby-refactoring', { 'for': 'ruby' }
 Plug 'tpope/vim-bundler', { 'for': 'ruby' }
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'tpope/vim-rake', { 'for': 'ruby' }
