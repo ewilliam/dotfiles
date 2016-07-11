@@ -130,3 +130,5 @@
   email = ping@ewilli.am
 [credential]
   helper = osxkeychain
+[github]
+  user = ewilliam

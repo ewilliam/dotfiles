@@ -1,0 +1,10 @@
+name: zen
+windows:
+  - name: lb-api
+    root: ~/Projects/Linguabee/api-linguabee
+    panes:
+      - vi Gemfile
+  - name: lb-mobile
+    root: ~/Projects/Linguabee/terp
+    panes:
+      - vi Gemfile
