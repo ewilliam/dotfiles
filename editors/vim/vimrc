@@ -14,7 +14,7 @@ set hidden
 syntax on
 
 " Comma is your leader
-let mapleader = ","
+let mapleader = "\<Space>"
 
 " =============== Editor Settings ==============
 
