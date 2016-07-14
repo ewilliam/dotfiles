@@ -28,3 +28,5 @@ Plug 'osyo-manga/unite-quickfix'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'takac/vim-hardtime'
+Plug 'airblade/vim-rooter'
+Plug 'majutsushi/tagbar'
