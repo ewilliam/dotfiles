@@ -1,6 +1,30 @@
-"""""""""""""""""""""""""""""""""""""""
+" ================ Surround ===================
 " <leader>s
-" Surround mappings
+
+" ================ Menu ===================
+
+let g:unite_source_menu_menus.surround = {
+  \ 'description' : ''
+  \}
+
+let g:unite_source_menu_menus.surround.command_candidates = [
+  \['▷ ysiW"                                             <leader>s"', 'ysiW"'],
+  \['▷ ysiW#                                             <leader>s#', 'ysiW#'],
+  \['▷ ysiW''                                            <leader>s''', 'ysiW'''],
+  \['▷ ysiW(                                             <leader>s(', 'ysiW('],
+  \['▷ ysiW)                                             <leader>s)', 'ysiW)'],
+  \['▷ ysiW[                                             <leader>s[', 'ysiW['],
+  \['▷ ysiW]                                             <leader>s]', 'ysiW]'],
+  \['▷ ysiW`                                             <leader>s`', 'ysiW`'],
+  \['▷ ysiW`                                             <leader>s`', 'ysiW`'],
+  \['▷ ysiW{                                             <leader>s{', 'ysiW{'],
+  \['▷ ysiW}                                             <leader>s}', 'ysiW}'],
+  \]
+
+" ================ Mappings ===================
+
+" Surround help
+nnoremap <leader>sh :<C-u>Unite -silent -start-insert menu:surround<CR>
 
 " <leader># Surround a word with #{ruby interpolation}
 nmap <leader>s# ysiW#

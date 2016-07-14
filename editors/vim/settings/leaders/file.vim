@@ -1,6 +1,24 @@
-"""""""""""""""""""""""""""""""""""""""
+" ================ File ===================
 " <leader>f
-" File mappings
+
+" ================ Menu ===================
+
+let g:unite_source_menu_menus.file = {
+    \ 'description' : ''
+    \}
+
+let g:unite_source_menu_menus.file.command_candidates = [
+  \['▷ GitFiles                                       <leader>fs', 'GitFiles'],
+  \['▷ Files                                          <leader>ff', 'Files'],
+  \['▷ <C-u>VimFilerSplit -winwidth=50 -force-quit    <leader>fe', '<C-u>VimFilerSplit -winwidth=50 -force-quit'],
+  \['▷ OpenChangedFiles                               <leader>fc', 'OpenChangedFiles'],
+  \['▷ Unite grep                                     <leader>fg', 'Unite grep'],
+  \]
+
+" ================ Mappings ===================
+
+" File help
+nnoremap <leader>fh :<C-u>Unite -silent -start-insert menu:file<CR>
 
 " File search git
 nnoremap <leader>fs :GitFiles<CR>
@@ -9,7 +27,7 @@ nnoremap <leader>fs :GitFiles<CR>
 nnoremap <leader>ff :Files<CR>
 
 " File explore
-nnoremap <leader>fe :<C-u>VimFilerSplit -winwidth=50 -force-quit<CR>
+nnoremap <leader>fe :<C-u>VimFilerBufferDir -split -winwidth=50 -auto-cd -force-quit<CR>
 
 " Files changed
 nnoremap <leader>fc :OpenChangedFiles<CR>
