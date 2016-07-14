@@ -4,10 +4,11 @@
 
 -- Hyper
 local cmd = {"cmd"}
+local ctrl = {"ctrl"}
 local cmdalt = {"cmd", "alt"}
 
 -- Select window
-hs.hotkey.bind(cmd, "s", function() hs.hints.windowHints() end)
+hs.hotkey.bind(ctrl, "space", function() hs.hints.windowHints() end)
 
 -- Change window
 -- hs.hotkey.bind(cmd, "h", function() hs.window.focusedWindow():focusWindowWest() end)
