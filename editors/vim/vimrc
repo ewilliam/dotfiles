@@ -2,7 +2,6 @@
 
 set number                      "Line numbers are good
 set showmode                    "Show current mode down the bottom
-set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 
 " This makes vim act like all other editors, buffers can
@@ -13,7 +12,7 @@ set hidden
 " Turn on syntax highlighting
 syntax on
 
-" Comma is your leader
+" Space is your leader
 let mapleader = "\<Space>"
 
 " =============== Editor Settings ==============
@@ -75,7 +74,7 @@ set wildignore=*.o,*.obj,*~
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
 set wildignore+=*DS_Store*
-set wildignore+=vendor/rails/**
+set wildignore+=vendor/bundle/**
 set wildignore+=vendor/cache/**
 set wildignore+=*.gem
 set wildignore+=log/**
