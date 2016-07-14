@@ -26,7 +26,7 @@ function! MyReadonly()
 endfunction
 
 function! MyModified()
-  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  return &ft =~ 'help\|gitcommit' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 endfunction
 
 function! MyFugitive()
@@ -42,7 +42,7 @@ function! MyFugitive()
 endfunction
 
 function! MyGitGutter()
-  if expand('%:t') !~? 'vimfiler\|Mundo\|Tagbar\|fish\|bash' && &ft != "unite" && exists('*GitGutterGetHunkSummary')
+  if expand('%:t') !~? 'vimfiler\|Mundo\|Tagbar' && &ft !~ 'unite\|gitcommit' && exists('*GitGutterGetHunkSummary')
     let [ added, modified, removed ] = GitGutterGetHunkSummary()
     return printf("+%d ~%d -%d", added, modified, removed)
   endif
@@ -60,6 +60,7 @@ function! MyFilename()
         \ fname =~ '__Mundo' ? '' :
         \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
         \ &ft == 'unite' ? unite#get_status_string() :
+        \ &ft == 'gitcommit' ? "" :
         \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
         \ ('' != MyModified() ? ' ' . MyModified() : '')
