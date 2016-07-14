@@ -116,6 +116,7 @@ private
     puts "Configuring Bundlers for parallel gem installation"
     puts "======================================================"
     run %{ bundle config --global jobs #{bundler_jobs} }
+    run %{ bundle config --global path vendor/bundle }
     run %{ bundle config --global binstubs .bundle/bin }
     puts
   end
