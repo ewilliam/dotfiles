@@ -1,1 +1,1 @@
-/Users/ewilliam/.nvim/vimrc
+/Users/ewilliam/.dotfiles/editors/vim/vimrc

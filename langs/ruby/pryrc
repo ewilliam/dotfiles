@@ -1,3 +1,5 @@
+# vi: ft=ruby
+
 # === EDITOR ===
 Pry.editor = 'vi'
 
@@ -65,13 +67,7 @@ rescue LoadError
   puts '$ gem install pry-byebug  <-- Highly recommended.'
 end
 
-# use awesome_print for better stdout
-begin
-  require 'awesome_print'
-  Pry.config.print = proc { |output, value| Pry::Helpers::BaseHelpers.stagger_output("=> #{value.ai}", output) }
-rescue LoadError => err
-  puts "no awesome_print :("
-end
+
 
 # === CONVENIENCE METHODS ===
 # Stolen from https://gist.github.com/807492
@@ -93,4 +89,14 @@ def open_html(body)
   file = Tempfile.new(['html_preview', '.html'])
   file.write body
   system "xdg-open #{file.path}"
+end
+
+def pbcopy(something)
+  something.tap do |s|
+    IO.popen("xclip -selection clipboard -in", "w") { |pipe| pipe.write s }
+  end
+end
+
+def pbpaste
+  IO.popen("xclip -selection clipboard -out", "r") { |pipe| pipe.read }
 end

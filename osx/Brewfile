@@ -1,73 +1,111 @@
 tap "caskroom/cask"
+tap "caskroom/versions"
 tap "homebrew/dupes"
 tap "neovim/neovim"
 tap 'universal-ctags/universal-ctags'
+tap 'ewilliam/booze'
 
-brew "chruby"
-brew "chruby-fish"
-brew "fasd"
-brew "fish"
+# Ruby
+brew "chruby", args: ["HEAD"]
+brew "chruby-fish", args: ["HEAD"]
+brew "ruby-install"
+cask "rubymotion"
+
+# Python
+brew "python"
+brew "python3"
+
+# Javascript
+brew "node"
+brew "nvm"
+
+# Git
 brew "git"
 brew "heroku-toolbelt"
 brew "hub"
-brew "imagemagick"
-brew "macvim", args: ["custom-icons", "override-system-vim", "with-lua", "with-luajit"]
-brew "mobile-shell"
-brew "msmtp"
-brew "mutt-kz"
-brew "neovim", args: ["HEAD"]
-brew "newsbeuter"
-brew "node"
-brew "notmuch"
-brew "nvm"
-brew "offlineimap"
-brew "openssl"
-brew "peco"
-brew "pianobar"
-brew "postgresql"
-brew "python"
-brew "python3"
-brew "reattach-to-user-namespace"
-brew "ruby-install"
-brew "sift"
-brew "sqlite"
-brew "ssh-copy-id"
-brew "thefuck"
 brew "tig"
-brew "tmux"
-brew "tree"
-brew 'universal-ctags/universal-ctags/universal-ctags', args: ['HEAD']
-brew "unrar"
-brew "urlview"
-brew "w3m"
-brew "wget"
 
-cask "adium"
-cask "appcleaner"
+# Editor
+brew "macvim", args: ["custom-icons", "override-system-vim", "with-lua", "with-luajit"]
+brew "neovim", args: ["HEAD"]
+brew 'universal-ctags/universal-ctags/universal-ctags', args: ['HEAD']
 cask "atom"
-cask "clamxav"
-cask "cyberduck"
-cask "dockertoolbox"
-cask "dropbox"
-cask "google-chrome"
-cask "flux"
-cask "hammerspoon"
-cask "iterm2-beta"
-cask "kodi"
-cask "karabiner"
-cask "libreoffice"
-cask "liteicon"
-cask "meteorologist"
 cask "mou"
 cask "nvalt"
-cask "openemu"
+cask "libreoffice"
+
+# Shell
+brew "fish"
+brew "mobile-shell"
+brew "reattach-to-user-namespace"
+brew "ssh-copy-id"
+brew "thefuck"
+brew "tmux"
+cask "iterm2-beta"
+
+# Database
+brew "postgresql"
+brew "sqlite"
 cask "postico"
-cask "postman"
-cask "rubymotion"
-cask "seil"
 cask "sequel-pro"
-cask "slack"
-cask "transmission"
+
+# Search
+brew "fzf"
+brew "peco"
+brew "sift"
+
+# Dev tools
+brew "imagemagick"
+brew "openssl"
+cask "cyberduck"
+cask "dockertoolbox"
+cask "postman"
 cask "virtualbox"
-cask "viscosity"
+
+# Download
+brew "wget"
+cask "transmission"
+
+# Mutt
+brew "neomutt/homebrew-neomutt/neomutt", args: ["with-sidebar-patch", "with-notmuch-patch", "with-gpgme"]
+brew "notmuch"
+brew "msmtp"
+brew "offlineimap"
+brew "urlview"
+brew "w3m"
+
+# Media
+brew "newsbeuter"
+brew "pianobar"
+cask "kodi"
 cask "vlc"
+
+# Browser
+cask "google-chrome"
+cask "firefox"
+
+# Communication
+brew "weechat"
+cask "adium"
+cask "slack"
+
+# File sharing
+cask "dropbox"
+cask "google-drive"
+
+# Games
+cask "openemu"
+cask "steam"
+
+# Misc
+brew "mas"
+brew "unrar"
+cask "appcleaner"
+cask "clamxav"
+cask "flux"
+cask "focus"
+cask "hammerspoon"
+cask "meteorologist"
+cask "karabiner"
+cask "seil"
+cask "viscosity"

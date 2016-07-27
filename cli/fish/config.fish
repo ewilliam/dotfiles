@@ -20,7 +20,17 @@ complete -c teamocil -a "(teamocil --list)"
 # use grc for specific commands
 set -U grc_wrap_commands cat df diff dig ifconfig netstat ping tail traceroute
 
+# initialize fasd
+# https://jurriaan.ninja/2014/12/21/fish-shell-and-fasd.html
+function -e fish_preexec _run_fasd
+  fasd --proc (fasd --sanitize "$argv") > "/dev/null" 2>&1
+end
+
 # https://github.com/nvbn/thefuck/wiki/shell-aliases
 eval (thefuck --alias | tr '\n' ';')
+
+# for openni2
+set -x  OPENNI2_INCLUDE /usr/local/include/ni2
+set -x  OPENNI2_REDIST /usr/local/lib/ni
 
 source ~/.secrets.fish
