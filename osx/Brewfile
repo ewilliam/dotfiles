@@ -1,6 +1,7 @@
 tap "caskroom/cask"
 tap "caskroom/versions"
 tap "homebrew/dupes"
+tap "homebrew/php"
 tap "neovim/neovim"
 tap 'universal-ctags/universal-ctags'
 tap 'ewilliam/booze'
@@ -18,6 +19,10 @@ brew "python3"
 # Javascript
 brew "node"
 brew "nvm"
+
+# Wordpress
+brew "wp-cli"
+brew "terminus"
 
 # Git
 brew "git"
@@ -58,6 +63,7 @@ brew "sift"
 brew "imagemagick"
 brew "openssl"
 cask "cyberduck"
+cask "dash"
 cask "dockertoolbox"
 cask "postman"
 cask "virtualbox"

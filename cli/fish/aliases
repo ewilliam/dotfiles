@@ -33,6 +33,7 @@ alias psp='ps aux | peco'
 
 # Git
 alias gst='git status'
+alias gad='git add'
 alias gci='git ci'
 alias gcm='git ci -m'
 alias gco='git co'
