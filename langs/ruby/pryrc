@@ -26,7 +26,7 @@ default_command_set = Pry::CommandSet.new do
      IO.popen('pbcopy', 'w') { |f| f << str.to_s }
   end
 
-  command "clear" do
+  command "cl" do
     system 'clear'
     if ENV['RAILS_ENV']
       output.puts "Rails Environment: " + ENV['RAILS_ENV']
@@ -54,19 +54,14 @@ end
 
 Pry.config.commands.import default_command_set
 
-begin
-  require 'pry-theme'
-  Pry.config.theme = 'solarized'
-rescue LoadError
-  puts '$ gem install pry-theme  <-- Highly recommended.'
+['pry-theme', 'pry-byebug', 'awesome_print'].each do |gem|
+  begin
+    require gem
+    AwesomePrint.pry! unless gem != 'awesome_print'
+  rescue LoadError
+    puts "$ gem install #{gem} <-- Recommended."
+  end
 end
-
-begin
-  require 'pry-byebug'
-rescue LoadError
-  puts '$ gem install pry-byebug  <-- Highly recommended.'
-end
-
 
 
 # === CONVENIENCE METHODS ===
