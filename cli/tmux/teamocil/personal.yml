@@ -7,6 +7,7 @@ windows:
       - pianobar
       - commands:
         - clear
+        - gcalcli agenda
         focus: true
       - mutt
       - newsbeuter

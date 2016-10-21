@@ -8,3 +8,7 @@ windows:
     root: ~/Projects/Linguabee/terp
     panes:
       - vi Gemfile
+  - name: lb-web
+    root: ~/Projects/Linguabee/linguabee
+    panes:
+      - vi Gemfile
