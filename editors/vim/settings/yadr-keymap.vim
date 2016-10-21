@@ -60,6 +60,8 @@ imap <C-j> <esc>ea
 
 if has('nvim') && exists(':tnoremap')
   " Navigating the terminals
+  " fix <C-h> mapping
+  " https://github.com/neovim/neovim/wiki/FAQ#my-ctrl-h-mapping-doesnt-work
   tnoremap <c-j> <c-\><c-n><c-w>j
   tnoremap <c-k> <c-\><c-n><c-w>k
   tnoremap <c-h> <c-\><c-n><c-w>h
