@@ -5,12 +5,10 @@
       "solarized-dark-syntax"
     ]
   editor:
+    fontFamily: "InconsolataForPowerlineNerdFontPlusFontAwesomePlusOcticonsPlusPomiconsPlusFontLinux---Medium"
     fontSize: 12
-    invisibles: {}
+    showIndentGuide: true
   "exception-reporting":
-    userId: "5eedbd12-43d9-b142-4906-35580fe70def"
-  fonts:
-    fontFamily: "Inconsolata-g"
-  "vim-mode": {}
+    userId: "91993114-0b3f-a3cc-f176-b572d54cccf5"
   welcome:
     showOnStartup: false
