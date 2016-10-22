@@ -3,11 +3,10 @@
 " ========================================
 "
 "
-" Stop using ESC!
-inoremap jk <esc>
-cnoremap jk <esc>
+
+" Escape Terminal mode
 if has('nvim')
-  tnoremap jk <C-\><C-n>
+  tnoremap <nowait> <esc><esc> <C-\><C-n>
 endif
 
 " Stop pressing shift all the time

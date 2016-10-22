@@ -1,4 +1,0 @@
-Plug 'romainl/flattened'
-Plug 'itchyny/lightline.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'luochen1990/rainbow' " better rainbow parentheses
