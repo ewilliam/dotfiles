@@ -4,11 +4,6 @@
 "
 "
 
-" Escape Terminal mode
-if has('nvim')
-  tnoremap <nowait> <esc><esc> <C-\><C-n>
-endif
-
 " Stop pressing shift all the time
 nnoremap ; :
 nnoremap : ;
@@ -57,12 +52,19 @@ nnoremap ` '
 " put the cursor right after the quote
 imap <C-j> <esc>ea
 
+" Move between split panes
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 if has('nvim') && exists(':tnoremap')
   " Navigating the terminals
-  " fix <C-h> mapping
   " https://github.com/neovim/neovim/wiki/FAQ#my-ctrl-h-mapping-doesnt-work
   tnoremap <c-j> <c-\><c-n><c-w>j
   tnoremap <c-k> <c-\><c-n><c-w>k
   tnoremap <c-h> <c-\><c-n><c-w>h
   tnoremap <c-l> <c-\><c-n><c-w>l
+  " Escape Terminal mode
+  tnoremap <nowait> <esc><esc> <C-\><C-n>
 endif
