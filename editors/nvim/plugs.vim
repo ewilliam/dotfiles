@@ -58,6 +58,7 @@ Plug 'radenling/vim-dispatch-neovim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'luochen1990/indent-detector.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}

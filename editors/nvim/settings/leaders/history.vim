@@ -12,6 +12,7 @@ let g:menus.history.file_candidates = [
 let g:menus.history.command_candidates = [
   \ ['History help  <leader>hh', 'Denite menu:history'],
   \ ['History undo  <leader>hu', 'MundoToggle'],
+  \ ['History yank  <leader>hy', 'Denite neoyank'],
   \ ]
 
 
@@ -22,3 +23,4 @@ nnoremap <leader>hh :Denite menu:history<CR>
 
 " History operations
 nnoremap <leader>hu :MundoToggle<CR>
+nnoremap <leader>hy :Denite neoyank<CR>

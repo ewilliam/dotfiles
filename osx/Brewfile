@@ -59,7 +59,7 @@ cask "sequel-pro"
 # Search
 brew "fzf"
 brew "peco"
-brew "sift"
+brew "ripgrep"
 
 # Dev tools
 brew "imagemagick"
