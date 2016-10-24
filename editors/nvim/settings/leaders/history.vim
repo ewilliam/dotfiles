@@ -1,27 +1,24 @@
 " ================ History ===================
-" <leader>h
-
 " ================ Menu ===================
-
-let g:unite_source_menu_menus.history = {
+"
+let g:menus.history = {
   \ 'description' : ''
-  \}
+  \ }
 
-let g:unite_source_menu_menus.history.command_candidates = [
-  \['▷ <C-u>Unite history/yank                           <leader>hy', '<C-u>Unite history/yank'],
-  \['▷ GundoToggle                                       <leader>hu', 'GundoToggle'],
-  \]
+let g:menus.history.file_candidates = [
+  \ ['history.vim', '~/.config/nvim/settings/leaders/history.vim'],
+  \ ]
+
+let g:menus.history.command_candidates = [
+  \ ['History help  <leader>hh', 'Denite menu:history'],
+  \ ['History undo  <leader>hu', 'MundoToggle'],
+  \ ]
+
 
 " ================ Mappings ===================
-
+"
 " History help
-nnoremap <leader>hh :<C-u>Unite -silent -start-insert menu:history<CR>
+nnoremap <leader>hh :Denite menu:history<CR>
 
-" History yank
-nnoremap <leader>hy :<C-u>Unite history/yank<CR>
-
-" History undo
+" History operations
 nnoremap <leader>hu :MundoToggle<CR>
-
-" History search
-nnoremap <leader>hs :History<CR>

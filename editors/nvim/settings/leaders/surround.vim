@@ -1,63 +1,58 @@
 " ================ Surround ===================
-" <leader>s
-
 " ================ Menu ===================
-
-let g:unite_source_menu_menus.surround = {
+"
+let g:menus.surround = {
   \ 'description' : ''
-  \}
+  \ }
 
-let g:unite_source_menu_menus.surround.command_candidates = [
-  \['▷ ysiW"                                             <leader>s"', 'ysiW"'],
-  \['▷ ysiW#                                             <leader>s#', 'ysiW#'],
-  \['▷ ysiW''                                            <leader>s''', 'ysiW'''],
-  \['▷ ysiW(                                             <leader>s(', 'ysiW('],
-  \['▷ ysiW)                                             <leader>s)', 'ysiW)'],
-  \['▷ ysiW[                                             <leader>s[', 'ysiW['],
-  \['▷ ysiW]                                             <leader>s]', 'ysiW]'],
-  \['▷ ysiW`                                             <leader>s`', 'ysiW`'],
-  \['▷ ysiW`                                             <leader>s`', 'ysiW`'],
-  \['▷ ysiW{                                             <leader>s{', 'ysiW{'],
-  \['▷ ysiW}                                             <leader>s}', 'ysiW}'],
-  \]
+let g:menus.surround.file_candidates = [
+  \ ['surround.vim', '~/.config/nvim/settings/leaders/surround.vim'],
+  \ ]
+
+let g:menus.surround.command_candidates = [
+  \ ['Surround double quotes   <leader>s"', 'ysiW"'],
+  \ ['Surround #{ruby}         <leader>s#', 'ysiW#'],
+  \ ['Surround single quotes   <leader>s''', 'ysiW'''],
+  \ ['Surround ( parens )      <leader>s(', 'ysiW('],
+  \ ['Surround (parens)        <leader>s)', 'ysiW)'],
+  \ ['Surround [ brackets ]    <leader>s[', 'ysiW['],
+  \ ['Surround [brackets]      <leader>s]', 'ysiW]'],
+  \ ['Surround { braces }      <leader>s{', 'ysiW{'],
+  \ ['Surround {braces}        <leader>s}', 'ysiW}'],
+  \ ['Surround ` backticks `   <leader>s`', 'ysiW`'],
+  \ ['Surround `backticks`     <leader>s`', 'ysiW`'],
+  \ ]
 
 " ================ Mappings ===================
-
+"
 " Surround help
-nnoremap <leader>sh :<C-u>Unite -silent -start-insert menu:surround<CR>
+nnoremap <leader>sh :Unite menu:surround<CR>
 
-" <leader># Surround a word with #{ruby interpolation}
+" Surround operations
 nmap <leader>s# ysiW#
 vmap <leader>s# c#{<C-R>"}<ESC>
 
-" <leader>" Surround a word with "quotes"
 nmap <leader>s" ysiW"
 vmap <leader>s" c"<C-R>""<ESC>
 
-" <leader>' Surround a word with 'single quotes'
 nmap <leader>s' ysiW'
 vmap <leader>s' c'<C-R>"'<ESC>
 
-" <leader>) or ,( Surround a word with (parens)
-" The difference is in whether a space is put in
 nmap <leader>s( ysiW(
 nmap <leader>s) ysiW)
 vmap <leader>s( c( <C-R>" )<ESC>
 vmap <leader>s) c(<C-R>")<ESC>
 
-" <leader>[ Surround a word with [brackets]
 nmap <leader>s] ysiW]
 nmap <leader>s[ ysiW[
 vmap <leader>s[ c[ <C-R>" ]<ESC>
 vmap <leader>s] c[<C-R>"]<ESC>
 
-" <leader>{ Surround a word with {braces}
 nmap <leader>s} ysiW}
 nmap <leader>s{ ysiW{
 vmap <leader>s} c{ <C-R>" }<ESC>
 vmap <leader>s{ c{<C-R>"}<ESC>
 
-" <leader>` Surround a word with `backticks`
 nmap <leader>s` ysiW`
 nmap <leader>s` ysiW`
 vmap <leader>s` c` <C-R>" `<ESC>

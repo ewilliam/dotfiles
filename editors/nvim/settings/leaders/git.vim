@@ -1,37 +1,42 @@
 " ================ Git ===================
-" <leader>g
-" heavy use of vim-fugitive
-
 " ================ Menu ===================
+"
+let g:menus.git = {
+  \ 'description' : ''
+  \ }
 
-let g:unite_source_menu_menus.git = {
-    \ 'description' : ''
-    \}
+let g:menus.git.file_candidates = [
+  \ ['git.vim', '~/.config/nvim/settings/leaders/git.vim'],
+  \ ]
 
-let g:unite_source_menu_menus.git.command_candidates = [
-  \['▷ Gblame                                            <leader>gB', 'Gblame'],
-  \['▷ Gbrowse                                           <leader>gbr', 'Gbrowse'],
-  \['▷ Gcommit -v -q                                     <leader>gc', 'Gcommit -v -q'],
-  \['▷ Gcommit -v -q %:p                                 <leader>gt', 'Gcommit -v -q %:p'],
-  \['▷ Gdiff                                             <leader>gd', 'Gdiff'],
-  \['▷ Gedit                                             <leader>ge', 'Gedit'],
-  \['▷ Git add %:p<CR>                                   <leader>ga', 'Git add %:p<CR>'],
-  \['▷ Git branch                                        <leader>gb', 'Git branch'],
-  \['▷ Git checkout                                      <leader>gco', 'Git checkout'],
-  \['▷ Git log                                           <leader>gl', 'Git log'],
-  \['▷ Gmove                                             <leader>gm', 'Gmove'],
-  \['▷ Gpull                                             <leader>gp', 'Gpull'],
-  \['▷ Gpush                                             <leader>gP', 'Gpush'],
-  \['▷ Gread                                             <leader>gr', 'Gread'],
-  \['▷ Gstatus                                           <leader>gs', 'Gstatus'],
-  \['▷ Gwrite<CR>                                        <leader>gw', 'Gwrite<CR>'],
-  \['▷ diffget                                           <leader>gdg', 'diffget'],
-  \['▷ diffput                                           <leader>gdp', 'diffput'],
-  \]
+let g:menus.git.command_candidates = [
+  \ ['Git help              <leader>gh', 'Denite menus:git'],
+  \ ['Git blame             <leader>gB', 'Gblame'],
+  \ ['Git browse            <leader>gbr', 'Gbrowse'],
+  \ ['Git commit -v -q      <leader>gc', 'Gcommit -v -q'],
+  \ ['Git commit -v -q %:p  <leader>gt', 'Gcommit -v -q %:p'],
+  \ ['Git diff              <leader>gd', 'Gdiff'],
+  \ ['Git edit              <leader>ge', 'Gedit'],
+  \ ['Git add %:p           <leader>ga', 'Git add %:p<CR>'],
+  \ ['Git branch            <leader>gb', 'Git branch'],
+  \ ['Git checkout          <leader>gco', 'Git checkout'],
+  \ ['Git log               <leader>gl', 'Git log'],
+  \ ['Git move              <leader>gm', 'Gmove'],
+  \ ['Git pull              <leader>gp', 'Gpull'],
+  \ ['Git push              <leader>gP', 'Gpush'],
+  \ ['Git read              <leader>gr', 'Gread'],
+  \ ['Git status            <leader>gs', 'Gstatus'],
+  \ ['Git write             <leader>gw', 'Gwrite<CR>'],
+  \ ['diffget               <leader>gdg', 'diffget'],
+  \ ['diffput               <leader>gdp', 'diffput'],
+  \ ]
 
 " ================ Mappings ===================
+"
+" Git help
+nnoremap <leader>gh :Denite menu:git<CR>
 
-nnoremap <leader>gh :<C-u>Unite -silent -start-insert menu:git<CR>
+" Git operations
 nnoremap <leader>ga   :Git add %:p<CR><CR>
 nnoremap <leader>gb   :Git branch<space>
 nnoremap <leader>gB   :Gblame<CR>

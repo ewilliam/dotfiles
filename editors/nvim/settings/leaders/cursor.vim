@@ -1,20 +1,24 @@
 " ================ Cursor ===================
-" <leader>c
-
 " ================ Menu ===================
+"
+let g:menus.cursor = {
+  \ 'description': ''
+  \ }
 
-let g:unite_source_menu_menus.cursor = {
-  \ 'description' : ''
-  \}
+let g:menus.cursor.file_candidates = [
+  \ ['cursor.vim', '~/.config/nvim/settings/leaders/cursor.vim'],
+  \ ]
 
-let g:unite_source_menu_menus.cursor.command_candidates = [
-  \['▷ UniteWithCursorWord grep:.                        <leader>cg', 'UniteWithCursorWord grep:.'],
-  \]
+let g:menus.cursor.command_candidates = [
+  \ ['Cursor help <leader>ch', 'Denite menu:cursor'],
+  \ ['Cursor grep <leader>cg', 'DeniteCursorWord grep'],
+  \ ]
+
 
 " ================ Mappings ===================
-
+"
 " Cursor help
-nnoremap <leader>ch :<C-u>Unite -silent -start-insert menu:cursor<CR>
+nnoremap <leader>ch :Denite menu:cursor<CR>
 
-" Cursor grep
-nnoremap <leader>cg :UniteWithCursorWord grep:.<CR>
+" Cursor operations
+nnoremap <leader>cg :DeniteCursorWord grep<CR>

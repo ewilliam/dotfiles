@@ -1,30 +1,28 @@
 " ================ Buffers ===================
-" <leader>b
-
 " ================ Menu ===================
+"
+let g:menus.buffer = {
+  \ 'description': 'Manage buffers'
+  \ }
 
-let g:unite_source_menu_menus.buffer = {
-  \ 'description' : ''
-  \}
+let g:menus.buffer.file_candidates = [
+  \ ['buffer.vim', '~/.config/nvim/settings/leaders/buffer.vim'],
+  \ ]
 
-let g:unite_source_menu_menus.buffer.command_candidates = [
-  \['▷ <C-u>Unite -quick-match buffer                    <leader>bs', '<C-u>Unite -quick-match buffer'],
-  \['▷ bdelete                                           <leader>bd', 'bdelete'],
-  \['▷ bnext                                             <leader>bn', 'bnext'],
-  \['▷ bprev                                             <leader>bp', 'bprev'],
-\]
+let g:menus.buffer.command_candidates = [
+  \ ['Buffer help     <leader>bh', 'Denite menu:buffer'],
+  \ ['Buffer delete   <leader>bd', 'bdelete'],
+  \ ['Buffer next     <leader>bn', 'bnext'],
+  \ ['Buffer previous <leader>bn', 'bprev'],
+  \ ]
 
 " ================ Mappings ===================
 
 " Buffer help
-nnoremap <leader>bh :<C-u>Unite -silent -start-insert menu:buffer<CR>
+nnoremap <leader>bh :Denite menu:buffer<CR>
 
-" Buffer search
-nnoremap <leader>bs :Buffers<CR>
-
-" Buffer delete
+" Buffer operations
+nnoremap <leader>bs :Denite buffer<CR>
 nnoremap <leader>bd :bdelete<CR>
-
-" Buffer next/prev
 nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprev<CR>

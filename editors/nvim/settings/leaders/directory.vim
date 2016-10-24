@@ -1,20 +1,25 @@
 " ================ Directory ===================
-" <leader>d
-
 " ================ Menu ===================
+"
+let g:menus.directory = {
+  \ 'description': 'Navigate folders'
+  \ }
 
-let g:unite_source_menu_menus.directory = {
-    \ 'description' : ''
-    \}
+let g:menus.directory.file_candidates = [
+  \ ['directory.vim', '~/.config/nvim/settings/leaders/directory.vim'],
+  \ ]
 
-let g:unite_source_menu_menus.directory.command_candidates = [
-  \['▷ GitFiles                                       <leader>fs', 'GitFiles'],
-  \]
+let g:menus.directory.command_candidates = [
+  \ ['Directory help    <leader>dh', 'Denite menu:directory'],
+  \ ['Directory find    <leader>df', 'Denite directory_rec'],
+  \ ['Directory explore <leader>de', 'VimFilerSplit -winwidth=50 -force-quit'],
+  \ ]
 
 " ================ Mappings ===================
 
-" File help
-nnoremap <leader>dh :<C-u>Unite -silent -start-insert menu:directory<CR>
+" Directory help
+nnoremap <leader>dh :Denite menu:directory<CR>
 
-" File search git
-nnoremap <leader>dc :lcd %:p:h<CR>
+" Directory operations
+nnoremap <leader>ds :Denite directory_rec<CR>
+nnoremap <leader>de :VimFilerSplit -winwidth=50 -force-quit<CR>

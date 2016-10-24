@@ -1,24 +1,24 @@
 " ================ Terminal ===================
-" <leader>t
-
 " ================ Menu ===================
-
-let g:unite_source_menu_menus.terminal = {
+"
+let g:menus.terminal = {
   \ 'description' : ''
-  \}
+  \ }
 
-let g:unite_source_menu_menus.terminal.command_candidates = [
-  \['▷ Dispatch                                          <leader>td', 'Dispatch'],
-  \['▷ Start                                             <leader>ts', 'Start'],
-  \]
+let g:menus.terminal.file_candidates = [
+  \ ['terminal.vim', '~/.config/nvim/settings/leaders/terminal.vim'],
+  \ ]
+
+let g:menus.terminal.command_candidates = [
+  \ ['Terminal dispatch  <leader>td', 'Dispatch'],
+  \ ['Terminal start     <leader>ts', 'Start'],
+  \ ]
 
 " ================ Mappings ===================
+"
+" Terminal help
+nnoremap <leader>th :Denite menu:terminal<CR>
 
-nnoremap <leader>th :<C-u>Unite -silent -start-insert menu:terminal<CR>
-
-" Terminal dispatch
+" Terminal operations
 nnoremap <leader>td :Dispatch<CR>
-
-" Start terminal in new tab via Dispatch
 nnoremap <leader>ts :Start<CR>
-nnoremap <leader>tc :Start<Space>

@@ -1,19 +1,25 @@
 " ================ Jump ===================
-" <leader>j
-
 " ================ Menu ===================
-
-let g:unite_source_menu_menus.jump = {
+"
+let g:menus.jump = {
     \ 'description' : ''
-    \}
+    \ }
 
-let g:unite_source_menu_menus.jump.command_candidates = [
-    \['▷ <C-]>                                             <leader>jt', '<C-]>'],
-    \]
+let g:menus.jump.file_candidates = [
+  \ ['jump.vim', '~/.config/nvim/settings/leaders/jump.vim'],
+  \ ]
+
+let g:menus.jump.command_candidates = [
+    \ ['Jump tag          <leader>jt', '<C-]>'],
+    \ ['Jump tag reverse  <leader>jT', '<C-t>'],
+    \ ]
+
 
 " ================ Mappings ===================
+"
+" Jump help
+nnoremap <leader>jh :Denite menu:jump<CR>
 
-nnoremap <leader>jh :<C-u>Unite -silent -start-insert menu:jump<CR>
-
-" Jump to tag
+" Jump operations
 nnoremap <leader>jt <C-]>
+nnoremap <leader>jT <C-t>

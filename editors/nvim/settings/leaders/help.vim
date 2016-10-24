@@ -1,20 +1,24 @@
 " ================ Help ===================
-" <leader>i
-
 " ================ Menu ===================
-
-let g:unite_source_menu_menus.help = {
+"
+let g:menus.help = {
   \ 'description' : ''
-  \}
+  \ }
 
-let g:unite_source_menu_menus.help.command_candidates = [
-  \['▷ Google                                            <leader>ig', 'Google'],
-  \]
+let g:menus.help.file_candidates = [
+  \ ['help.vim', '~/.config/nvim/settings/leaders/help.vim'],
+  \ ]
+
+let g:menus.help.command_candidates = [
+  \ ['Info help  <leader>ih', 'Denite menu:help'],
+  \ ['Google     <leader>ig', 'Google'],
+  \ ]
+
 
 " ================ Mappings ===================
-
+"
 " Help menu
-nnoremap <leader>ih :<C-u>Unite -silent -start-insert menu:help<CR>
+nnoremap <leader>ih :Denite menu:help<CR>
 
 " Search Google
 command! -nargs=+ Google !open "https://google.com/search?q=""<args>"
