@@ -1,47 +1,46 @@
-if filereadable(expand("~/.vimrc.before"))
-  source ~/.vimrc.before
-endif
+"
+" General Config
+"
+set number            " Line numbers are good
+set showmode          " Show current mode
+set gcr=a:blinkon0    " Disable cursor blink
+set visualbell        " No sounds
+set clipboard=unnamed " Share with system clipboard
+set hidden            " Background buffers
 
-" ================ General Config ====================
-
-set number                      "Line numbers are good
-set showmode                    "Show current mode down the bottom
-set gcr=a:blinkon0              "Disable cursor blink
-set visualbell                  "No sounds
-
-" This makes vim act like all other editors, buffers can
-" exist in the background without being in a window.
-" http://items.sjbach.com/319/configuring-vim-right
-set hidden
-
-" Turn on syntax highlighting
 syntax on
-
-" Space is your leader
 let mapleader = "\<Space>"
 
-" =============== plugs Initialization ===============
-" This loads all the plugins specified in ~/.config/nvim/plugs.vim
-" Use plugs plugin to manage all other plugins
+"
+" Search
+"
+set hlsearch        " Highlight searches by default
+set viminfo='100,f1 " Save up to 100 marks, enable capital marks
+set ignorecase      " Ignore case when searching...
+set smartcase       " ...unless we type a capital
 
-if !filereadable(expand("~/.config/nvim/autoload/plug.vim"))
-  silent !mkdir -p ~/.config/nvim/autoload
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-endif
+"
+" Scrolling | Splitting | Folds
+"
+set sidescroll=1      " Horizontal scroll 1 character per time
+set scrolloff=8       " 8 lines of context above/below cursor
+set splitbelow        " Horizontal split below
+set splitright        " Vertical split below
+set foldmethod=indent " Fold based on indent
+set foldnestmax=3     " Deepest fold is 3 levels
+set nofoldenable      " Don't fold by default
 
-if filereadable(expand("~/.config/nvim/plugs.vim"))
-  source ~/.config/nvim/plugs.vim
-endif
-
-" ================ Turn Off Swap Files ==============
-
+"
+" Turn Off Swap Files
+"
 set noswapfile
 set nobackup
 set nowb
 
-" ================ Persistent Undo ==================
-" Keep undo history across sessions, by storing in file.
-" Only works all the time.
+"
+" Persistent Undo
+"
+" Keep undo history across sessions by storing in file
 if has('persistent_undo')
   if !isdirectory($HOME.'/.config/nvim/backups')
     silent !mkdir ~/.config/nvim/backups > /dev/null 2>&1
@@ -51,21 +50,16 @@ if has('persistent_undo')
   set undofile
 endif
 
-" ================ Folds ============================
-
-set foldmethod=indent   "fold based on indent
-set foldnestmax=3       "deepest fold is 3 levels
-set nofoldenable        "dont fold by default
-
-" ================ Completion =======================
-
+"
+" Completion
+"
 set wildmode=longest,list,full
 set wildmenu
 set wildignore=*.o,*.obj,*~
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
 set wildignore+=*DS_Store*
-set wildignore+=vendor/rails/**
+set wildignore+=vendor/bundle/**
 set wildignore+=vendor/cache/**
 set wildignore+=*.gem
 set wildignore+=log/**
@@ -75,26 +69,20 @@ set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.class,*.jar
 set wildignore+=*.pdf
 
-" ================ Scrolling ========================
-
-set sidescroll=1
-set scrolloff=8
-
-" ================ Splitting ========================
-
-set splitbelow
-set splitright
-
-" ================ Custom Settings ========================
-
-source ~/.dotfiles/editors/nvim/settings.vim
-
-" ================ Auto-source config changes  ===========
-
-autocmd! bufwritepost init.vim source %
-
-" ================ Override ========================
-
-if filereadable(expand("~/.vimrc.after"))
-  source ~/.vimrc.after
+"
+" Plugins
+"
+" Load all plugins specified in ~/.config/nvim/plugs.vim
+if !filereadable(expand("~/.config/nvim/autoload/plug.vim"))
+  silent !mkdir -p ~/.config/nvim/autoload
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
+
+if filereadable(expand("~/.config/nvim/plugs.vim"))
+  source ~/.config/nvim/plugs.vim
+endif
+
+"
+" Custom Settings
+"
+source ~/.dotfiles/editors/nvim/settings.vim

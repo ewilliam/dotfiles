@@ -1,6 +1,7 @@
-" ================ Cursor ===================
-" ================ Menu ===================
 "
+" Cursor
+"
+" Menu
 let g:menus.cursor = {
   \ 'description': ''
   \ }
@@ -14,8 +15,8 @@ let g:menus.cursor.command_candidates = [
   \ ['Cursor grep <leader>cg', 'DeniteCursorWord grep'],
   \ ]
 
-
-" ================ Mappings ===================
+"
+"  Mappings
 "
 " Cursor help
 nnoremap <leader>ch :Denite menu:cursor<CR>

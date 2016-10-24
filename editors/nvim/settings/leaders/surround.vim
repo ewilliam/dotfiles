@@ -1,6 +1,7 @@
-" ================ Surround ===================
-" ================ Menu ===================
 "
+" Surround
+"
+" Menu
 let g:menus.surround = {
   \ 'description' : ''
   \ }
@@ -23,7 +24,8 @@ let g:menus.surround.command_candidates = [
   \ ['Surround `backticks`     <leader>s`', 'ysiW`'],
   \ ]
 
-" ================ Mappings ===================
+"
+" Mappings
 "
 " Surround help
 nnoremap <leader>sh :Unite menu:surround<CR>

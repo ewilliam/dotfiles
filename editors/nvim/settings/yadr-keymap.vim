@@ -1,18 +1,13 @@
-" ========================================
-" General vim sanity improvements
-" ========================================
 "
+" Keymaps
 "
-
 " Stop pressing shift all the time
 nnoremap ; :
 nnoremap : ;
 vnoremap ; :
 vnoremap : ;
 
-" Create window splits easier. The default
-" way is Ctrl-w,v and Ctrl-w,s. Remapped
-" to vv and ss
+" Remap window splits
 nnoremap <silent> vv <C-w>v
 nnoremap <silent> ss <C-w>s
 
@@ -24,9 +19,7 @@ nnoremap <silent><a-h> :bnext<CR>
 nnoremap <silent><a-l> :bprev<CR>
 
 " Make 0 go to the first character rather than the beginning
-" of the line. When we're programming, we're almost always
-" interested in working with text rather than empty space. If
-" you want the traditional beginning of line, use ^
+" of line. Use ^ for the traditional beginning of line.
 nnoremap 0 ^
 nnoremap ^ 0
 
@@ -43,13 +36,7 @@ nnoremap // :nohlsearch<CR>
 nnoremap ' `
 nnoremap ` '
 
-"When typing a string, your quotes auto complete. Move past the quote
-"while still in insert mode by hitting Ctrl-j. Example:
-"
-" type 'foo<c-j>
-"
-" the first quote will autoclose so you'll get 'foo' and hitting <c-j> will
-" put the cursor right after the quote
+" Move past quotes, parens, brackets, etc while in insert mode
 imap <C-j> <esc>ea
 
 " Move between split panes
@@ -59,7 +46,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 if has('nvim') && exists(':tnoremap')
-  " Navigating the terminals
+  " Navigate the terminal
   " https://github.com/neovim/neovim/wiki/FAQ#my-ctrl-h-mapping-doesnt-work
   tnoremap <c-j> <c-\><c-n><c-w>j
   tnoremap <c-k> <c-\><c-n><c-w>k

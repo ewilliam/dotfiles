@@ -1,6 +1,7 @@
-" ================ Terminal ===================
-" ================ Menu ===================
 "
+" Terminal
+"
+" Menu
 let g:menus.terminal = {
   \ 'description' : ''
   \ }
@@ -14,7 +15,8 @@ let g:menus.terminal.command_candidates = [
   \ ['Terminal start     <leader>ts', 'Start'],
   \ ]
 
-" ================ Mappings ===================
+"
+" Mappings
 "
 " Terminal help
 nnoremap <leader>th :Denite menu:terminal<CR>

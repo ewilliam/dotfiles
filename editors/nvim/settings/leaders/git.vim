@@ -1,6 +1,7 @@
-" ================ Git ===================
-" ================ Menu ===================
 "
+" Git
+"
+" Menu
 let g:menus.git = {
   \ 'description' : ''
   \ }
@@ -31,7 +32,8 @@ let g:menus.git.command_candidates = [
   \ ['diffput               <leader>gdp', 'diffput'],
   \ ]
 
-" ================ Mappings ===================
+"
+" Mappings
 "
 " Git help
 nnoremap <leader>gh :Denite menu:git<CR>

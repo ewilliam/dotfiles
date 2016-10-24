@@ -1,6 +1,7 @@
-" ================ History ===================
-" ================ Menu ===================
 "
+" History
+"
+" Menu
 let g:menus.history = {
   \ 'description' : ''
   \ }
@@ -16,7 +17,8 @@ let g:menus.history.command_candidates = [
   \ ]
 
 
-" ================ Mappings ===================
+"
+" Mappings
 "
 " History help
 nnoremap <leader>hh :Denite menu:history<CR>

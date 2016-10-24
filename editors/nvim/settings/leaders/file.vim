@@ -1,6 +1,7 @@
-" ================ File ===================
-" ================ Menu ===================
 "
+" File
+"
+" Menu
 let g:menus.file = {
   \ 'description': 'Navigate folders'
   \ }
@@ -18,7 +19,9 @@ let g:menus.file.command_candidates = [
   \ ['File recent  <leader>fr', 'Denite file_mru'],
   \ ]
 
-" ================ Mappings ===================
+"
+" Mappings
+"
 " File help
 nnoremap <leader>fh :Denite menu:file<CR>
 

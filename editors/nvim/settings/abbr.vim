@@ -1,5 +1,7 @@
-"Abbreviations, trigger by typing the abbreviation and hitting space
-
+"
+" Abbreviations
+"
+" Trigger by typing the abbreviation then hitting <space>
 abbr rlb Rails.logger.banner
 abbr rld Rails.logger.debug
 abbr pry! require 'pry'; binding.pry

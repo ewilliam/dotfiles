@@ -1,6 +1,7 @@
-" ================ Help ===================
-" ================ Menu ===================
 "
+" Help
+"
+" Menu
 let g:menus.help = {
   \ 'description' : ''
   \ }
@@ -15,11 +16,13 @@ let g:menus.help.command_candidates = [
   \ ]
 
 
-" ================ Mappings ===================
+"
+" Mappings
 "
 " Help menu
 nnoremap <leader>ih :Denite menu:help<CR>
 
+" Help operations
 " Search Google
 command! -nargs=+ Google !open "https://google.com/search?q=""<args>"
 nnoremap <leader>ig :Google<Space>

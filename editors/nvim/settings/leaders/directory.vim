@@ -1,6 +1,7 @@
-" ================ Directory ===================
-" ================ Menu ===================
 "
+" Directory
+"
+" Menu
 let g:menus.directory = {
   \ 'description': 'Navigate folders'
   \ }
@@ -15,8 +16,9 @@ let g:menus.directory.command_candidates = [
   \ ['Directory explore <leader>de', 'VimFilerSplit -winwidth=50 -force-quit'],
   \ ]
 
-" ================ Mappings ===================
-
+"
+" Mappings
+"
 " Directory help
 nnoremap <leader>dh :Denite menu:directory<CR>
 

@@ -1,6 +1,6 @@
-" ================ Jump ===================
-" ================ Menu ===================
+" Jump
 "
+" Menu
 let g:menus.jump = {
     \ 'description' : ''
     \ }
@@ -14,8 +14,8 @@ let g:menus.jump.command_candidates = [
     \ ['Jump tag reverse  <leader>jT', '<C-t>'],
     \ ]
 
-
-" ================ Mappings ===================
+"
+" Mappings
 "
 " Jump help
 nnoremap <leader>jh :Denite menu:jump<CR>

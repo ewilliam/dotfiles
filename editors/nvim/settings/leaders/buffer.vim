@@ -1,6 +1,7 @@
-" ================ Buffers ===================
-" ================ Menu ===================
 "
+" Buffers
+"
+" Menu
 let g:menus.buffer = {
   \ 'description': 'Manage buffers'
   \ }
@@ -16,8 +17,9 @@ let g:menus.buffer.command_candidates = [
   \ ['Buffer previous <leader>bn', 'bprev'],
   \ ]
 
-" ================ Mappings ===================
-
+"
+"  Mappings
+"
 " Buffer help
 nnoremap <leader>bh :Denite menu:buffer<CR>
 
