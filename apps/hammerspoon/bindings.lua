@@ -1,20 +1,13 @@
 --
 -- Window management
 --
-
 -- Hyper
 local cmd = {"cmd"}
 local ctrl = {"ctrl"}
 local cmdalt = {"cmd", "alt"}
 
 -- Select window
-hs.hotkey.bind(ctrl, "space", function() hs.hints.windowHints() end)
-
--- Change window
--- hs.hotkey.bind(cmd, "h", function() hs.window.focusedWindow():focusWindowWest() end)
--- hs.hotkey.bind(cmd, "l", function() hs.window.focusedWindow():focusWindowEast() end)
--- hs.hotkey.bind(cmd, "k", function() hs.window.focusedWindow():focusWindowNorth() end)
--- hs.hotkey.bind(cmd, "j", function() hs.window.focusedWindow():focusWindowSouth() end)
+hs.hotkey.bind(cmd, "return", function() hs.hints.windowHints() end)
 
 -- Toggle full screen
 hs.hotkey.bind(cmdalt, "f", function() hs.window.focusedWindow():toggleFullScreen() end)
@@ -35,36 +28,28 @@ hs.hotkey.bind(cmdalt, "y", smartResizeWindowLeft)
 hs.hotkey.bind(cmdalt, "[", decreaseGrid)
 hs.hotkey.bind(cmdalt, "]", increaseGrid)
 
--- Push window to next/previous screen
-hs.hotkey.bind(cmdalt, "n", function() hs.grid.pushWindowNextScreen() end)
--- hs.hotkey.bind(cmdalt, "p", function() hs.grid.pushWindowPreviousScreen() end)
-
 -- Maximize window
 hs.hotkey.bind(cmdalt, "m", hs.grid.maximizeWindow)
-
--- Kill window
-hs.hotkey.bind(cmd, "delete", function() hs.window.focusedWindow():close() end)
-hs.hotkey.bind(cmdalt, "delete", function() hs.window.focusedWindow():application():kill() end)
-
 
 --
 -- Application management
 --
-
 -- Hyper
-b = hs.hotkey.modal.new({"cmd"}, "return")
-b:bind({"cmd"}, "return", function() end)
-b:bind({}, "escape", function() b:exit() end)
+local cmdreturn = hs.hotkey.modal.new(ctrl, "space")
+cmdreturn:bind({}, "escape", function() b:exit() end)
 
 -- Launch or focus application
 local key2app = {
-  c = "Google Chrome",
-  t = "iTerm",
-  s = "Slack",
   a = "Atom",
-  m = "Messages"
+  d = "Dash",
+  c = "Google Chrome",
+  g = "GitKraken",
+  i = "iTerm",
+  m = "Messages",
+  s = "Slack",
+  t = "Todoist"
 }
 
 for key, app in pairs(key2app) do
-  b:bind({}, key, function() hs.application.launchOrFocus(app) b:exit() end)
+  cmdreturn:bind({}, key, function() hs.application.launchOrFocus(app) cmdreturn:exit() end)
 end
