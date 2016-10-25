@@ -85,4 +85,4 @@ endif
 "
 " Custom Settings
 "
-source ~/.dotfiles/editors/nvim/settings.vim
+source ~/.config/nvim/settings.vim

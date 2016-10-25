@@ -1,5 +1,0 @@
-# fuzzy search
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-# colorize unix tools
-source `brew --prefix`/etc/grc.bashrc
