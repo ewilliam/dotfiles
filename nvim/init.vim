@@ -8,7 +8,6 @@ set visualbell        " No sounds
 set clipboard=unnamed " Share with system clipboard
 set hidden            " Background buffers
 
-syntax on
 let mapleader = "\<Space>"
 
 "

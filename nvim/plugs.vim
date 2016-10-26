@@ -1,11 +1,6 @@
-" ========================================
-" Vim plugin configuration
-" ========================================
-
-if has("autocmd")
-  filetype indent plugin on
-endif
-
+"
+" Plugins
+"
 call plug#begin('~/.config/nvim/plugged')
 
 " Appearance
@@ -40,7 +35,6 @@ Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
 Plug 'thinca/vim-textobj-function-javascript', { 'for': 'javascript' }
 Plug 'coderifous/textobj-word-column.vim'
 Plug 'kana/vim-textobj-user'
-Plug 'ntpeters/vim-better-whitespace'
 
 " Text editing
 Plug 'justinmk/vim-sneak'
@@ -57,7 +51,7 @@ Plug 'takac/vim-hardtime'
 
 " Neovim improvements
 Plug 'tpope/vim-sensible'
-Plug 'luochen1990/indent-detector.vim'
+Plug 'tpope/vim-sleuth'
 Plug 'neomake/neomake'
 Plug 'kassio/neoterm'
 Plug 'simnalamburt/vim-mundo'
@@ -65,7 +59,7 @@ Plug 'Shougo/denite.nvim'
 Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-" Plug 'Shougo/vimfiler.vim'
+Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
 Plug 'airblade/vim-rooter'
 Plug 'majutsushi/tagbar'
