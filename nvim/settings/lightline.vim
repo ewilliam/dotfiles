@@ -31,7 +31,7 @@ endfunction
 
 function! MyFugitive()
   try
-    if expand('%:t') !~? 'vimfiler\|Mundo\|Tagbar' && &ft != "unite" && exists('*fugitive#head')
+    if expand('%:t') !~? 'Mundo\|Tagbar' && &ft != "denite" && exists('*fugitive#head')
       let mark = "\ue0a0 "
       let branch = fugitive#head()
       return branch !=# '' ? mark.branch : ''
@@ -42,7 +42,7 @@ function! MyFugitive()
 endfunction
 
 function! MyGitGutter()
-  if expand('%:t') !~? 'vimfiler\|Mundo\|Tagbar' && &ft !~ 'unite\|gitcommit' && exists('*GitGutterGetHunkSummary')
+  if expand('%:t') !~? 'Mundo\|Tagbar' && &ft !~ 'denite\|gitcommit' && exists('*GitGutterGetHunkSummary')
     let [ added, modified, removed ] = GitGutterGetHunkSummary()
     return printf("+%d ~%d -%d", added, modified, removed)
   endif
@@ -58,8 +58,6 @@ function! MyFilename()
   let fname = expand('%:t')
   return fname == '__Tagbar__' ? g:lightline.fname :
         \ fname =~ '__Mundo' ? '' :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ &ft == 'unite' ? unite#get_status_string() :
         \ &ft == 'gitcommit' ? "" :
         \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
@@ -88,6 +86,4 @@ function! MyFileencoding()
 endfunction
 
 set laststatus=2
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
 let g:tagbar_status_func = 'TagbarStatusFunc'
