@@ -20,7 +20,7 @@ Plug 'mattn/webapi-vim' " gist.vim dependency
 
 " Languages
 Plug 'sheerun/vim-polyglot'
-Plug 'slashmili/alchemist.vim'
+Plug 'slashmili/alchemist.vim', { 'for': 'elixir' }
 
 " Ruby
 Plug 'tpope/vim-bundler', { 'for': 'ruby' }
@@ -59,6 +59,8 @@ Plug 'Shougo/denite.nvim'
 Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim' " ranger.vim dependency
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
 Plug 'airblade/vim-rooter'

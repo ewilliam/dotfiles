@@ -71,8 +71,7 @@ function! MyMode()
   return fname == '__Tagbar__' ? 'Tagbar' :
         \ fname == '__Mundo__' ? 'Mundo' :
         \ fname == '__Mundo_Preview__' ? 'Mundo Preview' :
-        \ &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
+        \ &ft == 'denite' ? 'Denite' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 

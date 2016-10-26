@@ -28,7 +28,7 @@ let g:menus.surround.command_candidates = [
 " Mappings
 "
 " Surround help
-nnoremap <leader>sh :Unite menu:surround<CR>
+nnoremap <leader>sh :Denite menu:surround<CR>
 
 " Surround operations
 nmap <leader>s# ysiW#
