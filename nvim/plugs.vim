@@ -7,6 +7,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'romainl/flattened'
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'kshenoy/vim-signature'
 Plug 'luochen1990/rainbow'
 
 " Mail
@@ -20,7 +21,7 @@ Plug 'mattn/webapi-vim' " gist.vim dependency
 
 " Languages
 Plug 'sheerun/vim-polyglot'
-Plug 'slashmili/alchemist.vim', { 'for': 'elixir' }
+Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
 
 " Ruby
 Plug 'tpope/vim-bundler', { 'for': 'ruby' }
@@ -50,7 +51,6 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'takac/vim-hardtime'
 
 " Neovim improvements
-Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-sleuth'
 Plug 'neomake/neomake'
 Plug 'kassio/neoterm'

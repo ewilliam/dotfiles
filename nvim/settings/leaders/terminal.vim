@@ -11,8 +11,7 @@ let g:menus.terminal.file_candidates = [
   \ ]
 
 let g:menus.terminal.command_candidates = [
-  \ ['Terminal dispatch  <leader>td', 'Dispatch'],
-  \ ['Terminal start     <leader>ts', 'Start'],
+  \ ['Terminal start     <leader>ts', 'terminal'],
   \ ]
 
 "
@@ -22,5 +21,4 @@ let g:menus.terminal.command_candidates = [
 nnoremap <leader>th :Denite menu:terminal<CR>
 
 " Terminal operations
-nnoremap <leader>td :Dispatch<CR>
-nnoremap <leader>ts :Start<CR>
+nnoremap <leader>ts :terminal<CR>
