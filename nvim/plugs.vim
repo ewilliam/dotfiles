@@ -39,7 +39,7 @@ Plug 'kana/vim-textobj-user'
 
 " Text editing
 Plug 'justinmk/vim-sneak'
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
