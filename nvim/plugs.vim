@@ -69,6 +69,7 @@ Plug 'majutsushi/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-startify'
 Plug 'janko-m/vim-test'
+Plug 'shime/vim-livedown'
 
 call plug#end()
 
