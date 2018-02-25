@@ -6,19 +6,9 @@ tap "neovim/neovim"
 tap 'universal-ctags/universal-ctags'
 tap 'ewilliam/booze'
 
-# Ruby
-brew "chruby", args: ["HEAD"]
-brew "chruby-fish", args: ["HEAD"]
-brew "ruby-install"
-cask "rubymotion"
-
 # Python
 brew "python"
 brew "python3"
-
-# Javascript
-brew "node"
-brew "nvm"
 
 # Wordpress
 brew "wp-cli"
@@ -31,13 +21,13 @@ brew "hub"
 brew "tig"
 
 # Editor
-brew "macvim", args: ["custom-icons", "override-system-vim", "with-lua", "with-luajit"]
 brew "neovim", args: ["HEAD"]
 brew 'universal-ctags/universal-ctags/universal-ctags', args: ['HEAD']
 cask "atom"
-cask "mou"
+cask "macdown"
 cask "nvalt"
 cask "libreoffice"
+cask "vimr"
 
 # Shell
 brew "fish"
@@ -47,6 +37,8 @@ brew "reattach-to-user-namespace"
 brew "ssh-copy-id"
 brew "thefuck"
 brew "tmux"
+brew "trash"
+brew "tree"
 cask "iterm2-beta"
 
 # Database
@@ -64,17 +56,17 @@ brew "ripgrep"
 # Dev tools
 brew "imagemagick"
 brew "openssl"
-cask "cyberduck"
 cask "dash"
-cask "dockertoolbox"
+cask "docker-toolbox"
 cask "postman"
 cask "virtualbox"
 
 # Download
 brew "wget"
+cask "cakebrew"
 cask "transmission"
 
-# Mutt
+# Email
 brew "neomutt/homebrew-neomutt/neomutt", args: ["with-sidebar-patch", "with-notmuch-patch", "with-gpgme"]
 brew "notmuch"
 brew "msmtp"
@@ -82,8 +74,13 @@ brew "offlineimap"
 brew "urlview"
 brew "w3m"
 
+# Chat
+brew "weechat"
+cask "adium"
+cask "slack"
+
 # Media
-brew "newsbeuter"
+brew "newsboat"
 brew "pianobar"
 cask "kodi"
 cask "vlc"
@@ -92,12 +89,8 @@ cask "vlc"
 cask "google-chrome"
 cask "firefox"
 
-# Communication
-brew "weechat"
-cask "adium"
-cask "slack"
-
-# File sharing
+# Files
+cask "cyberduck"
 cask "dropbox"
 cask "google-drive"
 
@@ -106,6 +99,8 @@ cask "openemu"
 cask "steam"
 
 # Misc
+brew "cheatsheet"
+brew "dark-mode"
 brew "mas"
 brew "unrar"
 cask "appcleaner"
@@ -114,8 +109,9 @@ cask "crashplan"
 cask "flux"
 cask "focus"
 cask "hammerspoon"
+cask "home-inventory"
 cask "little-snitch"
-cask "meteorologist"
-cask "karabiner"
+cask "numi"
+cask "karabiner-elements"
 cask "seil"
 cask "viscosity"
