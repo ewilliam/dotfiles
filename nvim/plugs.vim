@@ -22,6 +22,7 @@ Plug 'mattn/webapi-vim' " gist.vim dependency
 " Languages
 Plug 'sheerun/vim-polyglot'
 Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " Ruby
 Plug 'tpope/vim-bundler', { 'for': 'ruby' }
@@ -52,7 +53,7 @@ Plug 'takac/vim-hardtime'
 
 " Neovim improvements
 Plug 'tpope/vim-sleuth'
-Plug 'neomake/neomake'
+Plug 'w0rp/ale'
 Plug 'kassio/neoterm'
 Plug 'simnalamburt/vim-mundo'
 Plug 'Shougo/denite.nvim'
