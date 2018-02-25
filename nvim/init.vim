@@ -1,6 +1,7 @@
 "
 " General Config
 "
+set mouse=a           " Enable mouse support
 set number            " Line numbers are good
 set showmode          " Show current mode
 set gcr=a:blinkon0    " Disable cursor blink
