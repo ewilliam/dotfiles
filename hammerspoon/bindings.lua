@@ -7,7 +7,7 @@ local ctrl = {"ctrl"}
 local cmdalt = {"cmd", "alt"}
 
 -- Select window
-hs.hotkey.bind(cmd, "return", function() hs.hints.windowHints() end)
+hs.hotkey.bind(cmd, "escape", function() hs.hints.windowHints() end)
 
 -- Toggle full screen
 hs.hotkey.bind(cmdalt, "f", function() hs.window.focusedWindow():toggleFullScreen() end)
@@ -35,14 +35,15 @@ hs.hotkey.bind(cmdalt, "m", hs.grid.maximizeWindow)
 -- Application management
 --
 -- Hyper
-local cmdreturn = hs.hotkey.modal.new(ctrl, "space")
-cmdreturn:bind({}, "escape", function() b:exit() end)
+local ctrlspace = hs.hotkey.modal.new(ctrl, "space")
+ctrlspace:bind({}, "escape", function() b:exit() end)
 
 -- Launch or focus application
 local key2app = {
   a = "Atom",
-  d = "Dash",
   c = "Google Chrome",
+  d = "Dash",
+  f = "Finder",
   g = "GitKraken",
   i = "iTerm",
   m = "Messages",
@@ -51,5 +52,5 @@ local key2app = {
 }
 
 for key, app in pairs(key2app) do
-  cmdreturn:bind({}, key, function() hs.application.launchOrFocus(app) cmdreturn:exit() end)
+  ctrlspace:bind({}, key, function() hs.application.launchOrFocus(app) ctrlspace:exit() end)
 end
