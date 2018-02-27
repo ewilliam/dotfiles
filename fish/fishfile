@@ -1,7 +1,7 @@
 oh-my-fish/plugin-bang-bang
 oh-my-fish/theme-bobthefish
 oh-my-fish/plugin-config
-fishgretel/fasd
+oh-my-fish/plugin-fasd
 fisherman/getopts
 fisherman/grc
 oh-my-fish/plugin-peco
