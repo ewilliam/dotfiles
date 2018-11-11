@@ -22,3 +22,6 @@ nnoremap <leader>th :Denite menu:terminal<CR>
 
 " Terminal operations
 nnoremap <leader>ts :terminal<CR>
+
+" Terminal clear
+nnoremap <leader>tl :c-u>exec v:count.'Tclear'<cr>
