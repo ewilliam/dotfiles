@@ -1,4 +1,5 @@
 set -x EDITOR nvim
+set -x XDG_CONFIG_HOME $HOME/.config
 
 fish_vi_key_bindings
 
@@ -6,7 +7,7 @@ fish_vi_key_bindings
 set -g theme_nerd_fonts yes
 
 # point to hotel proxy in terminal
-# convert to function. global unneccessary
+# TODO: convert to function
 # set -x http_proxy http://localhost:2000/proxy.pac
 
 # manage python versions/environments
@@ -15,17 +16,11 @@ set -g theme_nerd_fonts yes
 set -x WORKON_HOME ~/.virtualenvs
 eval (python -m virtualfish compat_aliases auto_activation global_requirements)
 
-# teamocil autocompletion
-complete -c teamocil -a "(teamocil --list)"
-
 # use grc for specific commands
 set -U grc_wrap_commands cat df diff dig ifconfig netstat ping tail traceroute
 
 # https://github.com/nvbn/thefuck/wiki/shell-aliases
-eval (thefuck --alias | tr '\n' ';')
-
-# for Shopify Theme Kit
-# set -U fish_user_paths /Users/ewilliam/.themekit $fish_user_paths
+thefuck --alias | source
 
 source ~/.asdf/asdf.fish
 source ~/.secrets.fish
