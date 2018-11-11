@@ -9,8 +9,7 @@ alias cl='clear'
 
 # List
 alias l='ls -alGh'
-alias ll='ls -lGh'
-alias lsg='ll | rg'
+alias lg='ls -alGh | rg'
 
 # Directory
 alias ..='cd ..'

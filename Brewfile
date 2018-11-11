@@ -1,45 +1,40 @@
-tap "caskroom/cask"
-tap "caskroom/versions"
-tap "homebrew/dupes"
-tap "homebrew/php"
-tap "neovim/neovim"
-tap 'universal-ctags/universal-ctags'
-tap 'ewilliam/booze'
-
 # Python
 brew "python"
-brew "python3"
+brew "python@2"
 
 # Wordpress
 brew "wp-cli"
-brew "terminus"
 
 # Git
 brew "git"
-brew "heroku-toolbelt"
+tap  "heroku/brew"
+brew "heroku"
 brew "hub"
 brew "tig"
+cask "gitkraken"
 
 # Editor
-brew "neovim", args: ["HEAD"]
-brew 'universal-ctags/universal-ctags/universal-ctags', args: ['HEAD']
-cask "atom"
+brew "neovim"
+tap  "universal-ctags/universal-ctags"
+brew "universal-ctags", args: ['HEAD']
 cask "macdown"
-cask "nvalt"
 cask "libreoffice"
+cask "visual-studio-code"
 cask "vimr"
 
 # Shell
 brew "fish"
+brew "fisher"
 brew "grc"
 brew "mobile-shell"
 brew "reattach-to-user-namespace"
 brew "ssh-copy-id"
+brew "ranger"
 brew "thefuck"
 brew "tmux"
 brew "trash"
 brew "tree"
-cask "iterm2-beta"
+cask "iterm2"
 
 # Database
 brew "postgresql"
@@ -49,6 +44,7 @@ cask "postico"
 cask "sequel-pro"
 
 # Search
+brew "fasd"
 brew "fzf"
 brew "peco"
 brew "ripgrep"
@@ -57,17 +53,15 @@ brew "ripgrep"
 brew "imagemagick"
 brew "openssl"
 cask "dash"
-cask "docker-toolbox"
 cask "postman"
-cask "virtualbox"
 
 # Download
 brew "wget"
-cask "cakebrew"
+cask "cyberduck"
 cask "transmission"
 
 # Email
-brew "neomutt/homebrew-neomutt/neomutt", args: ["with-sidebar-patch", "with-notmuch-patch", "with-gpgme"]
+brew "neomutt"
 brew "notmuch"
 brew "msmtp"
 brew "offlineimap"
@@ -76,42 +70,36 @@ brew "w3m"
 
 # Chat
 brew "weechat"
-cask "adium"
 cask "slack"
 
 # Media
 brew "newsboat"
 brew "pianobar"
-cask "kodi"
 cask "vlc"
 
 # Browser
-cask "google-chrome"
 cask "firefox"
 
 # Files
-cask "cyberduck"
 cask "dropbox"
-cask "google-drive"
+cask "google-drive-file-stream"
 
 # Games
 cask "openemu"
 cask "steam"
 
 # Misc
-brew "cheatsheet"
-brew "dark-mode"
 brew "mas"
 brew "unrar"
 cask "appcleaner"
+cask "cheatsheet"
 cask "clamxav"
 cask "crashplan"
 cask "flux"
 cask "focus"
 cask "hammerspoon"
-cask "home-inventory"
+cask "karabiner-elements"
 cask "little-snitch"
 cask "numi"
-cask "karabiner-elements"
-cask "seil"
+cask "private-internet-access"
 cask "viscosity"

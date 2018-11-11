@@ -2,20 +2,11 @@
 # Mac-specific Aliases
 #
 # Finder
-alias showfiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
-alias hidefiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+alias showfiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder'
+alias hidefiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder'
 
 # DNS
 alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder; echo "DNS flushed."'
 
 # Homebrew
-alias brewu='brew update; brew upgrade --all; brew cleanup; brew cask cleanup; brew prune; brew doctor'
-
-# Xcode
-alias simulator='ios-sim start --devicetypeid com.apple.CoreSimulator.SimDeviceType.iPhone-6'
-
-# Docker
-alias startdocker='bash "/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh"'
-
-# Mou
-alias mou='open /Applications/Mou.app'
+alias brewu='brew update; brew upgrade; brew cleanup; brew prune; brew doctor'
