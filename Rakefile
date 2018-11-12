@@ -1,7 +1,7 @@
 require 'rake'
 require 'fileutils'
 
-FILES = '.asdfrc .bundle .ctags fish .gemrc git .hammerspoon .hushlogin .inputrc karabiner .pryrc neomutt newsboat nvim .offlineimaprc pianobar .pryrc ranger .tmux.conf'
+FILES = '.asdfrc .bundle .ctags fish .gemrc git .hammerspoon .hushlogin .inputrc karabiner .pryrc neomutt newsboat nvim .offlineimaprc pianobar .pryrc ranger .tmux.conf .tool-versions'
 
 task default: 'install'
 

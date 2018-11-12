@@ -2,7 +2,7 @@
 
 ## Installation
 
-To get started please run:
+For macOS (supported exclusively for now), XCode is required. After installing, please run:
 
 ```bash
 sh -c "`curl -fsSL https://raw.githubusercontent.com/ewilliam/dot/master/install.sh`"
