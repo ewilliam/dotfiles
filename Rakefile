@@ -29,5 +29,5 @@ def symlink_file(file)
     puts "[Overwriting] #{target}..."
   end
 
-  `ln -sfv "#{source}" "#{target}" `
+  `ln -sfhv "#{source}" "#{target}" `
 end
