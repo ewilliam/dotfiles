@@ -1,6 +1,7 @@
 set -x EDITOR nvim
 set -x XDG_CONFIG_HOME $HOME/.config
 set -x PROJECT_HOME $HOME/Projects
+set -x MACOS_CONFIG_HOME "$HOME/Library/Application Support"
 
 fish_vi_key_bindings
 

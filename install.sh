@@ -6,7 +6,13 @@ set -e
 if [ -z ${PROJECT_HOME} ]; then
     echo "Please set \$PROJECT_HOME"
 else
-    # Ask for the administrator password upfront
+
+    if [[ "$(uname)" == "Darwin" ]] && [[ -z ${MACOS_CONFIG_HOME} ]]; then
+        echo "Please set \$MACOS_CONFIG_HOME"
+        exit 1
+    fi
+
+    # Ask for password
     sudo -v
 
     # Keep-alive: update existing `sudo` time stamp until setup has finished
