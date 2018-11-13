@@ -1,3 +1,7 @@
+#!/bin/sh
+
+echo 'Starting install/tools.sh...'
+
 install_attempt="Attempting to install"
 
 if [ ! -d "$HOME/.asdf" ]; then

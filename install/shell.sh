@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo 'Starting install/shell.sh...'
+
 if test ! "$( which fish )"; then
     brew install fish
 

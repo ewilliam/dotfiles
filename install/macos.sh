@@ -1,3 +1,7 @@
+#!/bin/sh
+
+echo 'Starting install/macos.sh...'
+
 #
 # System
 #
@@ -216,6 +220,7 @@ defaults write com.apple.dock showhidden -bool true
 # 10: Put display to sleep
 # 11: Launchpad
 # 12: Notification Center
+
 # Top left screen corner → Mission Control
 defaults write com.apple.dock wvous-tl-corner -int 2
 defaults write com.apple.dock wvous-tl-modifier -int 0

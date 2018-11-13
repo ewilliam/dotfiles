@@ -2,6 +2,7 @@
 
 set -e
 
+echo "Starting install script..."
 
 if [ -z ${PROJECT_HOME} ]; then
     echo "Please set \$PROJECT_HOME"
@@ -31,5 +32,8 @@ else
     source install/mas.sh
     source install/shell.sh
     source install/tools.sh
+    source install/macos.sh
     # source install/mail.sh
 fi
+
+echo "Bootstrap done!"

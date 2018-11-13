@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo 'Starting install/mas.sh...'
+
 apps=(
     "Eon Timer:413744108"
     "Pixelmator:407963104"
