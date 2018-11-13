@@ -50,7 +50,7 @@ end
 private
 
 def symlink_file(file)
-  filename = file.split(/(?<=[+.])/) # [".", "example_file"]
+  filename = file.split(/(?<=[+.])/) # [".", "example_file"] or ["example_file"]
   source = "#{ENV["PWD"]}/#{filename[1] || filename[0]}"
   envar = case filename[0]
           when "."
