@@ -56,6 +56,7 @@ cask "postman"
 
 # Download
 brew "wget"
+brew "youtube-dl"
 cask "cyberduck"
 cask "transmission"
 
