@@ -16,7 +16,7 @@ if test ! "$( which fish )"; then
     curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 
     echo "Picking fish as default shell..."
-    chsh -s /usr/local/bin/fish
+    chsh -s $(brew --prefix)/bin/fish
     fisher_plugin_status=Installing
 
 else
