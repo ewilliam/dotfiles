@@ -1,3 +1,4 @@
-ruby 2.5.3
 elixir 1.7.4
 erlang 21.1.1
+nodejs 10.13.0
+ruby 2.5.3
