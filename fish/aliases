@@ -72,6 +72,9 @@ alias pip2u='pip2 list --outdated | cut -d " " -f1 | xargs -n1 pip2 install -U'
 alias pip3u='pip3 list --outdated | cut -d " " -f1 | xargs -n1 pip3 install -U'
 alias pipu='pip2u; pip3u'
 
+# Neomutt
+alias mail='neomutt'
+
 # Newsboat
 alias news='newsboat'
 
