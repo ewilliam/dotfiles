@@ -8,6 +8,9 @@ fish_vi_key_bindings
 # nerdfonts for bobthefish fish prompt
 set -g theme_nerd_fonts yes
 
+# don't show ruby version in fish prompt
+set -g theme_display_ruby no
+
 # point to hotel proxy in terminal
 # TODO: convert to function
 # set -x http_proxy http://localhost:2000/proxy.pac
