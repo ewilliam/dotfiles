@@ -1,4 +1,4 @@
-*
-
-!.gitignore
-!/Alfred.alfredpreferences
+Databases
+license.plist
+usage.data
+Alfred.alfredpreferences/workflows
