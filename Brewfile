@@ -23,6 +23,7 @@ cask "visual-studio-code"
 cask "vimr"
 
 # Shell
+brew "bat"
 brew "fish"
 brew "grc"
 brew "mobile-shell"
