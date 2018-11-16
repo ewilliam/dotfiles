@@ -44,15 +44,19 @@ cask "postico"
 cask "sequel-pro"
 
 # Search
+cask "alfred"
 brew "fasd"
 brew "fzf"
 brew "peco"
 brew "ripgrep"
 
 # Dev tools
+brew "coreutils"
+brew "gpg"
 brew "imagemagick"
 brew "openssl"
 cask "dash"
+cask "homebrew/cask-fonts/font-inconsolata-nerd-font"
 cask "postman"
 
 # Download
