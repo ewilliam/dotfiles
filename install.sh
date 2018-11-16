@@ -33,7 +33,7 @@ else
     source install/shell.sh
     source install/tools.sh
     source install/macos.sh
-    # source install/mail.sh
+    source install/mail.sh
 fi
 
 echo "Bootstrap done!"
