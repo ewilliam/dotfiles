@@ -1,3 +1,3 @@
-function j
-  cd (fasd -d -e 'printf %s' "$argv")
+function j -d "cd, same functionality as autojump"
+  fasd_cd -d $argv
 end

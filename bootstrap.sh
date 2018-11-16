@@ -31,6 +31,7 @@ else
     source setup/brew.sh
     source setup/mas.sh
     source setup/shell.sh
+    source setup/functions.sh
     source setup/tools.sh
     source setup/macos.sh
     source setup/mail.sh
