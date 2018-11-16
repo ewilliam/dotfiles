@@ -15,10 +15,10 @@ else
     fi
 
     # Ask for password
-    sudo -v
+    # sudo -v
 
     # Keep-alive: update existing `sudo` time stamp until setup has finished
-    while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+    # while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
     if [ ! -d "$PROJECT_HOME/dotfiles" ]; then
         echo "Installing dotfiles for the first time..."
@@ -34,7 +34,7 @@ else
     source setup/shell.sh
     source setup/functions.sh
     source setup/tools.sh
-    source setup/macos.sh
+    # source setup/macos.sh
     source setup/mail.sh
 fi
 
