@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo 'Starting install/macos.sh...'
+echo 'Starting setup/macos.sh...'
 
 #
 # System

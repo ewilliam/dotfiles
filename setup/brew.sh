@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo 'Starting install/brew.sh...'
+echo 'Starting setup/brew.sh...'
 
 if test ! "$( which brew )"; then
     echo "Installing Homebrew..."

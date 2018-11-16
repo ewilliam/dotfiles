@@ -4,7 +4,7 @@ install_message () {
     echo Attempting to install $1...
 }
 
-echo 'Starting install/tools.sh...'
+echo 'Starting setup/tools.sh...'
 
 if [ ! -d "$HOME/.asdf" ]; then
     install_message "asdf version manager"

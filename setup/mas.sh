@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo 'Starting install/mas.sh...'
+echo 'Starting setup/mas.sh...'
 
 apps=(
     "Eon Timer:413744108"

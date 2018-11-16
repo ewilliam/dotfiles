@@ -2,7 +2,7 @@
 
 set -e
 
-echo "Starting install script..."
+echo "Starting setup script..."
 
 if [ -z ${PROJECT_HOME} ]; then
     echo "Please set \$PROJECT_HOME"
@@ -23,17 +23,17 @@ else
         echo "Installing dotfiles for the first time..."
         git clone https://github.com/ewilliam/dot.git "$PROJECT_HOME/dotfiles"
         cd "$PROJECT_HOME/dotfiles"
-        rake install
+        rake setup
     else
         echo "Dotfiles is already installed"
     fi
 
-    source install/brew.sh
-    source install/mas.sh
-    source install/shell.sh
-    source install/tools.sh
-    source install/macos.sh
-    source install/mail.sh
+    source setup/brew.sh
+    source setup/mas.sh
+    source setup/shell.sh
+    source setup/tools.sh
+    source setup/macos.sh
+    source setup/mail.sh
 fi
 
 echo "Bootstrap done!"

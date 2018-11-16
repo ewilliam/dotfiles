@@ -27,10 +27,10 @@ FILES = [
           '.tool-versions'
         ]
 
-task default: 'install'
+task default: 'setup'
 
 desc "Write all configuration files to home folders."
-task :install do
+task :setup do
   check_envars
 
   FILES.each { |file| symlink_file(file) }

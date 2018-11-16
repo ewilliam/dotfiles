@@ -2,16 +2,23 @@
 
 ## Installation
 
-For macOS (supported exclusively for now), XCode is required. After installing, please run:
+For macOS (supported exclusively for now), XCode is required. Please sure PROJECT_HOME and MACOS_CONFIG_HOME are set, then run:
 
 ```bash
-sh -c "`curl -fsSL https://raw.githubusercontent.com/ewilliam/dot/master/install.sh`"
+sh -c "`curl -fsSL https://raw.githubusercontent.com/ewilliam/dot/master/bootstrap.sh`"
+```
+
+or clone the project and run:
+
+```bash
+cd ${PROJECT_HOME}/dotfiles
+sh bootstrap.sh
 ```
 
 ## Upgrading
 
 ```bash
-cd ~/Projects/dotfiles
+cd ${PROJECT_HOME}/dotfiles
 git pull
-rake install
+sh bootstrap.sh
 ```
