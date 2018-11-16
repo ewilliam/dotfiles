@@ -47,3 +47,7 @@ gem install neovim
 
 install_message "virtualenv"
 pip install virtualenv
+
+install_message "Goobook"
+pip3 install goobook
+goobook authenticate
