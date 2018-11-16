@@ -67,9 +67,10 @@ def symlink_file(file)
 
   if File.exists?(target) || File.symlink?(target)
     puts "[Overwriting] #{target}..."
+    File.directory?(target) ? FileUtils.remove_dir(target) : File.delete(target)
   end
 
-  `ln -snFhv "#{source}" "#{target}"`
+  `ln -sFv "#{source}" "#{target}"`
 end
 
 def check_envars
