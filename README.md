@@ -5,7 +5,7 @@
 For macOS (supported exclusively for now), XCode is required. Please sure PROJECT_HOME and MACOS_CONFIG_HOME are set, then run:
 
 ```bash
-sh -c "`curl -fsSL https://raw.githubusercontent.com/ewilliam/dot/master/bootstrap.sh`"
+sh -c "`curl -fsSL https://raw.githubusercontent.com/ewilliam/dotfiles/master/bootstrap.sh`"
 ```
 
 or clone the project and run:

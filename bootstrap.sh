@@ -6,6 +6,7 @@ echo "Starting setup script..."
 
 if [ -z ${PROJECT_HOME} ]; then
     echo "Please set \$PROJECT_HOME"
+    exit 1
 else
 
     if [[ "$(uname)" == "Darwin" ]] && [[ -z ${MACOS_CONFIG_HOME} ]]; then
@@ -23,11 +24,11 @@ else
         echo "Installing dotfiles for the first time..."
         git clone https://github.com/ewilliam/dot.git "$PROJECT_HOME/dotfiles"
         cd "$PROJECT_HOME/dotfiles"
-        rake setup
     else
-        echo "Dotfiles is already installed"
+        echo "Dotfiles already installed."
     fi
 
+    rake setup
     source setup/brew.sh
     source setup/mas.sh
     source setup/shell.sh

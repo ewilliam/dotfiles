@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo "Linking offlineimaprc to home directory..."
 ln -sfv $PROJECT_HOME/dotfiles/neomutt/offlineimaprc ~/.offlineimaprc
 

@@ -73,17 +73,17 @@ def symlink_file(file)
 end
 
 def check_envars
-  error_msg = "Please set both $XDG_CONFIG_HOME and/or $MACOS_CONFIG_HOME"
+  error_msg = "Please set $XDG_CONFIG_HOME" + (macos? ? " and $MACOS_CONFIG_HOME" : "")
 
   abort(error_msg) unless envars_set?
 end
 
 def envars_set?
   return false if ENV["XDG_CONFIG_HOME"].to_s.empty?
-
-  if RbConfig::CONFIG['host_os'].include?("darwin")
-    return false if ENV["MACOS_CONFIG_HOME"].to_s.empty?
-  end
-
+  return false if macos? && ENV["MACOS_CONFIG_HOME"].to_s.empty?
   true
+end
+
+def macos?
+  RbConfig::CONFIG['host_os'].include?("darwin")
 end
