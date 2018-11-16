@@ -11,5 +11,9 @@ if test ! "$( which brew )"; then
     brew bundle
 else
     echo "Homebrew already installed. Updating and cleaning up..."
-    brew update; brew upgrade; brew cleanup; brew prune; brew doctor
+    brew update; brew upgrade; brew cleanup; brew prune
+    bash <<-HEAD
+        brew doctor
+        exit 0 # prevent script from stopping
+HEAD
 fi

@@ -17,11 +17,19 @@ else
     asdf update
 fi
 
-install_message "Ruby"
+install_message "asdf plugins"
+bash << END
 asdf plugin-add ruby
+asdf plugin-add elixir
+asdf plugin-add erlang
+asdf plugin-add node
+exit 0 # prevent script from stopping
+END
+
+install_message "Ruby"
 asdf install ruby 2.5.3
 
-install_message "favorite gems"
+install_message "favorite Ruby gems"
 gem install bundler
 gem install pry
 gem install pry-remote
@@ -29,25 +37,25 @@ gem install rails
 gem install lunchy
 
 install_message "Elixir"
-asdf plugin-add elixir
 asdf install elixir 1.7.4
 
 install_message "Erlang"
-asdf plugin-add erlang
 asdf install erlang 21.1.1
 
 install_message "Node"
-asdf plugin-add nodejs
 asdf install nodejs 10.13.0
+# ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
 install_message "Neovim Python and Ruby"
 pip2 install neovim
 pip3 install neovim
 gem install neovim
 
-install_message "virtualenv"
+install_message "virtualenv and virtualfish"
 pip install virtualenv
+pip install virtualfish
 
 install_message "Goobook"
 pip3 install goobook
-goobook authenticate
+
+echo Tools good to go!
