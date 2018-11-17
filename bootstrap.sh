@@ -4,12 +4,12 @@ set -e
 
 echo "Starting setup script..."
 
-if [ -z ${PROJECT_HOME} ]; then
-    echo "Please set \$PROJECT_HOME"
+if [ -z ${PROJECT_HOME} ] || [ -z ${XDG_CONFIG_HOME} ]; then
+    echo "Please set \$PROJECT_HOME and \$XDG_CONFIG_HOME"
     exit 1
 else
 
-    if [[ "$(uname)" == "Darwin" ]] && [[ -z ${MACOS_CONFIG_HOME} ]]; then
+    if [ "$(uname)" == "Darwin" ] && [ -z ${MACOS_CONFIG_HOME} ]; then
         echo "Please set \$MACOS_CONFIG_HOME"
         exit 1
     fi

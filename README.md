@@ -2,16 +2,11 @@
 
 ## Installation
 
-For macOS (supported exclusively for now), XCode is required. Please sure PROJECT_HOME and MACOS_CONFIG_HOME are set, then run:
+For macOS (supported exclusively for now), XCode is required. Please be sure PROJECT_HOME, XDG_CONFIG_HOME, and MACOS_CONFIG_HOME are set, then run:
 
 ```bash
-sh -c "`curl -fsSL https://raw.githubusercontent.com/ewilliam/dotfiles/master/bootstrap.sh`"
-```
-
-or clone the project and run:
-
-```bash
-cd ${PROJECT_HOME}/dotfiles
+cd ${PROJECT_HOME}
+git clone https://github.com/ewilliam/dotfiles.git; cd dotfiles
 sh bootstrap.sh
 ```
 
