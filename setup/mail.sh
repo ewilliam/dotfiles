@@ -11,3 +11,9 @@ ln -sfv $PROJECT_HOME/dotfiles/neomutt/mutt-notmuch-py /usr/local/bin
 
 echo "Linking msmtprc to home directory..."
 ln -sfv $PROJECT_HOME/dotfiles/neomutt/msmtprc ~/.msmtprc
+
+echo "Starting mail daemon..."
+brew services start offlineimap
+
+echo "Indexing message database"
+notmuch new

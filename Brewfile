@@ -95,6 +95,7 @@ cask "steam"
 
 # Misc
 brew "mas"
+brew "speedtest-cli"
 brew "unrar"
 cask "appcleaner"
 cask "cheatsheet"
