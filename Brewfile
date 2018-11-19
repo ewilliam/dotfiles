@@ -24,6 +24,7 @@ cask "vimr"
 
 # Shell
 brew "bat"
+brew "fd"
 brew "fish"
 brew "grc"
 brew "mobile-shell"
