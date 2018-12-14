@@ -7,7 +7,7 @@ local ctrl = {"ctrl"}
 local cmdalt = {"cmd", "alt"}
 
 -- Select window
-hs.hotkey.bind(cmd, "escape", function() hs.hints.windowHints() end)
+hs.hotkey.bind(ctrl, "a", function() hs.hints.windowHints() end)
 
 -- Toggle full screen
 hs.hotkey.bind(cmdalt, "f", function() hs.window.focusedWindow():toggleFullScreen() end)
