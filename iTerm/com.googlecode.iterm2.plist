@@ -10,6 +10,8 @@
 	<integer>1</integer>
 	<key>AppleWindowTabbingMode</key>
 	<string>manual</string>
+	<key>Custom Color Presets</key>
+	<dict/>
 	<key>Default Bookmark Guid</key>
 	<string>468BE3E2-0228-4070-A4B4-E6E7A566394B</string>
 	<key>DimBackgroundWindows</key>
@@ -226,19 +228,17 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>1169 33 445 77 0 0 1680 1027 </string>
-	<key>NSWindow Frame ProfilesPanel</key>
-	<string>0 81 1680 946 0 0 1680 1027 </string>
-	<key>NSWindow Frame SessionsPreferences</key>
-	<string>0 85 606 469 0 0 1680 1027 </string>
+	<string>887 100 747 487 0 0 1680 1027 </string>
+	<key>NSWindow Frame SUUpdateAlert</key>
+	<string>530 476 620 392 0 0 1680 1027 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>682 515 796 486 0 0 1680 1027 </string>
+	<string>0 931 796 486 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>840 0 836 1027 0 0 1680 1027 </string>
+	<string>1462 0 1095 1417 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>0 0 837 1027 0 0 1680 1027 </string>
+	<string>0 644 570 377 0 0 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>254 571 490 352 0 0 1680 1027 </string>
+	<string>1280 23 1277 1394 0 0 2560 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -920,27 +920,20 @@
 	</array>
 	<key>NoSyncHaveRequestedFullDiskAccess</key>
 	<true/>
-	<key>NoSyncHaveWarnedAboutIncompatibleSoftware</key>
+	<key>NoSyncHaveUsedCopyMode</key>
 	<true/>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
-	<string>9575783B-9AB6-465C-9A42-44FA4FF26249</string>
-	<key>NoSyncLastTipTime</key>
-	<real>563774659.191149</real>
+	<string>517B7242-6326-45D3-BB98-042786A6547B</string>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
 	<integer>0</integer>
 	<key>NoSyncPermissionToShowTip</key>
-	<true/>
+	<false/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>563509648.57148099</real>
-	<key>NoSyncTipsToNotShow</key>
-	<array>
-		<string>000</string>
-		<string>0000</string>
-	</array>
+	<real>564087752.39346397</real>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -985,11 +978,11 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/final.xml?shard=7</string>
+	<string>https://iterm2.com/appcasts/final.xml?shard=81</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-11-13T07:03:34Z</date>
+	<date>2018-12-14T18:28:33Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -1009,6 +1002,6 @@
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
 	<key>iTerm Version</key>
-	<string>3.2.5</string>
+	<string>3.2.6</string>
 </dict>
 </plist>
