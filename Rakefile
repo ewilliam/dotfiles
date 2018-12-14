@@ -52,13 +52,13 @@ def symlink_file(file)
   filename = file.split(/(?<=[+.])/) # [".", "example_file"] or ["example_file"]
   source = "#{ENV["PWD"]}/#{filename[1] || filename[0]}"
   envar = case filename[0]
-          when "."
-            "HOME"
-          when "+"
+          when '.'
+            'HOME'
+          when '+'
             fake_filename = true
-            "MACOS_CONFIG_HOME"
+            'MACOS_CONFIG_HOME'
           else
-            "XDG_CONFIG_HOME"
+            'XDG_CONFIG_HOME'
           end
   real_filename = fake_filename ? filename[1] : file
   target = "#{ENV[envar]}/#{real_filename}"
