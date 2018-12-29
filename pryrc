@@ -54,7 +54,7 @@ end
 
 Pry.config.commands.import default_command_set
 
-['pry-theme', 'pry-byebug', 'awesome_print'].each do |gem|
+['pry-byebug', 'awesome_print'].each do |gem|
   begin
     require gem
     AwesomePrint.pry! unless gem != 'awesome_print'

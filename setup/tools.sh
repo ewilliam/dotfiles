@@ -27,12 +27,15 @@ exit 0 # prevent script from stopping
 END
 
 install_message "Ruby"
-asdf install ruby 2.5.3
+asdf install ruby 2.6.0
 
 install_message "favorite Ruby gems"
 gem install bundler
+gem install byebug
 gem install pry
+gem install pry-byebug
 gem install pry-remote
+gem install awesome_print
 gem install rails
 gem install lunchy
 
