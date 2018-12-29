@@ -10,3 +10,6 @@ alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder; echo "
 
 # Homebrew
 alias brewu='brew update; brew upgrade; brew cask upgrade; brew cleanup; brew prune; brew doctor'
+
+# Update everything
+alias upall='brewu; gemu; pipu; nvim +PlugInstall +PlugUpgrade +qall; mas upgrade; fisher'
