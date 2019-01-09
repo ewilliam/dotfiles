@@ -12,11 +12,12 @@ set -g theme_nerd_fonts yes
 set -g theme_display_ruby no
 
 # point to hotel proxy in terminal
-# TODO: convert to function
+# alternatively use https://github.com/oh-my-fish/plugin-proxy
 # set -x http_proxy http://localhost:2000/proxy.pac
 
 # use grc for specific commands
-set -U grc_wrap_commands cat df diff dig ifconfig netstat ping tail traceroute
+set -U grc_plugin_execs cat df diff dig ifconfig netstat ping tail traceroute
+set -U grcplugin_ls -alGh
 
 # https://github.com/nvbn/thefuck/wiki/shell-aliases
 thefuck --alias | source

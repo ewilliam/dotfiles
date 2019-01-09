@@ -1,8 +1,7 @@
+ewilliam/import-aliases
 oh-my-fish/plugin-bang-bang
-oh-my-fish/theme-bobthefish
 oh-my-fish/plugin-config
 oh-my-fish/plugin-fasd
-fisherman/getopts
-fisherman/grc
+oh-my-fish/plugin-grc
 oh-my-fish/plugin-peco
-ewilliam/import-aliases
+oh-my-fish/theme-bobthefish
