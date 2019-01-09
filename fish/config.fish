@@ -15,12 +15,6 @@ set -g theme_display_ruby no
 # TODO: convert to function
 # set -x http_proxy http://localhost:2000/proxy.pac
 
-# manage python versions/environments
-# https://github.com/adambrenecki/virtualfish
-# set -x PIP_REQUIRE_VIRTUALENV true
-set -x WORKON_HOME ~/.virtualenvs
-eval (python -m virtualfish compat_aliases auto_activation global_requirements)
-
 # use grc for specific commands
 set -U grc_wrap_commands cat df diff dig ifconfig netstat ping tail traceroute
 

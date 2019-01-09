@@ -54,10 +54,6 @@ pip2 install neovim
 pip3 install neovim
 gem install neovim
 
-install_message "virtualenv and virtualfish"
-pip install virtualenv
-pip install virtualfish
-
 install_message "Goobook"
 pip3 install goobook
 
