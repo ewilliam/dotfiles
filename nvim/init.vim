@@ -8,6 +8,7 @@ set gcr=a:blinkon0    " Disable cursor blink
 set visualbell        " No sounds
 set clipboard=unnamed " Share with system clipboard
 set hidden            " Background buffers
+set termguicolors     " Colorize terminal
 
 let mapleader = "\<Space>"
 
