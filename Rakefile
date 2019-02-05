@@ -4,32 +4,32 @@ require 'rake'
 require 'fileutils'
 
 FILES = [
-          '+Alfred 3',
-          '.asdfrc',
-          '+Code',
-          '.bundle',
-          '.ctags',
-          'fish',
-          '.gemrc',
-          'git',
-          '.hammerspoon',
-          '.hushlogin',
-          '.inputrc',
-          'karabiner',
-          '.pryrc',
-          'neomutt',
-          'newsboat',
-          'nvim',
-          'pianobar',
-          '.pryrc',
-          'ranger',
-          '.tmux.conf',
-          '.tool-versions'
-        ]
+  '+Alfred 3',
+  '.asdfrc',
+  '+Code',
+  '.bundle',
+  '.ctags',
+  'fish',
+  '.gemrc',
+  'git',
+  '.hammerspoon',
+  '.hushlogin',
+  '.inputrc',
+  'karabiner',
+  '.pryrc',
+  'neomutt',
+  'newsboat',
+  'nvim',
+  'pianobar',
+  '.pryrc',
+  'ranger',
+  '.tmux.conf',
+  '.tool-versions'
+].freeze
 
 task default: 'setup'
 
-desc "Write all configuration files to home folders."
+desc 'Write all configuration files to home folders.'
 task :setup do
   check_envars
 
@@ -37,11 +37,11 @@ task :setup do
 end
 
 # rake link_file['.config_file .second_file']
-desc "Symlink specific files."
-task :link_file, [:file ] do |t, file|
+desc 'Symlink specific files.'
+task :link_file, [:file] do |_, file|
   check_envars
 
-  "#{file[:file]}".split.each do |single_file|
+  (file[:file]).to_s.split.each do |single_file|
     symlink_file(single_file)
   end
 end
@@ -50,7 +50,7 @@ private
 
 def symlink_file(file)
   filename = file.split(/(?<=[+.])/) # [".", "example_file"] or ["example_file"]
-  source = "#{ENV["PWD"]}/#{filename[1] || filename[0]}"
+  source = "#{ENV['PWD']}/#{filename[1] || filename[0]}"
   envar = case filename[0]
           when '.'
             'HOME'
@@ -65,7 +65,7 @@ def symlink_file(file)
 
   puts "Linking #{source} to #{target}..."
 
-  if File.exists?(target) || File.symlink?(target)
+  if File.exist?(target) || File.symlink?(target)
     puts "[Overwriting] #{target}..."
     File.directory?(target) ? FileUtils.remove_dir(target) : File.delete(target)
   end
@@ -74,17 +74,18 @@ def symlink_file(file)
 end
 
 def check_envars
-  error_msg = "Please set $XDG_CONFIG_HOME" + (macos? ? " and $MACOS_CONFIG_HOME" : "")
+  error_msg = 'Please set $XDG_CONFIG_HOME' + (macos? ? ' and $MACOS_CONFIG_HOME' : '')
 
   abort(error_msg) unless envars_set?
 end
 
 def envars_set?
-  return false if ENV["XDG_CONFIG_HOME"].to_s.empty?
-  return false if macos? && ENV["MACOS_CONFIG_HOME"].to_s.empty?
+  return false if ENV['XDG_CONFIG_HOME'].to_s.empty?
+  return false if macos? && ENV['MACOS_CONFIG_HOME'].to_s.empty?
+
   true
 end
 
 def macos?
-  RbConfig::CONFIG['host_os'].include?("darwin")
+  RbConfig::CONFIG['host_os'].include?('darwin')
 end
