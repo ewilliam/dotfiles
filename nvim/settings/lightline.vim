@@ -2,13 +2,13 @@ let g:lightline = {
   \ 'colorscheme': 'solarized',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'fugitive', 'gitgutter', 'readonly', 'filename', 'modified' ] ],
+  \             [ 'fugitive', 'signify', 'readonly', 'filename', 'modified' ] ],
   \   'right': [ [ 'lineinfo' ], [ 'percent' ],
   \             [ 'fileformat', 'fileencoding', 'filetype' ] ],
   \ },
   \ 'component_function': {
   \   'fugitive': 'MyFugitive',
-  \   'gitgutter': 'MyGitGutter',
+  \   'signify': 'MyStarify',
   \   'readonly': 'MyReadonly',
   \   'filename': 'MyFilename',
   \   'modified': 'MyModified',
@@ -41,17 +41,23 @@ function! MyFugitive()
   return ''
 endfunction
 
-function! MyGitGutter()
-  if expand('%:t') !~? 'Mundo\|Tagbar' && &ft !~ 'denite\|gitcommit' && exists('*GitGutterGetHunkSummary')
-    let [ added, modified, removed ] = GitGutterGetHunkSummary()
-    return printf("+%d ~%d -%d", added, modified, removed)
-  endif
-  return ''
-endfunction
+function! MyStarify()
+  let symbols = ['+', '-', '~']
+  let [added, modified, removed] = sy#repo#get_stats()
+  let stats = [added, removed, modified]  " reorder
+  let hunkline = ''
 
-function! TagbarStatusFunc(current, sort, fname, ...) abort
-    let g:lightline.fname = a:fname
-  return lightline#statusline(0)
+  for i in range(3)
+    if stats[i] > 0
+      let hunkline .= printf('%s%s ', symbols[i], stats[i])
+    endif
+  endfor
+
+  if !empty(hunkline)
+    let hunkline = printf('[%s]', hunkline[:-2])
+  endif
+
+  return hunkline
 endfunction
 
 function! MyFilename()

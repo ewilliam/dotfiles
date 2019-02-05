@@ -6,7 +6,7 @@ call plug#begin('~/.config/nvim/plugged')
 " Appearance
 Plug 'romainl/flattened'
 Plug 'itchyny/lightline.vim'
-Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 Plug 'kshenoy/vim-signature'
 Plug 'luochen1990/rainbow'
 
