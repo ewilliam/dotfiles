@@ -1,6 +1,6 @@
 {
     "editor.fontFamily": "Inconsolata Nerd Font, Menlo, Monaco, 'Courier New', monospace",
-    "workbench.colorTheme": "Solarized Dark",
+    "workbench.colorTheme": "Gruvbox Dark (Hard)",
     "vim.leader": "Space",
     "vim.easymotion": true,
     "vim.easymotionMarkerFontFamily": "Inconsolata Nerd Font",

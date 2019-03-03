@@ -5,10 +5,13 @@ set -x MACOS_CONFIG_HOME "$HOME/Library/Application Support"
 
 fish_vi_key_bindings
 
-# nerdfonts for bobthefish fish prompt
+# nerdfonts for fish prompt
 set -g theme_nerd_fonts yes
 
-# don't show ruby version in fish prompt
+# prompt theme
+set theme_color_scheme gruvbox
+
+# don't show ruby version in prompt
 set -g theme_display_ruby no
 
 # point to hotel proxy in terminal
