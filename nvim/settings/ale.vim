@@ -1,6 +1,7 @@
 let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\   'ruby': ['rubocop'],
+\   'javascript': ['prettier', 'eslint'],
+\   'ruby': ['rubocop', 'rufo'],
 \   'elixir': ['credo'],
 \   'css': ['prettier'],
+\   'html': ['prettier'],
 \}

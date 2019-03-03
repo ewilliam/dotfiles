@@ -1,13 +1,18 @@
 let g:lightline = {
-  \ 'colorscheme': 'solarized',
+  \ 'colorscheme': 'gruvbox',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'fugitive', 'signify', 'readonly', 'filename', 'modified' ] ],
+  \             [ 'gina', 'signify', 'readonly', 'relativepath', 'modified' ] ],
   \   'right': [ [ 'lineinfo' ], [ 'percent' ],
   \             [ 'fileformat', 'fileencoding', 'filetype' ] ],
   \ },
+  \ 'inactive': {
+  \   'left': [
+  \     ['relativepath'],
+  \   ],
+  \ },
   \ 'component_function': {
-  \   'fugitive': 'MyFugitive',
+  \   'gina': 'gina#component#repo#branch',
   \   'signify': 'MyStarify',
   \   'readonly': 'MyReadonly',
   \   'filename': 'MyFilename',
@@ -92,4 +97,4 @@ function! MyFileencoding()
 endfunction
 
 set laststatus=2
-let g:tagbar_status_func = 'TagbarStatusFunc'
+" let g:tagbar_status_func = 'TagbarStatusFunc'

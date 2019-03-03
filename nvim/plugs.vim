@@ -4,45 +4,27 @@
 call plug#begin('~/.config/nvim/plugged')
 
 " Appearance
-Plug 'romainl/flattened'
+Plug 'morhetz/gruvbox'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-signify'
 Plug 'kshenoy/vim-signature'
-Plug 'luochen1990/rainbow'
+" Plug 'luochen1990/rainbow'
 
 " Mail
 Plug 'dbeniamine/vim-mail'
 Plug 'chrisbra/CheckAttach'
 
 " Git
-Plug 'tpope/vim-fugitive'
+Plug 'lambdalisue/gina.vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim' " gist.vim dependency
 
 " Languages
-Plug 'sheerun/vim-polyglot'
-Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-
-" Ruby
-Plug 'tpope/vim-bundler', { 'for': 'ruby' }
-Plug 'tpope/vim-rake', { 'for': 'ruby' }
-Plug 'tpope/vim-rails', { 'for': 'ruby' }
-Plug 'killphi/vim-ruby-refactoring', { 'for': 'ruby' }
-Plug 'ck3g/vim-change-hash-syntax', { 'for': 'ruby' }
-
-" Text objects
-Plug 'bootleq/vim-textobj-rubysymbol', { 'for': 'ruby' }
-Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
-Plug 'thinca/vim-textobj-function-javascript', { 'for': 'javascript' }
-Plug 'coderifous/textobj-word-column.vim'
-Plug 'kana/vim-textobj-user'
+Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+" Plug 'sheerun/vim-polyglot'
 
 " Text editing
-Plug 'justinmk/vim-sneak'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'ervandew/supertab'
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
@@ -50,18 +32,18 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'takac/vim-hardtime'
+Plug 'coderifous/textobj-word-column.vim'
 
 " Neovim improvements
+Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-sleuth'
-Plug 'w0rp/ale'
-Plug 'kassio/neoterm'
+" Plug 'xolox/vim-session'
+" Plug 'xolox/vim-misc' " session.vim dependency
+" Plug 'rafi/vim-denite-session'
 Plug 'simnalamburt/vim-mundo'
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/neomru.vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'francoiscabrol/ranger.vim'
-Plug 'rbgrouleff/bclose.vim' " ranger.vim dependency
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
 Plug 'airblade/vim-rooter'
@@ -69,11 +51,10 @@ Plug 'majutsushi/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-startify'
 Plug 'janko-m/vim-test'
+
+" External tools
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim' " ranger.vim dependency
 Plug 'shime/vim-livedown'
 
 call plug#end()
-
-augroup lazy_load_ultisnips
-  autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips') | autocmd! lazy_load_ultisnips
-augroup END

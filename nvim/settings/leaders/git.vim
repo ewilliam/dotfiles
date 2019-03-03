@@ -12,24 +12,17 @@ let g:menus.git.file_candidates = [
 
 let g:menus.git.command_candidates = [
   \ ['Git help              <leader>gh', 'Denite menus:git'],
-  \ ['Git blame             <leader>gB', 'Gblame'],
-  \ ['Git browse            <leader>gbr', 'Gbrowse'],
-  \ ['Git commit -v -q      <leader>gc', 'Gcommit -v -q'],
-  \ ['Git commit -v -q %:p  <leader>gt', 'Gcommit -v -q %:p'],
-  \ ['Git diff              <leader>gd', 'Gdiff'],
-  \ ['Git edit              <leader>ge', 'Gedit'],
-  \ ['Git add %:p           <leader>ga', 'Git add %:p<CR>'],
-  \ ['Git branch            <leader>gb', 'Git branch'],
-  \ ['Git checkout          <leader>gco', 'Git checkout'],
-  \ ['Git log               <leader>gl', 'Git log'],
-  \ ['Git move              <leader>gm', 'Gmove'],
-  \ ['Git pull              <leader>gp', 'Gpull'],
-  \ ['Git push              <leader>gP', 'Gpush'],
-  \ ['Git read              <leader>gr', 'Gread'],
-  \ ['Git status            <leader>gs', 'Gstatus'],
-  \ ['Git write             <leader>gw', 'Gwrite<CR>'],
-  \ ['diffget               <leader>gdg', 'diffget'],
-  \ ['diffput               <leader>gdp', 'diffput'],
+  \ ['Git add %:p           <leader>ga', 'Gina add %:p<CR>'],
+  \ ['Git blame             <leader>gB', 'Gina blame'],
+  \ ['Git branch            <leader>gb', 'Gina branch'],
+  \ ['Git browse            <leader>gr', 'Gina browse'],
+  \ ['Git checkout          <leader>go', 'Gina checkout'],
+  \ ['Git commit            <leader>gc', 'Gina commit'],
+  \ ['Git diff              <leader>gd', 'Gina diff'],
+  \ ['Git log               <leader>gl', 'Gina log'],
+  \ ['Git pull              <leader>gp', 'Gina pull'],
+  \ ['Git push              <leader>gP', 'Gina push'],
+  \ ['Git status            <leader>gs', 'Gina status'],
   \ ]
 
 "
@@ -39,21 +32,14 @@ let g:menus.git.command_candidates = [
 nnoremap <leader>gh :Denite menu:git<CR>
 
 " Git operations
-nnoremap <leader>ga   :Git add %:p<CR><CR>
-nnoremap <leader>gb   :Git branch<space>
-nnoremap <leader>gB   :Gblame<CR>
-nnoremap <leader>gbr  :Gbrowse
-nnoremap <leader>gc   :Gcommit -v -q<CR>
-nnoremap <leader>gco  :Git checkout<space>
-nnoremap <leader>gd   :Gdiff<CR>
-nnoremap <leader>gdg  :diffget<CR>
-nnoremap <leader>gdp  :diffput<CR>
-nnoremap <leader>ge   :Gedit<CR>
-nnoremap <leader>gl   :Git log<CR>
-nnoremap <leader>gm   :Gmove<space>
-nnoremap <leader>gp   :Gpull<CR>
-nnoremap <leader>gP   :Gpush<CR>
-nnoremap <leader>gr   :Gread<CR>
-nnoremap <leader>gs   :Gstatus<CR>
-nnoremap <leader>gt   :Gcommit -v -q %:p<CR>
-nnoremap <leader>gw   :Gwrite<CR><CR>
+nnoremap <leader>ga   :Gina add %:p<CR><CR>
+nnoremap <leader>gb   :Gina branch<space>
+nnoremap <leader>gB   :Gina blame<CR>
+nnoremap <leader>gr   :Gina browse
+nnoremap <leader>gc   :Gina commit<CR>
+nnoremap <leader>go   :Gina checkout<space>
+nnoremap <leader>gd   :Gina diff<CR>
+nnoremap <leader>gl   :Gina log<CR>
+nnoremap <leader>gp   :Gina pull<CR>
+nnoremap <leader>gP   :Gina push<CR>
+nnoremap <leader>gs   :Gina status<CR>
