@@ -13,10 +13,7 @@ hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
 end)
 
 auto_hide_applications = {
-                          "Deliveries",
                           "Finder",
-                          "Messages",
-                          "Messenger",
                           "Todoist"
                          }
 
