@@ -27,3 +27,7 @@ thefuck --alias | source
 
 source ~/.asdf/asdf.fish
 source ~/.secrets.fish
+
+if test -f "/Users/ewilliam/.shopify-app-cli/shopify.fish"
+  source "/Users/ewilliam/.shopify-app-cli/shopify.fish"
+end

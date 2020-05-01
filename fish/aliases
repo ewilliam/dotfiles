@@ -80,3 +80,6 @@ alias news='newsboat'
 
 # Pianobar
 alias music='pianobar'
+
+# emacs
+alias emacs="echo lmao"

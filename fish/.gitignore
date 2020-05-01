@@ -2,3 +2,4 @@ functions
 completions
 conf.d
 fishd.*
+fish_variables
