@@ -1,6 +1,5 @@
 {
     "editor.fontFamily": "Inconsolata Nerd Font, Menlo, Monaco, 'Courier New', monospace",
-    "workbench.colorTheme": "Gruvbox Dark (Hard)",
     "vim.leader": "Space",
     "vim.easymotion": true,
     "vim.easymotionMarkerFontFamily": "Inconsolata Nerd Font",
@@ -14,5 +13,13 @@
     }
 ],
 "emmet.showSuggestionsAsSnippets": true,
-"editor.snippetSuggestions": "top"
+"editor.snippetSuggestions": "top",
+"workbench.sideBar.location": "left",
+"editor.minimap.enabled": false,
+"editor.tabSize": 2,
+"window.zoomLevel": 1,
+"eslint.packageManager": "yarn",
+"workbench.colorTheme": "Gruvbox Dark (Hard)",
+"ruby.codeCompletion": "rcodetools",
+"explorer.confirmDelete": false
 }
