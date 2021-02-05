@@ -1,2 +1,1 @@
-let g:signify_realtime = 1
-let g:signify_vcs_list = ['git']
+set updatetime=100

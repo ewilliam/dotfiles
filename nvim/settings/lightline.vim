@@ -13,7 +13,6 @@ let g:lightline = {
   \ },
   \ 'component_function': {
   \   'gina': 'gina#component#repo#branch',
-  \   'signify': 'MyStarify',
   \   'readonly': 'MyReadonly',
   \   'filename': 'MyFilename',
   \   'modified': 'MyModified',
@@ -46,24 +45,24 @@ function! MyFugitive()
   return ''
 endfunction
 
-function! MyStarify()
-  let symbols = ['+', '-', '~']
-  let [added, modified, removed] = sy#repo#get_stats()
-  let stats = [added, removed, modified]  " reorder
-  let hunkline = ''
+" function! MyStarify()
+"   let symbols = ['+', '-', '~']
+"   let [added, modified, removed] = sy#repo#get_stats()
+"   let stats = [added, removed, modified]  " reorder
+"   let hunkline = ''
 
-  for i in range(3)
-    if stats[i] > 0
-      let hunkline .= printf('%s%s ', symbols[i], stats[i])
-    endif
-  endfor
+"   for i in range(3)
+"     if stats[i] > 0
+"       let hunkline .= printf('%s%s ', symbols[i], stats[i])
+"     endif
+"   endfor
 
-  if !empty(hunkline)
-    let hunkline = printf('[%s]', hunkline[:-2])
-  endif
+"   if !empty(hunkline)
+"     let hunkline = printf('[%s]', hunkline[:-2])
+"   endif
 
-  return hunkline
-endfunction
+"   return hunkline
+" endfunction
 
 function! MyFilename()
   let fname = expand('%:t')

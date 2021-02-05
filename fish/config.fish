@@ -31,3 +31,5 @@ source ~/.secrets.fish
 if test -f "/Users/ewilliam/.shopify-app-cli/shopify.fish"
   source "/Users/ewilliam/.shopify-app-cli/shopify.fish"
 end
+
+set -g fish_user_paths "/usr/local/sbin" $fish_user_paths

@@ -21,5 +21,7 @@
 "eslint.packageManager": "yarn",
 "workbench.colorTheme": "Gruvbox Dark (Hard)",
 "ruby.codeCompletion": "rcodetools",
-"explorer.confirmDelete": false
+"explorer.confirmDelete": false,
+"jshint.config": "",
+"jshint.packageManager": "yarn"
 }

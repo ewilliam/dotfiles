@@ -25,7 +25,7 @@ let g:menus.buffer.command_candidates = [
 nnoremap <leader>bh :Denite menu:buffer<CR>
 
 " Buffer operations
-nnoremap <leader>bs :Denite buffer<CR>
+nnoremap <leader>bs :Denite -start-filter buffer<CR>
 nnoremap <leader>bc :Bclose<CR>
 nnoremap <leader>bd :bdelete<CR>
 nnoremap <leader>bn :bnext<CR>

@@ -14,7 +14,7 @@ end)
 
 auto_hide_applications = {
                           "Finder",
-                          "Todoist"
+                          -- "Todoist"
                          }
 
 watcher = hs.application.watcher.new(function(name, event, app)
