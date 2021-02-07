@@ -3,16 +3,9 @@ set -x XDG_CONFIG_HOME $HOME/.config
 set -x PROJECT_HOME $HOME/Projects
 set -x MACOS_CONFIG_HOME "$HOME/Library/Application Support"
 
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
 fish_vi_key_bindings
-
-# nerdfonts for fish prompt
-set -g theme_nerd_fonts yes
-
-# prompt theme
-set theme_color_scheme gruvbox
-
-# don't show ruby version in prompt
-set -g theme_display_ruby no
 
 # point to hotel proxy in terminal
 # alternatively use https://github.com/oh-my-fish/plugin-proxy
