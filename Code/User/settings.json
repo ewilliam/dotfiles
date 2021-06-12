@@ -17,7 +17,6 @@
 "workbench.sideBar.location": "left",
 "editor.minimap.enabled": false,
 "editor.tabSize": 2,
-"window.zoomLevel": 1,
 "eslint.packageManager": "yarn",
 "workbench.colorTheme": "Gruvbox Dark (Hard)",
 "ruby.codeCompletion": "rcodetools",
