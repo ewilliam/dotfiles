@@ -1,10 +1,7 @@
 jorgebucaran/fisher
-ewilliam/import-aliases
-oh-my-fish/plugin-config
-oh-my-fish/plugin-peco
-edc/bass
-oh-my-fish/plugin-bang-bang
-oh-my-fish/plugin-fasd
-oh-my-fish/plugin-grc
-ilancosman/tide
+jorgebucaran/hydro
 jethrokuan/z
+PatrickF1/fzf.fish
+edc/bass
+oh-my-fish/plugin-grc
+oh-my-fish/plugin-bang-bang

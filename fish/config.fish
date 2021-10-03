@@ -28,11 +28,16 @@ set -U grcplugin_ls -alGh
 # https://github.com/nvbn/thefuck/wiki/shell-aliases
 thefuck --alias | source
 
-source ~/.asdf/asdf.fish
-source ~/.secrets.fish
+# remap z directory jumper to j
+set -U Z_CMD "j"
+
+# source ~/.asdf/asdf.fish
+# source ~/.secrets.fish
 
 if test -f "/Users/ewilliam/.shopify-app-cli/shopify.fish"
   source "/Users/ewilliam/.shopify-app-cli/shopify.fish"
 end
 
 set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
+
+source /usr/local/opt/asdf/libexec/asdf.fish
