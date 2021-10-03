@@ -83,7 +83,6 @@ if filereadable(expand("~/.config/nvim/plugs.vim"))
   source ~/.config/nvim/plugs.vim
 endif
 
-source ~/.config/nvim/truecolor.vim
 source ~/.config/nvim/lua/_lsp.lua
 source ~/.config/nvim/lua/_project.lua
 source ~/.config/nvim/lua/_lualine.lua

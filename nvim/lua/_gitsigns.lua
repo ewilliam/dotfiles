@@ -1,6 +1,10 @@
 require('gitsigns').setup()
 require('focus').setup()
-require('nvim-autopairs').setup{}
+local npairs = require('nvim-autopairs')
+npairs.setup()
+npairs.add_rules(require('nvim-autopairs.rules.endwise-elixir'))
+npairs.add_rules(require('nvim-autopairs.rules.endwise-lua'))
+npairs.add_rules(require('nvim-autopairs.rules.endwise-ruby'))
 
 require("winshift").setup({
   highlight_moving_win = true,  -- Highlight the window being moved
