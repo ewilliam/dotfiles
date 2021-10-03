@@ -42,11 +42,10 @@ Plug 'onsails/lspkind-nvim'
 " Text editing
 Plug 'b3nj5m1n/kommentary'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-Plug 'tpope/vim-surround'
+Plug 'AndrewRadev/tagalong.vim'
 Plug 'takac/vim-hardtime'
 Plug 'windwp/nvim-autopairs'
 Plug 'windwp/nvim-ts-autotag'
-Plug 'windwp/nvim-spectre'
 
 " Windows/Buffers
 Plug 'beauwilliams/focus.nvim'
@@ -68,7 +67,8 @@ Plug 'yamatsum/nvim-cursorline'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'rmagatti/auto-session'
 Plug 'andymass/vim-matchup'
-
+Plug 'windwp/nvim-spectre'
+Plug 'kevinhwang91/nvim-hlslens'
 
 " External tools
 Plug 'kevinhwang91/rnvimr'
