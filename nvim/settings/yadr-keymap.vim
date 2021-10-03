@@ -27,7 +27,7 @@ nnoremap ' `
 nnoremap ` '
 
 " Move past quotes, parens, brackets, etc while in insert mode
-imap <C-j> <ESC>ea
+" imap <C-j> <ESC>ea
 
 " Move between split panes
 nnoremap <C-j> <C-w><C-j>

@@ -4,53 +4,69 @@
 call plug#begin('~/.config/nvim/plugged')
 
 " Appearance
-Plug 'morhetz/gruvbox'
+Plug 'rktjmp/lush.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
 Plug 'kshenoy/vim-signature'
+Plug 'p00f/nvim-ts-rainbow'
+Plug 'glepnir/indent-guides.nvim'
 
 " Mail
 Plug 'dbeniamine/vim-mail'
 Plug 'chrisbra/CheckAttach'
 
 " Git
-Plug 'lambdalisue/gina.vim'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'TimUntersberger/neogit'
 
 " Languages
-Plug 'w0rp/ale'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sheerun/vim-polyglot'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'arkav/lualine-lsp-progress'
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'rafamadriz/friendly-snippets'
+Plug 'onsails/lspkind-nvim'
 
+"
 " Text editing
-Plug 'honza/vim-snippets'
-Plug 'godlygeek/tabular'
 Plug 'b3nj5m1n/kommentary'
 Plug 'tpope/vim-surround'
 Plug 'takac/vim-hardtime'
-Plug 'coderifous/textobj-word-column.vim'
+Plug 'windwp/nvim-autopairs'
+Plug 'windwp/nvim-ts-autotag'
+
+" Windows/Buffers
+Plug 'beauwilliams/focus.nvim'
+Plug 'sindrets/winshift.nvim'
+Plug 'famiu/bufdelete.nvim'
 
 " Neovim improvements
-Plug 'justinmk/vim-sneak'
-Plug 'tpope/vim-sleuth'
+Plug 'ggandor/lightspeed.nvim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'nikvdp/neomux'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'ntpeters/vim-better-whitespace'
-" Plug 'roman/golden-ratio'
-Plug 'airblade/vim-rooter'
+Plug 'ahmedkhalf/project.nvim'
 Plug 'majutsushi/tagbar'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-startify'
-Plug 'glepnir/indent-guides.nvim'
-" Plug 'janko-m/vim-test'
-" Plug 'thaerkh/vim-workspace'
+Plug 'yamatsum/nvim-cursorline'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'rmagatti/auto-session'
+
 
 " External tools
-Plug 'francoiscabrol/ranger.vim'
-Plug 'rbgrouleff/bclose.vim' " ranger.vim dependency
+Plug 'kevinhwang91/rnvimr'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'ellisonleao/glow.nvim', {'do': ':GlowInstall'}
 
 call plug#end()

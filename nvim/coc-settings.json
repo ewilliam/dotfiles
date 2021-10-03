@@ -1,4 +1,4 @@
 {
-  "diagnostic.displayByAle": true,
-  "suggest.enablePreselect": false
+  "suggest.enablePreselect": false,
+  "coc.preferences.formatOnType": true
 }
