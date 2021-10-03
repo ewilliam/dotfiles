@@ -1,5 +1,6 @@
 require('gitsigns').setup()
 require('focus').setup()
+require'colorizer'.setup()
 local npairs = require('nvim-autopairs')
 npairs.setup()
 npairs.add_rules(require('nvim-autopairs.rules.endwise-elixir'))
@@ -34,7 +35,13 @@ require('nvim-treesitter.configs').setup {
     max_file_lines = nil, -- Do not enable for files with more than n lines, int
     -- colors = {}, -- table of hex strings
     -- termcolors = {} -- table of colour name strings
-  }
+  },
+  matchup = {
+    enable = true,              -- mandatory, false will disable the whole extension
+  },
+  context_commentstring = {
+    enable = true
+  },
 }
 
 vim.g.glow_binary_path = vim.env.HOME .. "/bin"

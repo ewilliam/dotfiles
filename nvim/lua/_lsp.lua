@@ -131,6 +131,7 @@ cmp.setup({
         cmp_tabnine = "[Tab9]",
         nvim_lua = "[Lua]",
 	path = "[Path]",
+	tags = "[Tags]",
       })[entry.source.name]
       return vim_item
     end,
