@@ -1,6 +1,7 @@
 require('gitsigns').setup()
 require('focus').setup()
 require'colorizer'.setup()
+require"surround".setup {mappings_style = "sandwich"}
 local npairs = require('nvim-autopairs')
 npairs.setup()
 npairs.add_rules(require('nvim-autopairs.rules.endwise-elixir'))
