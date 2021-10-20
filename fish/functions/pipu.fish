@@ -1,0 +1,3 @@
+function pipu
+	pip3 list --outdated | cut -d " " -f1 | xargs -n1 pip3 install -U --user
+end
