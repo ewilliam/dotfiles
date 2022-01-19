@@ -1,19 +1,22 @@
--- Add additional capabilities supported by nvim-cmp
+-- Add nvm-cmp capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+require('null-ls').config {
+	-- enable_formatting = true
+}
 
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+-- Enable language servers
 local servers = {
   'html',
   'cssls',
-  'tsserver',
   'solargraph',
   'pyright',
   'elixirls',
   'erlangls',
   'svelte',
-  'jsonls',
+  -- 'jsonls', -- needs extra setup
   'yamlls',
+  'null-ls',
 }
 local nvim_lsp = require('lspconfig')
 local saga = require 'lspsaga'.init_lsp_saga()
@@ -24,6 +27,35 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
+
+nvim_lsp.tsserver.setup {
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+        -- disable tsserver formatting if you plan on formatting via null-ls
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+
+        local ts_utils = require("nvim-lsp-ts-utils")
+
+	ts_utils.setup {
+		debug = true,
+		-- eslint
+		eslint_bin = 'eslint',
+		-- formatting
+		enable_formatting = true,
+		formatter = 'prettier',
+	}
+
+        -- required to fix code action ranges and filter diagnostics
+        ts_utils.setup_client(client)
+
+        -- no default maps, so you may want to define some here
+        local opts = { silent = true }
+        vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", opts)
+        vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", opts)
+        vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", opts)
+    end
+}
 
 local tabnine = require('cmp_tabnine.config')
 tabnine:setup({
@@ -79,7 +111,7 @@ require('lspkind').init({
     },
 })
 
--- Set completeopt to have a better completion experience
+-- Set completeopt for better completion
 vim.o.completeopt = 'menu,menuone,noselect'
 
 vim.api.nvim_exec([[
@@ -92,6 +124,17 @@ autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 " autocmd BufRead,BufNewFile *.md setlocal spell
+]], true)
+
+vim.api.nvim_exec([[
+autocmd BufNewFile,BufRead /tmp/mutt-* set filetype=mail
+autocmd BufNewFile,BufRead /*.rasi setf css
+augroup ruby_subtypes
+  autocmd!
+  autocmd BufNewFile,BufRead *.pdf.erb let b:eruby_subtype='html'
+  autocmd BufNewFile,BufRead *.pdf.erb set filetype=eruby
+augroup END
+au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 ]], true)
 
 -- Setup nvim-cmp.
@@ -116,7 +159,7 @@ cmp.setup({
     { name = 'vsnip' },
     { name = 'buffer' },
     { name = 'treesitter' },
-    { name = 'tags' },
+    -- { name = 'tags' },
   },
   formatting = {
     format = function(entry, vim_item)

@@ -22,5 +22,8 @@
 "ruby.codeCompletion": "rcodetools",
 "explorer.confirmDelete": false,
 "jshint.config": "",
-"jshint.packageManager": "yarn"
+"jshint.packageManager": "yarn",
+"tabnine.experimentalAutoImports": true,
+"svelte.enable-ts-plugin": true,
+"window.zoomLevel": 1
 }

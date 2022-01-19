@@ -28,6 +28,7 @@ Plug 'romgrk/nvim-treesitter-context'
 Plug 'arkav/lualine-lsp-progress'
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
+Plug 'folke/trouble.nvim'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
@@ -37,6 +38,8 @@ Plug 'hrsh7th/cmp-vsnip'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'quangnguyen30192/cmp-nvim-tags'
 Plug 'onsails/lspkind-nvim'
+Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 "
 " Text editing

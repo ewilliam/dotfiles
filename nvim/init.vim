@@ -9,6 +9,7 @@ set visualbell        " No sounds
 set clipboard=unnamed " Share with system clipboard
 set hidden            " Background buffers
 set termguicolors     " 24 bit colors
+set autoindent
 
 let mapleader = "\<Space>"
 

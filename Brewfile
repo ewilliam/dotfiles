@@ -1,4 +1,5 @@
-# Python
+# Languages
+brew "asdf", args: ['HEAD']
 brew "python"
 
 # Wordpress
@@ -18,7 +19,7 @@ brew "neovim", args: ['HEAD']
 tap  "universal-ctags/universal-ctags"
 brew "universal-ctags", args: ['HEAD']
 # cask "macdown"
-# cask "libreoffice"
+cask "libreoffice"
 cask "visual-studio-code"
 # cask "vimr"
 
@@ -84,22 +85,23 @@ cask "vlc"
 
 # Browser
 cask "firefox"
+cask "google-chrome"
 
 # Files
 # cask "dropbox"
 # cask "google-drive-file-stream"
 
 # Games
-# cask "openemu"
-# cask "steam"
+cask "openemu"
+cask "steam"
 
 # Misc
 brew "mas"
-# brew "speedtest-cli"
-brew "unrar"
+brew "speedtest-cli"
+brew "rar"
 cask "appcleaner"
-# cask "cheatsheet"
-# cask "code42-crashplan"
+cask "cheatsheet"
+cask "code42-crashplan"
 cask "flux"
 cask "focus"
 cask "hammerspoon"
@@ -109,3 +111,5 @@ cask "karabiner-elements"
 cask "notion"
 cask "numi"
 # cask "viscosity"
+cask "1password"
+cask "todoist"
