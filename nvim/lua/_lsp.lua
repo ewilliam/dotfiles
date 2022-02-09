@@ -1,10 +1,10 @@
 -- Add nvm-cmp capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-require('null-ls').config {
-	-- enable_formatting = true
+--[[ require('null-ls').config {
+	enable_formatting = true
 }
-
+ ]]
 -- Enable language servers
 local servers = {
   'html',

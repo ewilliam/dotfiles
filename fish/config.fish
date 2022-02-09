@@ -39,3 +39,6 @@ end
 
 source /opt/homebrew/opt/asdf/libexec/asdf.fish
 fish_add_path /opt/homebrew/sbin
+
+set -gx PNPM_HOME "/Users/ewilliam/Library/pnpm"
+set -gx PATH "$PNPM_HOME" $PATH
