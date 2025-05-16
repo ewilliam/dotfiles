@@ -8,45 +8,37 @@ brew "python"
 # Git
 brew "git"
 brew "git-lfs"
-tap  "heroku/brew"
-brew "heroku"
 brew "gh"
 brew "tig"
-cask "gitkraken"
+cask "tower"
 
 # Editor
 brew "neovim", args: ['HEAD']
 tap  "universal-ctags/universal-ctags"
 brew "universal-ctags", args: ['HEAD']
-# cask "macdown"
 cask "libreoffice"
 cask "visual-studio-code"
-# cask "vimr"
+cask "zed"
 
 # Shell
 brew "bat"
 brew "fd"
 brew "fish"
 brew "grc"
-# brew "mobile-shell"
-# brew "reattach-to-user-namespace"
-# brew "ssh-copy-id"
 brew "ranger"
 brew "thefuck"
-# brew "tmux"
 brew "trash"
 brew "tree"
-cask "iterm2"
+cask "ghostty"
 
 # Database
 brew "postgresql"
 brew "redis"
 brew "sqlite"
-cask "postico"
-cask "sequel-pro"
+cask "tableplus"
 
 # Search
-cask "alfred"
+cask "raycast"
 brew "fasd"
 brew "fzf"
 brew "peco"
@@ -67,7 +59,7 @@ cask "cyberduck"
 # cask "transmission"
 
 # Email
-brew "neomutt"
+brew "aerc"
 brew "notmuch"
 brew "msmtp"
 brew "offlineimap"
@@ -75,7 +67,8 @@ brew "urlview"
 brew "w3m"
 
 # Chat
-# brew "weechat"
+brew "weechat"
+cask "discord"
 cask "slack"
 
 # Media
@@ -88,11 +81,11 @@ cask "firefox"
 cask "google-chrome"
 
 # Files
-# cask "dropbox"
+cask "dropbox"
 # cask "google-drive-file-stream"
 
 # Games
-cask "openemu"
+# cask "openemu"
 cask "steam"
 
 # Misc
@@ -101,7 +94,7 @@ brew "speedtest-cli"
 brew "rar"
 cask "appcleaner"
 cask "cheatsheet"
-cask "code42-crashplan"
+cask "backblaze"
 cask "flux"
 cask "focus"
 cask "hammerspoon"
@@ -110,6 +103,5 @@ cask "karabiner-elements"
 # cask "little-snitch"
 cask "notion"
 cask "numi"
-# cask "viscosity"
+cask "tunnelbear"
 cask "1password"
-cask "todoist"
