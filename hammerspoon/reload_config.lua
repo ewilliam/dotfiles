@@ -1,13 +1,13 @@
 function reloadConfig(files)
-  doReload = false
+    doReload = false
 
-  for _,file in pairs(files) do
-    if file:sub(-4) == ".lua" then
-      doReload = true
+    for _, file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            doReload = true
+        end
     end
-  end
-  
-  if doReload then
-    hs.reload()
-  end
+
+    if doReload then
+        hs.reload()
+    end
 end

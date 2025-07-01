@@ -2,9 +2,9 @@
 -- Window management
 --
 -- Hyper
-local cmd = {"cmd"}
-local ctrl = {"ctrl"}
-local cmdalt = {"cmd", "alt"}
+local cmd = { "cmd" }
+local ctrl = { "ctrl" }
+local cmdalt = { "cmd", "alt" }
 
 -- Select window
 hs.hotkey.bind(ctrl, "a", function() hs.hints.windowHints() end)
@@ -40,17 +40,20 @@ ctrlspace:bind({}, "escape", function() b:exit() end)
 
 -- Launch or focus application
 local key2app = {
-  a = "Atom",
-  c = "Google Chrome",
-  d = "Dash",
-  f = "Finder",
-  g = "GitKraken",
-  i = "iTerm",
-  m = "Messages",
-  s = "Slack",
-  t = "Todoist"
+    a = "Arc",
+    c = "Google Chrome",
+    d = "Dash",
+    e = "Zed",
+    f = "Finder",
+    g = "Tower",
+    m = "Messages",
+    s = "Safari",
+    t = "Ghostty",
 }
 
 for key, app in pairs(key2app) do
-  ctrlspace:bind({}, key, function() hs.application.launchOrFocus(app) ctrlspace:exit() end)
+    ctrlspace:bind({}, key, function()
+        hs.application.launchOrFocus(app)
+        ctrlspace:exit()
+    end)
 end

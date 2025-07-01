@@ -14,15 +14,21 @@ function gridOp(op, cell)
     return cell
 end
 
-function expandToRight(cell)  return gridOp({w = 1},         cell) end
-function expandToLeft(cell)   return gridOp({x = -1, w = 1}, cell) end
-function expandToBottom(cell) return gridOp({h = 1},         cell) end
-function expandToTop(cell)    return gridOp({y = -1, h = 1}, cell) end
+function expandToRight(cell) return gridOp({ w = 1 }, cell) end
 
-function shrinkToRight(cell)  return gridOp({x = 1, w = -1}, cell) end
-function shrinkToLeft(cell)   return gridOp({w = -1},        cell) end
-function shrinkToBottom(cell) return gridOp({y = 1, h = -1}, cell) end
-function shrinkToTop(cell)    return gridOp({h = -1}       , cell) end
+function expandToLeft(cell) return gridOp({ x = -1, w = 1 }, cell) end
+
+function expandToBottom(cell) return gridOp({ h = 1 }, cell) end
+
+function expandToTop(cell) return gridOp({ y = -1, h = 1 }, cell) end
+
+function shrinkToRight(cell) return gridOp({ x = 1, w = -1 }, cell) end
+
+function shrinkToLeft(cell) return gridOp({ w = -1 }, cell) end
+
+function shrinkToBottom(cell) return gridOp({ y = 1, h = -1 }, cell) end
+
+function shrinkToTop(cell) return gridOp({ h = -1 }, cell) end
 
 function smartResizeRight(cell)
     if ((cell.x + cell.w >= hs.grid.GRIDWIDTH) and (cell.w > 1)) then
@@ -73,10 +79,18 @@ function smartResizeUp(cell)
 end
 
 function smartResizeWindowRight() hs.grid.adjustFocusedWindow(smartResizeRight) end
+
 function smartResizeWindowLeft() hs.grid.adjustFocusedWindow(smartResizeLeft) end
+
 function smartResizeWindowUp() hs.grid.adjustFocusedWindow(smartResizeUp) end
+
 function smartResizeWindowDown() hs.grid.adjustFocusedWindow(smartResizeDown) end
 
-function adjustGrid(h, w) hs.grid.adjustHeight(h) hs.grid.adjustWidth(w) end
+function adjustGrid(h, w)
+    hs.grid.adjustHeight(h)
+    hs.grid.adjustWidth(w)
+end
+
 function increaseGrid() adjustGrid(1, 1) end
+
 function decreaseGrid() adjustGrid(-1, -1) end
