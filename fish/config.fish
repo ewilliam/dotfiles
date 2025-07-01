@@ -26,3 +26,6 @@ end
 
 # jj
 jj util completion fish | source
+
+# claude
+alias claude="/Users/ewilliam/.claude/local/claude"
