@@ -42,5 +42,12 @@ function syncfish --description "Symlink all fish dotfiles to config"
         echo "  → config.fish"
     end
     
+    # Symlink fish_plugins if it exists
+    if test -f $dotfiles_dir/fish_plugins
+        echo "Symlinking fish_plugins..."
+        ln -sf $dotfiles_dir/fish_plugins $config_dir/fish_plugins
+        echo "  → fish_plugins"
+    end
+    
     echo "Fish dotfiles synced successfully!"
 end
