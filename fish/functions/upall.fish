@@ -1,21 +1,26 @@
 function upall
-    set_color ffb6c1; echo "🚀 Starting system updates..."; set_color normal
+    echo "🚀 Starting system updates..."
     echo ""
 
-    brewu
-    pnpmu
-    miseu
+    echo "🍺 Homebrew..."
+    brew update && brew upgrade && brew upgrade --cask && brew cleanup && brew doctor
+    echo ""
 
-    set_color ffb6c1; echo "🛍️ Updating Mac App Store apps..."; set_color normal
+    echo "📦 pnpm..."
+    corepack prepare pnpm@latest --activate && pnpm update -g
+    echo ""
+
+    echo "🔧 mise..."
+    mise plugins update && mise upgrade
+    echo ""
+
+    echo "🛍️ Mac App Store..."
     mas upgrade
-    set_color ffb6c1; echo "✅ Mac App Store updates completed."; set_color normal
     echo ""
 
-    set_color ffb6c1; echo "🐟 Updating Fisher packages..."; set_color normal
+    echo "🐟 Fisher..."
     fisher update
-    set_color ffb6c1; echo "✅ Fisher updates completed."; set_color normal
     echo ""
 
-    set_color ffb6c1; echo "🎉🎉🎉 All updates completed. 🎉🎉🎉"; set_color normal
-    echo ""
+    echo "✅ All updates completed!"
 end

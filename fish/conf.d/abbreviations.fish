@@ -51,7 +51,9 @@ abbr -a -- rpry pry-remote
 abbr -a -- bpry 'bundle exec pry -r ./config/environment'
 
 # Package managers
-abbr -a -- brewu 'brew update && brew upgrade && brew cleanup && brew doctor'
+abbr -a -- brewu 'brew update && brew upgrade && brew upgrade --cask && brew cleanup && brew doctor'
+abbr -a -- pnpmu 'corepack prepare pnpm@latest --activate && pnpm update -g'
+abbr -a -- miseu 'mise plugins update && mise upgrade'
 abbr -a -- gemu 'gem update --system && gem update'
 abbr -a -- pipu 'pip freeze --local | grep -v "^\-e" | cut -d = -f 1 | xargs pip install -U 2>/dev/null || true'
 abbr -a -- pip2u 'pip2 freeze --local | grep -v "^\-e" | cut -d = -f 1 | xargs pip2 install -U 2>/dev/null || true'
