@@ -1,3 +1,0 @@
-function mail
-	neomutt
-end

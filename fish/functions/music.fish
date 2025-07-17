@@ -1,3 +1,0 @@
-function music
-	pianobar
-end
