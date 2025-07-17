@@ -18,6 +18,11 @@ abbr -a -- psp 'ps aux | peco'
 abbr -a -- k9 'kill -9'
 abbr -a -- ka9 'killall -9'
 
+# System specific (Mac)
+abbr -a -- showFiles 'defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
+abbr -a -- hideFiles 'defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
+abbr -a -- flushdns 'sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+
 # Git commands
 abbr -a -- gst 'git status'
 abbr -a -- gad 'git add'
@@ -52,6 +57,20 @@ abbr -a -- pipu 'pip freeze --local | grep -v "^\-e" | cut -d = -f 1 | xargs pip
 abbr -a -- pip2u 'pip2 freeze --local | grep -v "^\-e" | cut -d = -f 1 | xargs pip2 install -U 2>/dev/null || true'
 abbr -a -- pip3u 'pip3 freeze --local | grep -v "^\-e" | cut -d = -f 1 | xargs pip3 install -U 2>/dev/null || true'
 
+# pnpm
+abbr -a -- pn pnpm
+abbr -a -- pni 'pnpm install'
+abbr -a -- pna 'pnpm add'
+abbr -a -- pnad 'pnpm add -D'
+abbr -a -- pnr 'pnpm run'
+abbr -a -- pnx 'pnpm dlx'
+abbr -a -- pnu 'pnpm update'
+abbr -a -- pnrm 'pnpm remove'
+abbr -a -- pns 'pnpm start'
+abbr -a -- pnt 'pnpm test'
+abbr -a -- pnb 'pnpm build'
+abbr -a -- pnd 'pnpm dev'
+
 # Tmux
 abbr -a -- muxn 'tmux new-session -s'
 abbr -a -- muxl 'tmux list-sessions'
@@ -67,8 +86,3 @@ abbr -a -- news newsboat
 
 # Fish specific
 abbr -a -- frl 'source ~/.config/fish/config.fish'
-
-# System specific (Mac)
-abbr -a -- showFiles 'defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
-abbr -a -- hideFiles 'defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
-abbr -a -- flushdns 'sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
