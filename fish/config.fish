@@ -5,9 +5,7 @@ set -x MACOS_CONFIG_HOME "$HOME/Library/Application Support"
 
 fish_vi_key_bindings
 
-# use grc for specific commands
-set -U grc_plugin_execs cat df diff dig ifconfig netstat ping tail traceroute
-set -U grcplugin_ls -alGh
+fish_add_path /opt/homebrew/sbin
 
 # https://github.com/nvbn/thefuck/wiki/shell-aliases
 thefuck --alias | source
@@ -15,14 +13,11 @@ thefuck --alias | source
 # remap z directory jumper to j
 set -U Z_CMD j
 
-fish_add_path /opt/homebrew/sbin
-
 # pnpm
 set -gx PNPM_HOME /Users/ewilliam/Library/pnpm
 if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
 end
-# pnpm end
 
 # jj
 jj util completion fish | source
