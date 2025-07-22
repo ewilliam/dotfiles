@@ -82,9 +82,11 @@ abbr -a -- muxa 'tmux attach-session'
 abbr -a -- vi nvim
 abbr -a -- ve 'nvim ~/.config/nvim/init.vim'
 abbr -a -- emacs 'echo lmao'
-abbr -a -- mail neomutt
+abbr -a -- mail aerc
 abbr -a -- music pianobar
 abbr -a -- news newsboat
+abbr -a -- cc claude
+abbr -a -- ccd 'claude --dangerously-skip-permissions'
 
 # Fish specific
 abbr -a -- frl 'source ~/.config/fish/config.fish'
