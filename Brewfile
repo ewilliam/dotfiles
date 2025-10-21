@@ -1,5 +1,5 @@
 # Languages
-brew "asdf", args: ['HEAD']
+brew "mise"
 brew "python"
 
 # Wordpress
@@ -14,8 +14,6 @@ cask "tower"
 
 # Editor
 brew "neovim", args: ['HEAD']
-tap  "universal-ctags/universal-ctags"
-brew "universal-ctags", args: ['HEAD']
 cask "libreoffice"
 cask "visual-studio-code"
 cask "zed"
@@ -39,14 +37,12 @@ cask "tableplus"
 
 # Search
 cask "raycast"
-brew "fasd"
 brew "fzf"
 brew "peco"
 brew "ripgrep"
 
 # Dev tools
 brew "coreutils"
-brew "gpg"
 brew "imagemagick"
 brew "openssl"
 cask "dash"
@@ -56,15 +52,14 @@ cask "homebrew/cask-fonts/font-inconsolata-nerd-font"
 brew "wget"
 brew "youtube-dl"
 cask "cyberduck"
-# cask "transmission"
 
 # Email
 brew "aerc"
 brew "notmuch"
 brew "msmtp"
-brew "offlineimap"
-brew "urlview"
-brew "w3m"
+brew "isync"
+brew "urlscan"
+brew "elinks"
 
 # Chat
 brew "weechat"
@@ -82,26 +77,32 @@ cask "google-chrome"
 
 # Files
 cask "dropbox"
-# cask "google-drive-file-stream"
 
 # Games
 # cask "openemu"
+# cask "retroarch"
 cask "steam"
 
-# Misc
+# System Management
 brew "mas"
+cask "appcleaner"
+
+# Productivity
+cask "focus"
+cask "notion"
+
+# Utilities
 brew "speedtest-cli"
 brew "rar"
-cask "appcleaner"
-cask "cheatsheet"
-cask "backblaze"
 cask "flux"
-cask "focus"
-cask "hammerspoon"
-cask "ivpn"
-cask "karabiner-elements"
-# cask "little-snitch"
-cask "notion"
 cask "numi"
+
+# Automation
+cask "hammerspoon"
+cask "karabiner-elements"
+
+# Security & Privacy
+cask "backblaze"
+# cask "little-snitch"
 cask "tunnelbear"
 cask "1password"
