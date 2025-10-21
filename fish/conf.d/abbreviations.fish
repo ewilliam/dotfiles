@@ -87,6 +87,7 @@ abbr -a -- music pianobar
 abbr -a -- news newsboat
 abbr -a -- cc claude
 abbr -a -- ccd 'claude --dangerously-skip-permissions'
+abbr -a -- ccr 'claude --resume'
 
 # Fish specific
 abbr -a -- frl 'source ~/.config/fish/config.fish'
