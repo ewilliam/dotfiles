@@ -22,6 +22,7 @@ abbr -a -- ka9 'killall -9'
 abbr -a -- showFiles 'defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
 abbr -a -- hideFiles 'defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
 abbr -a -- flushdns 'sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+abbr -a -- emptyDock 'defaults write com.apple.dock persistent-apps -array; defaults write com.apple.dock persistent-others -array; killall Dock'
 
 # Git commands
 abbr -a -- gst 'git status'
