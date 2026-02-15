@@ -1,69 +1,165 @@
 function upall -d "Update all system packages and plugins"
-    echo "Starting system updates..."
-    echo ""
+    set -l bold (set_color --bold)
+    set -l blue (set_color blue)
+    set -l green (set_color green)
+    set -l red (set_color red)
+    set -l dim (set_color brblack)
+    set -l reset (set_color normal)
 
+    set -l passed
+    set -l failed
+    set -l skipped
+
+    function _upall_header -S
+        echo ""
+        echo "$bold$blue── $argv[1] ──$reset"
+    end
+
+    function _upall_run -S
+        set -l label $argv[1]
+        set -l cmd $argv[2..]
+        printf "  %s ... " "$label"
+        if $cmd >/dev/null 2>&1
+            echo "$green"ok"$reset"
+            return 0
+        else
+            echo "$red"fail"$reset"
+            return 1
+        end
+    end
+
+    echo ""
+    echo "$bold  System Update$reset"
+    echo "$dim  "(date "+%Y-%m-%d %H:%M")"$reset"
+
+    # --- Homebrew ---
     if command -q brew
-        echo "Homebrew..."
-        brew update
-        brew upgrade
-        brew upgrade --cask
-        brew cleanup
-        brew doctor
+        _upall_header Homebrew
+        _upall_run "Updating formulae" brew update
+            and set -a passed Homebrew:update
+            or set -a failed Homebrew:update
+        _upall_run "Upgrading packages" brew upgrade
+            and set -a passed Homebrew:upgrade
+            or set -a failed Homebrew:upgrade
+        _upall_run "Upgrading casks" brew upgrade --cask
+            and set -a passed Homebrew:casks
+            or set -a failed Homebrew:casks
+        _upall_run "Cleaning up" brew cleanup
+            and set -a passed Homebrew:cleanup
+            or set -a failed Homebrew:cleanup
+        _upall_run "Running doctor" brew doctor
+            and set -a passed Homebrew:doctor
+            or set -a failed Homebrew:doctor
     else
-        echo "brew not found, skipping" >&2
+        set -a skipped Homebrew
     end
-    echo ""
 
+    # --- pnpm ---
     if command -q corepack; and command -q pnpm
-        echo "pnpm..."
-        corepack prepare pnpm@latest --activate
-        pnpm update -g
+        _upall_header pnpm
+        _upall_run "Activating latest pnpm" corepack prepare pnpm@latest --activate
+            and set -a passed pnpm:activate
+            or set -a failed pnpm:activate
+        _upall_run "Updating global packages" pnpm update -g
+            and set -a passed pnpm:update
+            or set -a failed pnpm:update
     else
-        echo "corepack/pnpm not found, skipping" >&2
+        set -a skipped pnpm
     end
-    echo ""
 
+    # --- mise ---
     if command -q mise
-        echo "mise..."
-        mise plugins update
-        mise upgrade
+        _upall_header mise
+        _upall_run "Updating plugins" mise plugins update
+            and set -a passed mise:plugins
+            or set -a failed mise:plugins
+        _upall_run "Upgrading tools" mise upgrade
+            and set -a passed mise:upgrade
+            or set -a failed mise:upgrade
     else
-        echo "mise not found, skipping" >&2
+        set -a skipped mise
     end
-    echo ""
 
+    # --- Ruby gems ---
     if command -q gem
-        echo "Ruby gems..."
-        gem update --system
-        gem update
+        _upall_header "Ruby Gems"
+        _upall_run "Updating system" gem update --system
+            and set -a passed gems:system
+            or set -a failed gems:system
+        _upall_run "Updating gems" gem update
+            and set -a passed gems:update
+            or set -a failed gems:update
     else
-        echo "gem not found, skipping" >&2
+        set -a skipped gems
     end
-    echo ""
 
+    # --- pip3 ---
     if command -q pip3
-        echo "pip3..."
-        pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs pip3 install -U 2>/dev/null; or true
+        _upall_header pip3
+        printf "  Updating packages ... "
+        begin
+            pip3 install --upgrade pip 2>/dev/null
+            for pkg in (pip3 list --outdated --format=columns 2>/dev/null | tail -n +3 | awk '{print $1}')
+                pip3 install -U $pkg 2>/dev/null
+            end
+            true
+        end >/dev/null 2>&1
+        echo "$green"ok"$reset"
+        set -a passed pip3:update
     else
-        echo "pip3 not found, skipping" >&2
+        set -a skipped pip3
     end
-    echo ""
 
+    # --- Mac App Store ---
     if command -q mas
-        echo "Mac App Store..."
-        mas upgrade
+        _upall_header "Mac App Store"
+        _upall_run "Upgrading apps" mas upgrade
+            and set -a passed mas:upgrade
+            or set -a failed mas:upgrade
     else
-        echo "mas not found, skipping" >&2
+        set -a skipped mas
     end
-    echo ""
 
+    # --- Fisher ---
     if command -q fisher
-        echo "Fisher..."
-        fisher update
+        _upall_header Fisher
+        _upall_run "Updating plugins" fisher update
+            and set -a passed fisher:update
+            or set -a failed fisher:update
     else
-        echo "fisher not found, skipping" >&2
+        set -a skipped fisher
     end
+
+    # --- Summary ---
+    echo ""
+    echo "$bold$blue── Summary ──$reset"
+
+    set -l pass_count (count $passed)
+    set -l fail_count (count $failed)
+    set -l skip_count (count $skipped)
+
+    echo "  $green$pass_count passed$reset  $red$fail_count failed$reset  $dim$skip_count skipped$reset"
+
+    if test $fail_count -gt 0
+        echo ""
+        echo "  $red"Failed:"$reset"
+        for f in $failed
+            echo "    $dim·$reset $f"
+        end
+    end
+
+    if test $skip_count -gt 0
+        echo ""
+        echo "  $dim"Skipped:"$reset"
+        for s in $skipped
+            echo "    $dim·$reset $s"
+        end
+    end
+
     echo ""
 
-    echo "All updates completed!"
+    functions -e _upall_header
+    functions -e _upall_run
+
+    test $fail_count -eq 0
 end
