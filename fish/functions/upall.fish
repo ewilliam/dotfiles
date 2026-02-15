@@ -90,21 +90,14 @@ function upall -d "Update all system packages and plugins"
         set -a skipped gems
     end
 
-    # --- pip3 ---
-    if command -q pip3
-        _upall_header pip3
-        printf "  Updating packages ... "
-        begin
-            pip3 install --upgrade pip 2>/dev/null
-            for pkg in (pip3 list --outdated --format=columns 2>/dev/null | tail -n +3 | awk '{print $1}')
-                pip3 install -U $pkg 2>/dev/null
-            end
-            true
-        end >/dev/null 2>&1
-        echo "$green"ok"$reset"
-        set -a passed pip3:update
+    # --- pipx ---
+    if command -q pipx
+        _upall_header pipx
+        _upall_run "Upgrading packages" pipx upgrade-all
+            and set -a passed pipx:upgrade
+            or set -a failed pipx:upgrade
     else
-        set -a skipped pip3
+        set -a skipped pipx
     end
 
     # --- Mac App Store ---
