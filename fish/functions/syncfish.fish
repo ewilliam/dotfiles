@@ -1,53 +1,49 @@
-function syncfish --description "Symlink all fish dotfiles to config"
-    set -l dotfiles_dir ~/Projects/dotfiles/fish
+function syncfish -d "Symlink all fish dotfiles to config"
+    set -l dotfiles_dir $PROJECT_HOME/dotfiles/fish
     set -l config_dir ~/.config/fish
-    
-    # Create directories if they don't exist
-    mkdir -p $config_dir/functions
-    mkdir -p $config_dir/conf.d
-    mkdir -p $config_dir/completions
-    
-    # Symlink functions
-    echo "Symlinking functions..."
-    for f in $dotfiles_dir/functions/*.fish
-        set -l basename (basename $f)
-        ln -sf $f $config_dir/functions/$basename
-        echo "  → $basename"
+
+    if not test -d $dotfiles_dir
+        echo "Dotfiles directory not found: $dotfiles_dir" >&2
+        echo "Ensure \$PROJECT_HOME is set correctly (currently: $PROJECT_HOME)" >&2
+        return 1
     end
-    
-    # Symlink conf.d files
-    if test -d $dotfiles_dir/conf.d
-        echo "Symlinking conf.d files..."
-        for f in $dotfiles_dir/conf.d/*.fish
-            set -l basename (basename $f)
-            ln -sf $f $config_dir/conf.d/$basename
-            echo "  → $basename"
+
+    # Create target directories
+    mkdir -p $config_dir/{functions,conf.d,completions}
+
+    # Symlink functions, conf.d, and completions
+    for dir in functions conf.d completions
+        if not test -d $dotfiles_dir/$dir
+            continue
+        end
+
+        echo "Symlinking $dir..."
+
+        # Clean stale symlinks
+        for link in $config_dir/$dir/*.fish
+            if test -L $link; and not test -e $link
+                set -l stale_name (basename $link)
+                echo "  Removing stale link: $stale_name"
+                command rm $link
+            end
+        end
+
+        # Create new symlinks
+        for f in $dotfiles_dir/$dir/*.fish
+            set -l fname (basename $f)
+            ln -sf $f $config_dir/$dir/$fname
+            echo "  -> $fname"
         end
     end
-    
-    # Symlink completions if they exist
-    if test -d $dotfiles_dir/completions
-        echo "Symlinking completions..."
-        for f in $dotfiles_dir/completions/*.fish
-            set -l basename (basename $f)
-            ln -sf $f $config_dir/completions/$basename
-            echo "  → $basename"
+
+    # Symlink individual files
+    for file in config.fish fish_plugins
+        if test -f $dotfiles_dir/$file
+            echo "Symlinking $file..."
+            ln -sf $dotfiles_dir/$file $config_dir/$file
+            echo "  -> $file"
         end
     end
-    
-    # Symlink config.fish if it exists
-    if test -f $dotfiles_dir/config.fish
-        echo "Symlinking config.fish..."
-        ln -sf $dotfiles_dir/config.fish $config_dir/config.fish
-        echo "  → config.fish"
-    end
-    
-    # Symlink fish_plugins if it exists
-    if test -f $dotfiles_dir/fish_plugins
-        echo "Symlinking fish_plugins..."
-        ln -sf $dotfiles_dir/fish_plugins $config_dir/fish_plugins
-        echo "  → fish_plugins"
-    end
-    
+
     echo "Fish dotfiles synced successfully!"
 end

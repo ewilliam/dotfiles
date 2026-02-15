@@ -11,16 +11,14 @@ fish_add_path /opt/homebrew/sbin
 thefuck --alias | source
 
 # remap z directory jumper to j
-set -U Z_CMD j
+set -g Z_CMD j
 
 # pnpm
-set -gx PNPM_HOME /Users/ewilliam/Library/pnpm
-if not string match -q -- $PNPM_HOME $PATH
-    set -gx PATH "$PNPM_HOME" $PATH
-end
+set -gx PNPM_HOME $HOME/Library/pnpm
+fish_add_path $PNPM_HOME
 
 # jj
 jj util completion fish | source
 
 # claude
-alias claude="/Users/ewilliam/.claude/local/claude"
+fish_add_path $HOME/.local/bin
