@@ -47,9 +47,6 @@ function upall -d "Update all system packages and plugins"
         _upall_run "Cleaning up" brew cleanup
             and set -a passed Homebrew:cleanup
             or set -a failed Homebrew:cleanup
-        _upall_run "Running doctor" brew doctor
-            and set -a passed Homebrew:doctor
-            or set -a failed Homebrew:doctor
     else
         set -a skipped Homebrew
     end
