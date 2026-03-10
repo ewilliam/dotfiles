@@ -11,9 +11,9 @@ abbr -a -- cl clear
 abbr -a -- df 'df -h'
 abbr -a -- du dust
 abbr -a -- l 'eza -al'
-abbr -a -- lg 'eza -al | rg -i'
+abbr -a -- lg 'eza -al | ug -i'
 abbr -a -- tlf 'tail -f'
-abbr -a -- psg 'ps aux | ugrep'
+abbr -a -- psg 'ps aux | ug -i'
 abbr -a -- psp 'ps aux | fzf'
 abbr -a -- k9 'kill -9'
 abbr -a -- ka9 'killall -9'
