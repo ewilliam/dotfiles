@@ -11,7 +11,7 @@ abbr -a -- cl clear
 abbr -a -- df 'df -h'
 abbr -a -- du 'du -sh'
 abbr -a -- l 'eza -al'
-abbr -a -- lg 'ls -alhG | grep -i'
+abbr -a -- lg 'eza -al | grep -i'
 abbr -a -- tlf 'tail -f'
 abbr -a -- psg 'ps aux | grep'
 abbr -a -- psp 'ps aux | peco'

@@ -6,29 +6,32 @@ brew "python"
 # brew "wp-cli"
 
 # Git
+brew "delta"
 brew "git"
 brew "git-lfs"
 brew "gh"
-brew "tig"
+brew "lazygit"
 cask "tower"
 
 # Editor
 brew "neovim", args: ['HEAD']
 cask "libreoffice"
-cask "visual-studio-code"
 cask "zed"
 
 # Shell
 brew "bat"
+brew "btop"
+brew "direnv"
+brew "dust"
 brew "eza"
 brew "fd"
 brew "fish"
 brew "grc"
-brew "ranger"
-brew "thefuck"
+brew "hyperfine"
+brew "tldr"
 brew "trash"
+brew "yazi"
 brew "zoxide"
-brew "tree"
 cask "ghostty"
 
 # Database
@@ -38,22 +41,23 @@ brew "sqlite"
 cask "tableplus"
 
 # Search
-cask "raycast"
 brew "fzf"
-brew "peco"
 brew "ripgrep"
+brew "ugrep"
+cask "raycast"
 
 # Dev tools
 brew "coreutils"
+brew "jq"
 brew "imagemagick"
 brew "openssl"
 cask "dash"
-cask "homebrew/cask-fonts/font-inconsolata-nerd-font"
+cask "font-inconsolata-nerd-font"
 
 # Download
-brew "wget"
+brew "curlie"
 brew "yt-dlp"
-cask "cyberduck"
+cask "transmit"
 
 # Email
 brew "aerc"
@@ -64,7 +68,6 @@ brew "urlscan"
 brew "elinks"
 
 # Chat
-brew "weechat"
 cask "discord"
 cask "slack"
 
@@ -72,7 +75,6 @@ cask "slack"
 brew "newsboat"
 brew "pianobar"
 cask "iina"
-cask "vlc"
 
 # Browser
 cask "firefox"
@@ -91,13 +93,12 @@ brew "mas"
 cask "appcleaner"
 
 # Productivity
-cask "focus"
 cask "notion"
+cask "obsidian"
 
 # Utilities
-brew "speedtest-cli"
-brew "rar"
-cask "flux"
+tap teamookla/speedtest
+brew "speedtest"
 cask "numi"
 
 # Automation
