@@ -16,10 +16,3 @@ map("n", ";", ":")
 -- better splits
 map("n", "ss", ":split<CR>")
 map("n", "vv", ":vsplit<CR>")
-
--- load MarkdownPreview
-map("n", "<leader>mp", ":MarkdownPreview<CR>")
-map("n", "<leader>mp", ":MarkdownPreview<CR>")
-map("n", "<leader>ac", ":ChatGPT<CR>")
-map("n", "<leader>ae", ":ChatGPTEditWithInstructions<CR>")
-map("v", "<leader>ae", ":ChatGPTEditWithInstructions<CR>")

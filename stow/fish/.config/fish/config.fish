@@ -6,6 +6,12 @@ fish_vi_key_bindings
 
 fish_add_path /opt/homebrew/sbin
 
+# mise runtime manager
+mise activate fish | source
+
+# direnv
+direnv hook fish | source
+
 # zoxide directory jumper (aliased to j)
 zoxide init --cmd j fish | source
 
@@ -21,3 +27,6 @@ fish_add_path $HOME/.local/bin
 
 # orbstack
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
+
+# secrets (API keys, tokens, etc.)
+source ~/.secrets.fish 2>/dev/null || :

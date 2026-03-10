@@ -86,7 +86,7 @@ abbr -a -- muxa 'tmux attach-session'
 
 # Applications
 abbr -a -- vi nvim
-abbr -a -- ve 'nvim ~/.config/nvim/init.vim'
+abbr -a -- ve 'nvim ~/.config/nvim/init.lua'
 abbr -a -- emacs 'echo lmao'
 abbr -a -- mail aerc
 abbr -a -- music pianobar
