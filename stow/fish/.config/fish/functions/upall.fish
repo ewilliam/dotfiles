@@ -51,19 +51,6 @@ function upall -d "Update all system packages and plugins"
         set -a skipped Homebrew
     end
 
-    # --- pnpm ---
-    if command -q corepack; and command -q pnpm
-        _upall_header pnpm
-        _upall_run "Activating latest pnpm" corepack prepare pnpm@latest --activate
-            and set -a passed pnpm:activate
-            or set -a failed pnpm:activate
-        _upall_run "Updating global packages" pnpm update -g
-            and set -a passed pnpm:update
-            or set -a failed pnpm:update
-    else
-        set -a skipped pnpm
-    end
-
     # --- mise ---
     if command -q mise
         _upall_header mise
@@ -75,16 +62,6 @@ function upall -d "Update all system packages and plugins"
             or set -a failed mise:upgrade
     else
         set -a skipped mise
-    end
-
-    # --- pipx ---
-    if command -q pipx
-        _upall_header pipx
-        _upall_run "Upgrading packages" pipx upgrade-all
-            and set -a passed pipx:upgrade
-            or set -a failed pipx:upgrade
-    else
-        set -a skipped pipx
     end
 
     # --- Mac App Store ---

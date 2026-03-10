@@ -12,3 +12,8 @@ fi
 spin "Updating mise plugins" mise plugins update
 spin "Installing mise tools" mise install
 spin "Setting global Node.js" mise use --global node@latest
+spin "Setting global pnpm" mise use --global pnpm@latest
+spin "Setting global Python" mise use --global python@latest
+spin "Setting global uv" mise use --global uv@latest
+spin "Setting global Erlang" mise use --global erlang@latest
+spin "Setting global Elixir" mise use --global elixir@latest
