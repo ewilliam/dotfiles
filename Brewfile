@@ -5,6 +5,10 @@ tap "teamookla/speedtest"
 brew "claude"
 brew "codex"
 brew "opencode"
+cask "chatgpt"
+cask "claude"
+cask "codex"
+cask "opencode-desktop"
 
 # Languages
 brew "mise"
@@ -30,6 +34,7 @@ cask "ghostty"
 # Editor
 brew "neovim", args: ['HEAD']
 cask "libreoffice"
+cask "macdown-3000"
 cask "zed"
 
 # Git
@@ -51,7 +56,8 @@ brew "coreutils"
 brew "imagemagick"
 brew "jq"
 brew "openssl"
-cask "dash"
+cask "insomnia"
+cask "ngrok"
 cask "orbstack"
 cask "font-inconsolata-nerd-font"
 
@@ -73,14 +79,18 @@ brew "isync"
 brew "msmtp"
 brew "notmuch"
 brew "urlscan"
+cask "microsoft-outlook"
 
 # Browser
 cask "firefox"
 cask "google-chrome"
+cask "microsoft-edge"
 
 # Chat
 cask "discord"
 cask "slack"
+cask "slack-cli"
+cask "microsoft-teams"
 
 # Media
 brew "newsboat"
@@ -101,6 +111,8 @@ cask "steam"
 # Utilities
 brew "speedtest"
 cask "numi"
+cask "soulver"
+cask "table-tool"
 
 # Automation
 cask "hammerspoon"
@@ -108,9 +120,11 @@ cask "karabiner-elements"
 
 # Security & Privacy
 cask "1password"
+cask "1password-cli"
 cask "backblaze"
 cask "tunnelbear"
 
 # System Management
 brew "mas"
 cask "appcleaner"
+cask "balenaetcher"
