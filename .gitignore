@@ -1,3 +1,6 @@
 .DS_Store
 tags
 tags.temp
+
+# aerc credentials
+stow/aerc/.config/aerc/accounts.conf
