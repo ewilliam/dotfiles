@@ -12,7 +12,3 @@ fi
 spin "Updating mise plugins" mise plugins update
 spin "Installing mise tools" mise install
 spin "Setting global Node.js" mise use --global node@latest
-
-# Neovim providers
-spin "Installing pynvim" pip3 install --upgrade pynvim
-spin "Installing neovim gem" gem install neovim
