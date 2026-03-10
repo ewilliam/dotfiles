@@ -71,6 +71,7 @@ cask "slack"
 # Media
 brew "newsboat"
 brew "pianobar"
+cask "iina"
 cask "vlc"
 
 # Browser
