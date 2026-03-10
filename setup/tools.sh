@@ -16,6 +16,9 @@ mise upgrade
 echo "Installing mise tools from config..."
 mise install
 
+echo "Installing latest Node.js..."
+mise use --global node@latest
+
 echo "Setting up Neovim providers..."
 pip3 install --upgrade pynvim 2>/dev/null || true
 gem install neovim 2>/dev/null || true

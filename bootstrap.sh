@@ -32,7 +32,7 @@ else
     source setup/mas.sh
     source setup/shell.sh
     source setup/tools.sh
-    # source setup/macos.sh
+    source setup/macos.sh
 fi
 
 echo "Bootstrap done!"
