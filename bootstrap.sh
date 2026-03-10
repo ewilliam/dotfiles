@@ -1,38 +1,30 @@
-#!/bin/sh
+#!/usr/bin/env bash
+#
+# Bootstrap a fresh macOS machine or update an existing one.
+# Safe to re-run anytime -- every step is idempotent.
+#
 
-set -e
+set -euo pipefail
 
-echo "Starting setup script..."
+DOTFILES="$(cd "$(dirname "$0")" && pwd)"
+source "$DOTFILES/setup/lib.sh"
 
-if [ -z ${PROJECT_HOME} ] || [ -z ${XDG_CONFIG_HOME} ]; then
-    echo "Please set \$PROJECT_HOME and \$XDG_CONFIG_HOME"
-    exit 1
-else
+STEP_TOTAL=6
+START_TIME=$SECONDS
 
-    if [ "$(uname)" == "Darwin" ] && [ -z ${MACOS_CONFIG_HOME} ]; then
-        echo "Please set \$MACOS_CONFIG_HOME"
-        exit 1
-    fi
+printf "\n${BOLD}dotfiles bootstrap${RESET}\n"
+printf "==================\n"
 
-    # Ask for password
-    # sudo -v
+# Run each step script
+source "$DOTFILES/setup/01-brew.sh"
+source "$DOTFILES/setup/02-stow.sh"
+source "$DOTFILES/setup/03-shell.sh"
+source "$DOTFILES/setup/04-tools.sh"
+source "$DOTFILES/setup/05-mas.sh"
+source "$DOTFILES/setup/06-macos.sh"
 
-    # Keep-alive: update existing `sudo` time stamp until setup has finished
-    # while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+elapsed=$(( SECONDS - START_TIME ))
+minutes=$(( elapsed / 60 ))
+seconds=$(( elapsed % 60 ))
 
-    if [ ! -d "$PROJECT_HOME/dotfiles" ]; then
-        echo "Installing dotfiles for the first time..."
-        git clone https://github.com/ewilliam/dotfiles.git "$PROJECT_HOME/dotfiles"
-        cd "$PROJECT_HOME/dotfiles"
-    else
-        echo "Dotfiles already installed."
-    fi
-
-    source setup/brew.sh
-    source setup/mas.sh
-    source setup/shell.sh
-    source setup/tools.sh
-    source setup/macos.sh
-fi
-
-echo "Bootstrap done!"
+printf "\n${GREEN}${BOLD}Done${RESET} in %dm %ds\n\n" "$minutes" "$seconds"
