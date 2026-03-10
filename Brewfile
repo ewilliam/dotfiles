@@ -27,6 +27,7 @@ brew "grc"
 brew "ranger"
 brew "thefuck"
 brew "trash"
+brew "zoxide"
 brew "tree"
 cask "ghostty"
 

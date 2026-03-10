@@ -10,8 +10,8 @@ fish_add_path /opt/homebrew/sbin
 # https://github.com/nvbn/thefuck/wiki/shell-aliases
 thefuck --alias | source
 
-# remap z directory jumper to j
-set -g Z_CMD j
+# zoxide directory jumper (aliased to j)
+zoxide init --cmd j fish | source
 
 # pnpm
 set -gx PNPM_HOME $HOME/Library/pnpm
