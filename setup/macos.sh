@@ -1,19 +1,22 @@
 #!/bin/sh
+set -e
 
 echo 'Starting setup/macos.sh...'
+
+COMPUTER_NAME="${1:-ewa-mbp}"
 
 #
 # System
 #
 
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName "ewa-mbp"
-sudo scutil --set HostName "ewa-mbp"
-sudo scutil --set LocalHostName "ewa-mbp"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "ewa-mbp"
+sudo scutil --set ComputerName "$COMPUTER_NAME"
+sudo scutil --set HostName "$COMPUTER_NAME"
+sudo scutil --set LocalHostName "$COMPUTER_NAME"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$COMPUTER_NAME"
 
 # Set the timezone; see `systemsetup -listtimezones` for other values
-systemsetup -settimezone "America/Los_Angeles" > /dev/null
+sudo systemsetup -settimezone "America/Los_Angeles" > /dev/null
 
 # Restart automatically if the computer freezes
 sudo systemsetup -setrestartfreeze on
@@ -24,9 +27,6 @@ defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 #
 # General UI/UX
 #
-
-# Disable the sound effects on boot
-sudo nvram SystemAudioVolume=" "
 
 # Set sidebar icon size to small
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1
@@ -48,9 +48,6 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 # Disable the “Are you sure you want to open this application?” dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-# Show remaining battery percentage
-defaults write com.apple.menuextra.battery ShowPercent -string "YES"
-
 # Reveal IP address, hostname, OS version, etc. when clicking the clock
 # in the login window
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
@@ -70,9 +67,6 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 # Disable hibernation (speeds up entering sleep mode)
 sudo pmset -a hibernatemode 0
-
-# Disable the sudden motion sensor as it’s not useful for SSDs
-sudo pmset -a sms 0
 
 #
 # Screen
@@ -133,18 +127,26 @@ defaults write com.apple.finder FXEnableRemoveFromICloudDriveWarning -bool false
 # Enable spring loading for directories
 defaults write NSGlobalDomain com.apple.springing.enabled -bool true
 
-# Avoid creating .DS_Store files on network volumes
+# Avoid creating .DS_Store files on network and USB volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 # Show item info near icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+FINDER_PLIST=~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Add :DesktopViewSettings:IconViewSettings:showItemInfo bool true" "$FINDER_PLIST" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" "$FINDER_PLIST"
+/usr/libexec/PlistBuddy -c "Add :FK_StandardViewSettings:IconViewSettings:showItemInfo bool true" "$FINDER_PLIST" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" "$FINDER_PLIST"
+/usr/libexec/PlistBuddy -c "Add :StandardViewSettings:IconViewSettings:showItemInfo bool true" "$FINDER_PLIST" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" "$FINDER_PLIST"
 
 # Enable snap-to-grid for icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Add :DesktopViewSettings:IconViewSettings:arrangeBy string grid" "$FINDER_PLIST" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" "$FINDER_PLIST"
+/usr/libexec/PlistBuddy -c "Add :FK_StandardViewSettings:IconViewSettings:arrangeBy string grid" "$FINDER_PLIST" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" "$FINDER_PLIST"
+/usr/libexec/PlistBuddy -c "Add :StandardViewSettings:IconViewSettings:arrangeBy string grid" "$FINDER_PLIST" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" "$FINDER_PLIST"
 
 # Use list view in all Finder windows by default
 # Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
@@ -170,7 +172,7 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
     Privileges -bool true
 
 #
-# Dock, Dashboard, and hot corners
+# Dock and hot corners
 #
 
 # Set the icon size of Dock items to N pixels
@@ -203,7 +205,7 @@ defaults write com.apple.dock show-process-indicators -bool false
 # Wipe all (default) app icons from the Dock
 # This is only really useful when setting up a new Mac, or if you don’t use
 # the Dock to launch apps.
-defaults write com.apple.dock persistent-apps -array ""
+defaults write com.apple.dock persistent-apps -array
 
 # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock showhidden -bool true
@@ -216,7 +218,6 @@ defaults write com.apple.dock showhidden -bool true
 #  4: Desktop
 #  5: Start screen saver
 #  6: Disable screen saver
-#  7: Dashboard
 # 10: Put display to sleep
 # 11: Launchpad
 # 12: Notification Center
@@ -233,12 +234,6 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 # Bottom right screen corner → Desktop
 defaults write com.apple.dock wvous-br-corner -int 4
 defaults write com.apple.dock wvous-br-modifier -int 0
-
-# Disable Dashboard
-defaults write com.apple.dashboard mcx-disabled -bool true
-
-# Don’t show Dashboard as a Space
-defaults write com.apple.dock dashboard-in-overlay -bool true
 
 #
 # Terminal
@@ -306,9 +301,10 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
 
 
-# Restart the Finder and preferences daemon for the change to take effect:
-for app in "Dock" "Finder" "cprefsd"; do
-    killall "${app}" > /dev/null 2>&1
+# Restart the Finder, Dock, and preferences daemon for changes to take effect:
+for app in "Dock" "Finder"; do
+    killall "${app}" > /dev/null 2>&1 || true
 done
+sudo killall cfprefsd > /dev/null 2>&1 || true
 
 echo "Done. Some changes require logout/restart to take effect."
