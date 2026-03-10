@@ -7,9 +7,6 @@ fish_vi_key_bindings
 
 fish_add_path /opt/homebrew/sbin
 
-# https://github.com/nvbn/thefuck/wiki/shell-aliases
-thefuck --alias | source
-
 # zoxide directory jumper (aliased to j)
 zoxide init --cmd j fish | source
 
@@ -23,6 +20,5 @@ jj util completion fish | source
 # claude
 fish_add_path $HOME/.local/bin
 
-# Added by OrbStack: command-line tools and integration
-# This won't be added again if you remove it.
+# orbstack
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :

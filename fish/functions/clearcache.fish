@@ -10,8 +10,6 @@ function clearcache -d "Clear macOS caches (use --browsers-only for just browser
         "Firefox:Firefox" \
         "Safari:com.apple.Safari" \
         "Edge:com.microsoft.edgemac" \
-        "Brave:BraveSoftware/Brave-Browser" \
-        "Arc:company.thebrowser.Browser"
 
     for entry in $browsers
         set -l name (string split ":" $entry)[1]
