@@ -22,20 +22,17 @@ else
 
     if [ ! -d "$PROJECT_HOME/dotfiles" ]; then
         echo "Installing dotfiles for the first time..."
-        git clone https://github.com/ewilliam/dot.git "$PROJECT_HOME/dotfiles"
+        git clone https://github.com/ewilliam/dotfiles.git "$PROJECT_HOME/dotfiles"
         cd "$PROJECT_HOME/dotfiles"
     else
         echo "Dotfiles already installed."
     fi
 
-    rake setup
     source setup/brew.sh
     source setup/mas.sh
     source setup/shell.sh
-    source setup/functions.sh
     source setup/tools.sh
     # source setup/macos.sh
-    source setup/mail.sh
 fi
 
 echo "Bootstrap done!"

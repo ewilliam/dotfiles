@@ -57,7 +57,7 @@ abbr -a -- pnpmu 'corepack prepare pnpm@latest --activate && pnpm update -g'
 abbr -a -- miseu 'mise plugins update && mise upgrade'
 abbr -a -- gemu 'gem update --system && gem update'
 abbr -a -- pipu 'pip freeze --local | grep -v "^\-e" | cut -d = -f 1 | xargs pip install -U 2>/dev/null || true'
-abbr -a -- pip2u 'pip2 freeze --local | grep -v "^\-e" | cut -d = -f 1 | xargs pip2 install -U 2>/dev/null || true'
+
 abbr -a -- pip3u 'pip3 freeze --local | grep -v "^\-e" | cut -d = -f 1 | xargs pip3 install -U 2>/dev/null || true'
 
 # pnpm
@@ -89,6 +89,7 @@ abbr -a -- news newsboat
 abbr -a -- cc claude
 abbr -a -- ccd 'claude --dangerously-skip-permissions'
 abbr -a -- ccr 'claude --resume'
+abbr -a -- oc opencode
 
 # Fish specific
 abbr -a -- frl 'source ~/.config/fish/config.fish'

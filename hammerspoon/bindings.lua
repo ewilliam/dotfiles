@@ -36,7 +36,7 @@ hs.hotkey.bind(cmdalt, "m", hs.grid.maximizeWindow)
 --
 -- Hyper
 local ctrlspace = hs.hotkey.modal.new(ctrl, "space")
-ctrlspace:bind({}, "escape", function() b:exit() end)
+ctrlspace:bind({}, "escape", function() ctrlspace:exit() end)
 
 -- Launch or focus application
 local key2app = {

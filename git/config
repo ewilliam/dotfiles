@@ -30,8 +30,7 @@
   c = commit -m                     # commit with message
   ca = commit -am                   # commit all with message
   ci = commit                       # commit
-  amend = commit --amend            # ammend your last commit
-  ammend = commit --amend           # ammend your last commit
+  amend = commit --amend            # amend your last commit
 
   # checkout
   co = checkout                     # checkout
@@ -109,7 +108,7 @@
 [core]
   autocrlf = false
   editor = nvim
-  excludesfile = ~/Documents/Projects/dotfiles/git/gitignore
+  excludesfile = ~/Projects/dotfiles/git/gitignore
 [advice]
   statusHints = false
 [diff]

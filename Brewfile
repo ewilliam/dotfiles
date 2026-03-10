@@ -52,7 +52,7 @@ cask "homebrew/cask-fonts/font-inconsolata-nerd-font"
 
 # Download
 brew "wget"
-brew "youtube-dl"
+brew "yt-dlp"
 cask "cyberduck"
 
 # Email

@@ -241,20 +241,11 @@ defaults write com.apple.dashboard mcx-disabled -bool true
 defaults write com.apple.dock dashboard-in-overlay -bool true
 
 #
-# Terminal & iTerm
+# Terminal
 #
 
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
-
-# Don’t display the annoying prompt when quitting iTerm
-defaults write com.googlecode.iterm2 PromptOnQuit -bool false
-
-# Specify iTerm preferences directory
-defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "${PROJECT_HOME}/dotfiles/iTerm"
-
-# Tell iTerm to use the custom preferences in the directory
-defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
 
 #
 # TextEdit

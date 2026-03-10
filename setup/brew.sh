@@ -4,14 +4,14 @@ echo 'Starting setup/brew.sh...'
 
 if test ! "$( which brew )"; then
     echo "Installing Homebrew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     cd "$PROJECT_HOME/dotfiles"
 
     echo "Installing Homebrew packages..."
     brew bundle
 else
     echo "Homebrew already installed. Updating and cleaning up..."
-    brew update; brew upgrade; brew cleanup; brew prune
+    brew update; brew upgrade; brew cleanup
     bash <<-HEAD
         brew doctor
         exit 0 # prevent script from stopping
