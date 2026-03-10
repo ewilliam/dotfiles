@@ -1,10 +1,14 @@
 function syncfish -d "Symlink all fish dotfiles to config"
+    if not set -q PROJECT_HOME
+        echo "PROJECT_HOME is not set" >&2
+        return 1
+    end
+
     set -l dotfiles_dir $PROJECT_HOME/dotfiles/fish
     set -l config_dir ~/.config/fish
 
     if not test -d $dotfiles_dir
         echo "Dotfiles directory not found: $dotfiles_dir" >&2
-        echo "Ensure \$PROJECT_HOME is set correctly (currently: $PROJECT_HOME)" >&2
         return 1
     end
 
