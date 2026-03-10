@@ -10,7 +10,7 @@
 
 [core]
   editor = nvim
-  excludesfile = ~/Projects/dotfiles/git/gitignore
+  excludesfile = ~/.config/git/ignore
   autocrlf = false
 
 [init]

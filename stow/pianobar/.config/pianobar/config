@@ -1,0 +1,3 @@
+user = ping@ewilli.am
+password_command = security find-internet-password -w -a ping@ewilli.am -s www.pandora.com
+autostart_station = 2991667459176142628

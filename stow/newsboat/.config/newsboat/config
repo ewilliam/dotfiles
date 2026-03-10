@@ -1,0 +1,41 @@
+include ~/.config/newsboat/colorschemes/solarized-dark
+
+# connect to NewsBlur
+urls-source newsblur
+newsblur-login ping@ewilli.am
+newsblur-passwordeval "security find-internet-password -w -a ping@ewilli.am -s www.newsblur.com"
+
+# NewsBlur login fails without this
+cookie-cache ~/.config/newsboat/cookies.txt
+
+# open links with default browser
+browser open %u
+
+# automatically reload feeds every half hour
+auto-reload yes
+reload-time 120
+reload-threads 4
+
+# hide feeds with no unread items
+show-read-feeds no
+
+# hide read items
+# show-read-articles no
+
+# auto-select 1st unread article in feed
+goto-first-unread yes
+goto-next-feed yes
+
+# download then ignore specified files
+ignore-mode display
+
+# lock cache and remove superflous feeds and items
+cleanup-on-quit yes
+
+# mutt/vim-style keybindings
+bind-key j down all
+bind-key k up all
+bind-key J next-feed all
+bind-key K prev-feed all
+
+articlelist-format "%4i %f %D  %?T?|%-17T| ?%t"
