@@ -1,23 +1,13 @@
+# Taps
+tap "teamookla/speedtest"
+
 # AI
-brew "opencode"
 brew "claude"
 brew "codex"
+brew "opencode"
 
 # Languages
 brew "mise"
-
-# Git
-brew "delta"
-brew "git"
-brew "git-lfs"
-brew "gh"
-brew "lazygit"
-cask "tower"
-
-# Editor
-brew "neovim", args: ['HEAD']
-cask "libreoffice"
-cask "zed"
 
 # Shell
 brew "bat"
@@ -36,11 +26,18 @@ brew "yazi"
 brew "zoxide"
 cask "ghostty"
 
-# Database
-brew "postgresql"
-brew "redis"
-brew "sqlite"
-cask "tableplus"
+# Editor
+brew "neovim", args: ['HEAD']
+cask "libreoffice"
+cask "zed"
+
+# Git
+brew "delta"
+brew "gh"
+brew "git"
+brew "git-lfs"
+brew "lazygit"
+cask "tower"
 
 # Search
 brew "fzf"
@@ -48,13 +45,19 @@ brew "ripgrep"
 brew "ugrep"
 cask "raycast"
 
-# Dev tools
+# Dev Tools
 brew "coreutils"
-brew "jq"
 brew "imagemagick"
+brew "jq"
 brew "openssl"
 cask "dash"
 cask "font-inconsolata-nerd-font"
+
+# Database
+brew "postgresql"
+brew "redis"
+brew "sqlite"
+cask "tableplus"
 
 # Download
 brew "curlie"
@@ -63,11 +66,15 @@ cask "transmit"
 
 # Email
 brew "aerc"
-brew "notmuch"
-brew "msmtp"
-brew "isync"
-brew "urlscan"
 brew "elinks"
+brew "isync"
+brew "msmtp"
+brew "notmuch"
+brew "urlscan"
+
+# Browser
+cask "firefox"
+cask "google-chrome"
 
 # Chat
 cask "discord"
@@ -78,9 +85,9 @@ brew "newsboat"
 brew "pianobar"
 cask "iina"
 
-# Browser
-cask "firefox"
-cask "google-chrome"
+# Productivity
+cask "notion"
+cask "obsidian"
 
 # Files
 cask "dropbox"
@@ -89,16 +96,7 @@ cask "dropbox"
 cask "retroarch"
 cask "steam"
 
-# System Management
-brew "mas"
-cask "appcleaner"
-
-# Productivity
-cask "notion"
-cask "obsidian"
-
 # Utilities
-tap teamookla/speedtest
 brew "speedtest"
 cask "numi"
 
@@ -107,6 +105,10 @@ cask "hammerspoon"
 cask "karabiner-elements"
 
 # Security & Privacy
+cask "1password"
 cask "backblaze"
 cask "tunnelbear"
-cask "1password"
+
+# System Management
+brew "mas"
+cask "appcleaner"
