@@ -9,14 +9,19 @@ abbr -a -- ..... 'cd ../../../../'
 # System commands
 abbr -a -- cl clear
 abbr -a -- df 'df -h'
-abbr -a -- du 'du -sh'
+abbr -a -- du dust
 abbr -a -- l 'eza -al'
-abbr -a -- lg 'eza -al | grep -i'
+abbr -a -- lg 'eza -al | rg -i'
 abbr -a -- tlf 'tail -f'
-abbr -a -- psg 'ps aux | grep'
-abbr -a -- psp 'ps aux | peco'
+abbr -a -- psg 'ps aux | ugrep'
+abbr -a -- psp 'ps aux | fzf'
 abbr -a -- k9 'kill -9'
 abbr -a -- ka9 'killall -9'
+abbr -a -- cat bat
+abbr -a -- curl curlie
+abbr -a -- find fd
+abbr -a -- top btop
+abbr -a -- help tldr
 
 # System specific (Mac)
 abbr -a -- showFiles 'defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
@@ -89,7 +94,11 @@ abbr -a -- news newsboat
 abbr -a -- cc claude
 abbr -a -- ccd 'claude --dangerously-skip-permissions'
 abbr -a -- ccr 'claude --resume'
+abbr -a -- cx codex
 abbr -a -- oc opencode
+abbr -a -- lzg lazygit
+abbr -a -- yt yt-dlp
+abbr -a -- hf hyperfine
 
 # Fish specific
 abbr -a -- frl 'source ~/.config/fish/config.fish'

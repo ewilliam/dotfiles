@@ -1,9 +1,10 @@
+# AI
+brew "opencode"
+brew "claude"
+brew "codex"
+
 # Languages
 brew "mise"
-brew "python"
-
-# Wordpress
-# brew "wp-cli"
 
 # Git
 brew "delta"
@@ -29,6 +30,7 @@ brew "fish"
 brew "grc"
 brew "hyperfine"
 brew "tldr"
+brew "tmux"
 brew "trash"
 brew "yazi"
 brew "zoxide"
@@ -84,8 +86,7 @@ cask "google-chrome"
 cask "dropbox"
 
 # Games
-# cask "openemu"
-# cask "retroarch"
+cask "retroarch"
 cask "steam"
 
 # System Management
@@ -107,6 +108,5 @@ cask "karabiner-elements"
 
 # Security & Privacy
 cask "backblaze"
-# cask "little-snitch"
 cask "tunnelbear"
 cask "1password"
