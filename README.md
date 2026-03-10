@@ -11,6 +11,8 @@ Safe to re-run anytime -- every step is idempotent.
 | **Git** | git, delta |
 | **Editor** | neovim, zed |
 | **Terminal** | ghostty, tmux |
+| **Email** | aerc, isync, msmtp, notmuch |
+| **AI** | claude, codex, opencode |
 | **Automation** | hammerspoon, karabiner |
 | **Media** | newsboat, pianobar |
 
@@ -56,11 +58,14 @@ sh bootstrap.sh
 │   ├── 05-mas.sh
 │   └── 06-macos.sh
 └── stow/               # symlinked configs
+    ├── aerc/
     ├── fish/
     ├── git/
     ├── hammerspoon/
     ├── karabiner/
     ├── newsboat/
+    ├── nvim/
     ├── pianobar/
-    └── readline/
+    ├── readline/
+    └── zed/
 ```
