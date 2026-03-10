@@ -77,19 +77,6 @@ function upall -d "Update all system packages and plugins"
         set -a skipped mise
     end
 
-    # --- Ruby gems ---
-    if command -q gem
-        _upall_header "Ruby Gems"
-        _upall_run "Updating system" gem update --system
-            and set -a passed gems:system
-            or set -a failed gems:system
-        _upall_run "Updating gems" gem update
-            and set -a passed gems:update
-            or set -a failed gems:update
-    else
-        set -a skipped gems
-    end
-
     # --- pipx ---
     if command -q pipx
         _upall_header pipx
