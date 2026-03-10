@@ -52,6 +52,7 @@ brew "imagemagick"
 brew "jq"
 brew "openssl"
 cask "dash"
+cask "orbstack"
 cask "font-inconsolata-nerd-font"
 
 # Database
