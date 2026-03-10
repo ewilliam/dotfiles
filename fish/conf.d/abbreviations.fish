@@ -10,7 +10,7 @@ abbr -a -- ..... 'cd ../../../../'
 abbr -a -- cl clear
 abbr -a -- df 'df -h'
 abbr -a -- du 'du -sh'
-abbr -a -- l 'ls -alhG'
+abbr -a -- l 'eza -al'
 abbr -a -- lg 'ls -alhG | grep -i'
 abbr -a -- tlf 'tail -f'
 abbr -a -- psg 'ps aux | grep'

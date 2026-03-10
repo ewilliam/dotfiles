@@ -20,6 +20,7 @@ cask "zed"
 
 # Shell
 brew "bat"
+brew "eza"
 brew "fd"
 brew "fish"
 brew "grc"
