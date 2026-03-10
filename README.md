@@ -14,33 +14,28 @@ Safe to re-run anytime -- every step is idempotent.
 | **Automation** | hammerspoon, karabiner |
 | **Media** | newsboat, pianobar |
 
-The bootstrap runs six steps in order:
+The bootstrap runs seven steps in order:
 
-1. **Brew** -- install formulae & casks from `Brewfile`
-2. **Stow** -- symlink dotfiles into `$HOME`
-3. **Shell** -- set fish as default shell, install fisher plugins
-4. **Tools** -- configure mise runtimes & neovim providers
-5. **MAS** -- install Mac App Store apps
-6. **macOS** -- apply system defaults (Finder, Dock, keyboard, etc.)
-
-## Prerequisites
-
-- macOS with Xcode Command Line Tools (`xcode-select --install`)
-- `PROJECT_HOME`, `XDG_CONFIG_HOME`, and `MACOS_CONFIG_HOME` set in your environment
+1. **Xcode** -- install Command Line Tools if missing
+2. **Brew** -- install formulae & casks from `Brewfile`
+3. **Stow** -- symlink dotfiles into `$HOME`
+4. **Shell** -- set fish as default shell, install fisher plugins
+5. **Tools** -- configure mise runtimes & neovim providers
+6. **MAS** -- install Mac App Store apps
+7. **macOS** -- apply system defaults (Finder, Dock, keyboard, etc.)
 
 ## Install
 
 ```bash
-cd "$PROJECT_HOME"
-git clone https://github.com/ewilliam/dotfiles.git
-cd dotfiles
+git clone https://github.com/ewilliam/dotfiles.git ~/Projects/dotfiles
+cd ~/Projects/dotfiles
 sh bootstrap.sh
 ```
 
 ## Update
 
 ```bash
-cd "$PROJECT_HOME/dotfiles"
+cd ~/Projects/dotfiles
 git pull
 sh bootstrap.sh
 ```
@@ -53,6 +48,7 @@ sh bootstrap.sh
 ├── Brewfile            # homebrew dependencies
 ├── setup/
 │   ├── lib.sh          # shared helpers (logging, spinner)
+│   ├── 00-xcode.sh
 │   ├── 01-brew.sh
 │   ├── 02-stow.sh
 │   ├── 03-shell.sh

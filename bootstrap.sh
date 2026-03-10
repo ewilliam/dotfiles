@@ -9,13 +9,14 @@ set -euo pipefail
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 source "$DOTFILES/setup/lib.sh"
 
-STEP_TOTAL=6
+STEP_TOTAL=7
 START_TIME=$SECONDS
 
 printf "\n${BOLD}dotfiles bootstrap${RESET}\n"
 printf "==================\n"
 
 # Run each step script
+source "$DOTFILES/setup/00-xcode.sh"
 source "$DOTFILES/setup/01-brew.sh"
 source "$DOTFILES/setup/02-stow.sh"
 source "$DOTFILES/setup/03-shell.sh"
