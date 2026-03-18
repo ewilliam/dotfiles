@@ -1,0 +1,17 @@
+# Ghostty Configuration
+
+# Font
+font-family = "InconsolataLGC Nerd Font Mono"
+font-size = 13
+font-feature = +liga
+font-feature = +calt
+
+# Shell Integration
+shell-integration = fish
+
+# Window
+window-padding-x = 8
+window-padding-y = 8
+
+# Tab Bar
+macos-titlebar-style = tabs
