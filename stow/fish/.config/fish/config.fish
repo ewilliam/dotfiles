@@ -20,7 +20,7 @@ set -gx PNPM_HOME $HOME/Library/pnpm
 fish_add_path $PNPM_HOME
 
 # jj
-jj util completion fish | source
+command -q jj && jj util completion fish | source
 
 # claude
 fish_add_path $HOME/.local/bin

@@ -42,6 +42,7 @@ brew "delta"
 brew "gh"
 brew "git"
 brew "git-lfs"
+brew "jj"
 brew "lazygit"
 cask "tower"
 
