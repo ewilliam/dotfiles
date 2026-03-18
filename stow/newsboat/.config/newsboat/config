@@ -1,15 +1,8 @@
 include ~/.config/newsboat/colorschemes/solarized-dark
-
-# connect to NewsBlur
-urls-source newsblur
-newsblur-login ping@ewilli.am
-newsblur-passwordeval "security find-internet-password -w -a ping@ewilli.am -s www.newsblur.com"
-
-# NewsBlur login fails without this
-cookie-cache ~/.config/newsboat/cookies.txt
+include ~/.config/newsboat/login
 
 # open links with default browser
-browser open %u
+browser "open %u"
 
 # automatically reload feeds every half hour
 auto-reload yes
