@@ -3,6 +3,9 @@
 # Bootstrap a fresh macOS machine or update an existing one.
 # Safe to re-run anytime -- every step is idempotent.
 #
+# Usage: sh bootstrap.sh [computer-name]
+#   computer-name  Hostname to set via scutil (default: prompts interactively)
+#
 
 set -euo pipefail
 

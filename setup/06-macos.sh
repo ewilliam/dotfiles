@@ -8,7 +8,13 @@ if [[ "$(uname)" != "Darwin" ]]; then
     return 0 2>/dev/null || exit 0
 fi
 
-COMPUTER_NAME="${1:-ewa-mbp}"
+if [[ -n "${1:-}" ]]; then
+    COMPUTER_NAME="$1"
+else
+    printf "Computer name [ewa-mbp]: "
+    read -r COMPUTER_NAME
+    COMPUTER_NAME="${COMPUTER_NAME:-ewa-mbp}"
+fi
 
 info "Computer name: $COMPUTER_NAME"
 
