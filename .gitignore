@@ -4,3 +4,6 @@ tags.temp
 
 # aerc credentials
 stow/aerc/.config/aerc/accounts.conf
+
+# tmux plugins (managed by TPM, not tracked)
+stow/tmux/.config/tmux/plugins/
