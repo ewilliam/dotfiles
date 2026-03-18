@@ -8,31 +8,92 @@ Safe to re-run anytime -- every step is idempotent.
 | Category | Configs |
 | --- | --- |
 | **Shell** | fish, readline |
-| **Git** | git, delta |
+| **Git** | git, delta, jj |
 | **Editor** | neovim, zed |
 | **Terminal** | ghostty, tmux |
+| **SSH** | 1Password SSH agent |
 | **Email** | aerc, isync, msmtp, notmuch |
 | **AI** | claude, codex, opencode |
 | **Automation** | hammerspoon, karabiner |
 | **Media** | newsboat, pianobar |
 
-The bootstrap runs seven steps in order:
+## New Mac setup
 
-1. **Xcode** -- install Command Line Tools if missing
-2. **Brew** -- install formulae & casks from `Brewfile`
-3. **Stow** -- symlink dotfiles into `$HOME`
-4. **Shell** -- set fish as default shell, install fisher plugins
-5. **Tools** -- configure mise runtimes & neovim providers
-6. **MAS** -- install Mac App Store apps
-7. **macOS** -- apply system defaults (Finder, Dock, keyboard, etc.)
+### Before you start
 
-## Install
+1. **Sign in to iCloud** in System Settings → Apple ID. The bootstrap installs Mac App Store apps, which requires an active Apple ID.
+
+2. **Open Terminal.app** (the only tool available on a stock Mac).
+
+### Bootstrap
 
 ```bash
+xcode-select --install  # if you want git before the bootstrap handles it
 git clone https://github.com/ewilliam/dotfiles.git ~/Projects/dotfiles
 cd ~/Projects/dotfiles
 sh bootstrap.sh
 ```
+
+Clone over HTTPS since SSH isn't available yet — the bootstrap installs 1Password, configures the SSH agent, and sets up `~/.ssh/config` for you. After bootstrap, pushes and future clones will use SSH automatically.
+
+The bootstrap runs eight steps in order:
+
+| Step | Script | What it does | Sudo? |
+| --- | --- | --- | --- |
+| 1 | `00-xcode.sh` | Install Xcode Command Line Tools | No |
+| 2 | `01-brew.sh` | Install Homebrew, run `brew bundle` (~90 packages) | Yes |
+| 3 | `02-stow.sh` | Symlink all configs from `stow/` into `$HOME` | No |
+| 4 | `03-1password.sh` | Sign in to 1Password CLI, verify SSH agent | No |
+| 5 | `04-shell.sh` | Set fish as default shell, install Fisher plugins | Yes |
+| 6 | `05-tools.sh` | Install mise runtimes (Node, Python, Erlang, Elixir, pnpm, uv) | No |
+| 7 | `06-mas.sh` | Install Mac App Store apps | No |
+| 8 | `07-macos.sh` | Apply ~80 system defaults (Finder, Dock, keyboard, etc.) | Yes |
+
+You'll be prompted for your computer name during step 8 (defaults to `ewa-mbp`).
+
+Expect ~15–30 minutes. The Erlang compile is the slowest part.
+
+### After bootstrap
+
+**Restart your Mac.** Keyboard repeat rate, hot corners, and several system defaults won't take effect until you do.
+
+Then handle the things that can't be automated:
+
+**Enable the 1Password SSH agent** — open 1Password → Settings → Developer → "Use the SSH agent". The bootstrap already configured `~/.ssh/config` to point to it. Once enabled, switch your dotfiles remote to SSH:
+
+```bash
+cd ~/Projects/dotfiles
+git remote set-url origin git@github.com:ewilliam/dotfiles.git
+```
+
+**Populate `~/.secrets.fish`** — the bootstrap creates this file empty. Add API keys and tokens your tools need:
+
+```fish
+set -gx ANTHROPIC_API_KEY "sk-ant-..."
+set -gx OPENAI_API_KEY "sk-..."
+```
+
+**Set up aerc email** — copy the template and fill in your credentials:
+
+```bash
+cp ~/.config/aerc/accounts.conf.template ~/.config/aerc/accounts.conf
+$EDITOR ~/.config/aerc/accounts.conf
+```
+
+The template uses `op item get` to pull passwords from 1Password at runtime.
+
+**Grant macOS permissions** — you'll get prompted on first launch, but proactively grant these in System Settings → Privacy & Security:
+
+| Permission | Apps |
+| --- | --- |
+| Accessibility | Hammerspoon, Karabiner-Elements, Raycast |
+| Input Monitoring | Karabiner-Elements |
+| Full Disk Access | Ghostty |
+| Screen Recording | Hammerspoon |
+
+**Sign into apps** that need manual authentication: Arc, Chrome, Firefox, Slack, Discord, Teams, Dropbox, Backblaze, Notion, Obsidian, Steam, ChatGPT, Claude.
+
+**Re-pin Dock apps** — the bootstrap clears all pinned Dock apps for a clean slate. Drag back whatever you want, or leave it empty and let running apps fill it.
 
 ## Update
 
@@ -46,20 +107,22 @@ sh bootstrap.sh
 
 ```
 .
-├── bootstrap.sh        # entry point
-├── Brewfile            # homebrew dependencies
+├── bootstrap.sh          # entry point
+├── Brewfile              # homebrew dependencies
 ├── setup/
-│   ├── lib.sh          # shared helpers (logging, spinner)
-│   ├── 00-xcode.sh
-│   ├── 01-brew.sh
-│   ├── 02-stow.sh
-│   ├── 03-shell.sh
-│   ├── 04-tools.sh
-│   ├── 05-mas.sh
-│   └── 06-macos.sh
-└── stow/               # symlinked configs
+│   ├── lib.sh            # shared helpers (logging, spinner)
+│   ├── 00-xcode.sh       # xcode command line tools
+│   ├── 01-brew.sh        # homebrew + brew bundle
+│   ├── 02-stow.sh        # gnu stow symlinks
+│   ├── 03-1password.sh   # 1password cli + ssh agent
+│   ├── 04-shell.sh       # fish shell + fisher plugins
+│   ├── 05-tools.sh       # mise runtimes
+│   ├── 06-mas.sh         # mac app store
+│   └── 07-macos.sh       # macos system defaults
+└── stow/                 # symlinked configs
     ├── aerc/
     ├── fish/
+    ├── ghostty/
     ├── git/
     ├── hammerspoon/
     ├── karabiner/
@@ -67,5 +130,46 @@ sh bootstrap.sh
     ├── nvim/
     ├── pianobar/
     ├── readline/
+    ├── ssh/
+    ├── tmux/
     └── zed/
 ```
+
+## Key bindings
+
+Vi keybindings everywhere: fish, readline, neovim, zed, aerc, newsboat, tmux.
+
+### Hammerspoon
+
+| Binding | Action |
+| --- | --- |
+| `Cmd+Alt + H/J/K/L` | Push window left/down/up/right |
+| `Cmd+Alt + Y/U/I/O` | Smart resize left/down/up/right |
+| `Cmd+Alt + M` | Maximize window |
+| `Cmd+Alt + F` | Toggle fullscreen |
+| `Cmd+Alt + [ / ]` | Decrease / increase grid |
+| `Ctrl+Space` then key | Launch app — **a**rc, **c**hrome, **d**ash, **e**=zed, **f**inder, **g**=tower, **m**essages, **s**afari, **t**=ghostty |
+
+### Karabiner
+
+| Binding | Action |
+| --- | --- |
+| `Caps Lock` hold | Control |
+| `Caps Lock` tap | Escape |
+| `Fn + I/J/K/L` | Arrow keys (up/left/down/right) |
+
+### Fish abbreviations (highlights)
+
+| Abbr | Expands to |
+| --- | --- |
+| `vi` | `nvim` |
+| `cc` | `claude` |
+| `cx` | `codex` |
+| `oc` | `opencode` |
+| `lzg` | `lazygit` |
+| `gst` | `git status` |
+| `gco` | `git checkout` |
+| `pnd` | `pnpm dev` |
+| `muxn` | `tmux new-session -s` |
+| `frl` | reload fish config |
+| `emacs` | `echo lmao` |
