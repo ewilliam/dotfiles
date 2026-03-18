@@ -6,7 +6,7 @@
 	user = ewilliam
 
 [credential]
-  helper = osxkeychain
+  helper = /opt/homebrew/bin/op git-credential
 
 [core]
   editor = nvim

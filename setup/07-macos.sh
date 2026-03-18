@@ -155,4 +155,4 @@ done
 sudo killall cfprefsd > /dev/null 2>&1 || true  # Flush preferences daemon cache
 
 success "macOS defaults applied"
-info "Some changes require logout/restart"
+warn "Keyboard repeat rate and hot corners require a logout or restart to take effect"
