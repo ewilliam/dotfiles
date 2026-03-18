@@ -1,0 +1,8 @@
+[Personal]
+source            = imaps://you%40yourdomain.com@imap.gmail.com:993
+outgoing          = smtps+plain://you%40yourdomain.com@smtp.gmail.com:465
+default           = INBOX
+copy-to           = Sent
+from              = <you@yourdomain.com>
+source-cred-cmd   = op item get "1Password Item Name" --fields password --reveal
+outgoing-cred-cmd = op item get "1Password Item Name" --fields password --reveal
