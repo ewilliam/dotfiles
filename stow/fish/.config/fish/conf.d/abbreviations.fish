@@ -49,6 +49,9 @@ abbr -a -- gph 'git push heroku'
 abbr -a -- grs 'git reset'
 abbr -a -- grm 'git remote rm'
 abbr -a -- gra 'git remote add'
+abbr -a -- ghme 'ghuser ewilliam'
+abbr -a -- ghcsd 'ghuser ewilliam-csd'
+abbr -a -- ghwho 'ghuser'
 
 # Ruby/Rails
 abbr -a -- be 'bundle exec'

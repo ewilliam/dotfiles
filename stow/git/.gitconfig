@@ -1,9 +1,9 @@
 [user]
-  name = William Albright
-  email = ping@ewilli.am
+	name = William Albright
+	email = ping@ewilli.am
 
 [github]
-  user = ewilliam
+	user = ewilliam
 
 [credential]
   helper = osxkeychain
@@ -73,6 +73,8 @@
 [advice]
   statusHints = false
 [credential "https://github.com"]
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
