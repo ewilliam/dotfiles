@@ -4,7 +4,10 @@ set -x PROJECT_HOME $HOME/Projects
 
 fish_vi_key_bindings
 
-fish_add_path /opt/homebrew/sbin
+# macOS-only: Homebrew sbin (Apple Silicon path)
+if test (uname) = Darwin
+    fish_add_path /opt/homebrew/sbin
+end
 
 # mise runtime manager
 mise activate fish | source
@@ -16,7 +19,11 @@ direnv hook fish | source
 zoxide init --cmd j fish | source
 
 # pnpm
-set -gx PNPM_HOME $HOME/Library/pnpm
+if test (uname) = Darwin
+    set -gx PNPM_HOME $HOME/Library/pnpm
+else
+    set -gx PNPM_HOME $HOME/.local/share/pnpm
+end
 fish_add_path $PNPM_HOME
 
 # jj

@@ -24,10 +24,12 @@ abbr -a -- top btop
 abbr -a -- help tldr
 
 # System specific (Mac)
-abbr -a -- showFiles 'defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
-abbr -a -- hideFiles 'defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
-abbr -a -- flushdns 'sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
-abbr -a -- emptyDock 'defaults write com.apple.dock persistent-apps -array; defaults write com.apple.dock persistent-others -array; killall Dock'
+if test (uname) = Darwin
+    abbr -a -- showFiles 'defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
+    abbr -a -- hideFiles 'defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
+    abbr -a -- flushdns 'sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+    abbr -a -- emptyDock 'defaults write com.apple.dock persistent-apps -array; defaults write com.apple.dock persistent-others -array; killall Dock'
+end
 
 # Git commands
 abbr -a -- gst 'git status'

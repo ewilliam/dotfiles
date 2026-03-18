@@ -3,8 +3,6 @@ source "$(dirname "$0")/lib.sh"
 
 step "1Password"
 
-OP_BIN="$(brew --prefix)/bin/op"
-
 # ── 1. Check CLI is available ────────────────────────────────────────
 if ! is_installed op; then
     warn "1Password CLI not found — skipping (run brew bundle first)"

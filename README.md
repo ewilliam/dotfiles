@@ -23,7 +23,9 @@ Safe to re-run anytime -- every step is idempotent.
 
 1. **Sign in to iCloud** in System Settings → Apple ID. The bootstrap installs Mac App Store apps, which requires an active Apple ID.
 
-2. **Open Terminal.app** (the only tool available on a stock Mac).
+2. **Install and open 1Password.app**, sign in, and enable the SSH agent: Settings → Developer → "Use the SSH agent". Step 4 of the bootstrap (`03-1password.sh`) signs in to the 1Password CLI and verifies the SSH agent socket — it will warn but not fail if the app isn't running yet, but SSH won't work until it is.
+
+3. **Open Terminal.app** (the only tool available on a stock Mac).
 
 ### Bootstrap
 
