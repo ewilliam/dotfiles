@@ -1,5 +1,12 @@
 include ~/.config/newsboat/colorschemes/solarized-dark
-include ~/.config/newsboat/login
+
+# NewsBlur login credentials
+urls-source newsblur
+newsblur-login ping@ewilli.am
+newsblur-passwordeval "op item get sgjdwcqbziacfirt7vguo3kjlu --fields password --reveal"
+
+# NewsBlur login fails without this
+cookie-cache ~/.config/newsboat/cookies.txt
 
 # open links with default browser
 browser "open %u"
