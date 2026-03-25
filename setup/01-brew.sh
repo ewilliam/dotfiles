@@ -17,5 +17,10 @@ else
     success "Homebrew installed"
 fi
 
-spin "Bundling packages" brew bundle --file="$DOTFILES/Brewfile"
+info "Bundling packages..."
+if brew bundle --file="$DOTFILES/Brewfile" 2>&1; then
+    success "All packages installed"
+else
+    warn "Some packages failed to install (see above) — continuing anyway"
+fi
 spin "Cleaning up" brew cleanup --prune=30
