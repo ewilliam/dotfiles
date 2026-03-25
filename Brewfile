@@ -75,7 +75,7 @@ cask "transmit"
 
 # Email
 brew "aerc"
-brew "elinks"
+brew "felinks"
 brew "isync"
 brew "msmtp"
 brew "notmuch"
