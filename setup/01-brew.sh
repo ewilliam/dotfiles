@@ -18,9 +18,6 @@ else
 fi
 
 info "Bundling packages..."
-if brew bundle --file="$DOTFILES/Brewfile" 2>&1; then
-    success "All packages installed"
-else
-    warn "Some packages failed to install (see above) — continuing anyway"
-fi
+brew bundle --file="$DOTFILES/Brewfile"
+success "All packages installed"
 spin "Cleaning up" brew cleanup --prune=30
