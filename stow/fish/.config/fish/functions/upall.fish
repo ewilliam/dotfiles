@@ -75,7 +75,7 @@ function upall -d "Update all system packages and plugins"
     end
 
     # --- Fisher ---
-    if command -q fisher
+    if functions -q fisher
         _upall_header Fisher
         _upall_run "Updating plugins" fisher update
             and set -a passed fisher:update

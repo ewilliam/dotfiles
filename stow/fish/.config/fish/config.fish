@@ -10,13 +10,13 @@ if test (uname) = Darwin
 end
 
 # mise runtime manager
-mise activate fish | source
+command -q mise && mise activate fish | source
 
 # direnv
-direnv hook fish | source
+command -q direnv && direnv hook fish | source
 
 # zoxide directory jumper (aliased to j)
-zoxide init --cmd j fish | source
+command -q zoxide && zoxide init --cmd j fish | source
 
 # pnpm
 if test (uname) = Darwin

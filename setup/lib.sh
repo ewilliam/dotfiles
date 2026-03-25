@@ -23,8 +23,8 @@ warn()    { printf "      ${YELLOW}!${RESET} %s\n" "$*"; }
 error()   { printf "      ${RED}x${RESET} %s\n" "$*" >&2; }
 
 # ── Step header ─────────────────────────────────────────────────────
-STEP_CURRENT=0
-STEP_TOTAL=0
+STEP_CURRENT=${STEP_CURRENT:-0}
+STEP_TOTAL=${STEP_TOTAL:-0}
 
 step() {
     STEP_CURRENT=$((STEP_CURRENT + 1))

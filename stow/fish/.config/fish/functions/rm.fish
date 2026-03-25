@@ -1,5 +1,5 @@
 function rm -d "Prevent accidental rm usage; use trash instead"
-    if contains -- --force $argv; or contains -- -f $argv
+    if contains -- --force $argv; or contains -- -f $argv; or string match -qr -- '-[a-zA-Z]*f' $argv
         command rm $argv
         return $status
     end

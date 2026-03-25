@@ -20,7 +20,7 @@ for package in "$stow_dir"/*/; do
         # Net result: repo version always wins; user's file preserved as .bak if different.
         if stow -d "$stow_dir" -t "$HOME" --adopt "$name" 2>/dev/null; then
             # Restore any repo files that --adopt overwrote with the user's version
-            adopted_files=$(git -C "$stow_dir" diff --name-only HEAD 2>/dev/null || true)
+            adopted_files=$(git -C "$stow_dir" diff --name-only --relative HEAD 2>/dev/null || true)
             if [[ -n "$adopted_files" ]]; then
                 while IFS= read -r rel; do
                     abs="$stow_dir/$rel"

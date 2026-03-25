@@ -1,9 +1,8 @@
 # Taps
+tap "oven-sh/bun"
 tap "teamookla/speedtest"
 
 # AI
-brew "claude"
-brew "codex"
 brew "opencode"
 cask "chatgpt"
 cask "claude"
@@ -11,7 +10,6 @@ cask "codex"
 cask "opencode-desktop"
 
 # Languages
-tap "oven-sh/bun"
 brew "oven-sh/bun/bun"
 brew "mise"
 

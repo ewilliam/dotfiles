@@ -33,7 +33,7 @@ Safe to re-run anytime -- every step is idempotent.
 xcode-select --install  # if you want git before the bootstrap handles it
 git clone https://github.com/ewilliam/dotfiles.git ~/Projects/dotfiles
 cd ~/Projects/dotfiles
-sh bootstrap.sh
+bash bootstrap.sh
 ```
 
 Clone over HTTPS since SSH isn't available yet — the bootstrap installs 1Password, configures the SSH agent, and sets up `~/.ssh/config` for you. After bootstrap, pushes and future clones will use SSH automatically.
@@ -119,7 +119,7 @@ The template uses `op item get` to pull passwords from 1Password at runtime.
 ```bash
 cd ~/Projects/dotfiles
 git pull
-sh bootstrap.sh
+bash bootstrap.sh
 ```
 
 ## Structure

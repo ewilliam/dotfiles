@@ -8,19 +8,17 @@ if [[ "$(uname)" != "Darwin" ]]; then
     return 0 2>/dev/null || exit 0
 fi
 
-declare -A apps=(
-    ["1Password for Safari"]=1569813296
-    ["Join for Teams"]=6747013429
-    ["Paprika Recipe Manager 3"]=1303222628
-    ["Pixelmator Pro"]=1289583905
-    ["Xcode"]=497799835
-)
-
-for name in "${!apps[@]}"; do
-    id="${apps[$name]}"
+mas_install() {
+    local name="$1" id="$2"
     if mas list | grep -q "^${id} "; then
         success "$name"
     else
         spin "Installing $name" mas install "$id"
     fi
-done
+}
+
+mas_install "1Password for Safari"     1569813296
+mas_install "Join for Teams"           6747013429
+mas_install "Paprika Recipe Manager 3" 1303222628
+mas_install "Pixelmator Pro"           1289583905
+mas_install "Xcode"                    497799835
