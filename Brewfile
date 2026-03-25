@@ -110,7 +110,7 @@ cask "retroarch"
 cask "steam"
 
 # Utilities
-brew "speedtest"
+brew "teamookla/speedtest/speedtest"
 cask "numi"
 cask "soulver"
 cask "table-tool"
