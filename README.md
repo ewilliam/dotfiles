@@ -68,6 +68,23 @@ cd ~/Projects/dotfiles
 git remote set-url origin git@github.com:ewilliam/dotfiles.git
 ```
 
+**Authenticate the GitHub CLI** — the bootstrap installs `gh` but doesn't log in. Sign in to both accounts:
+
+```bash
+gh auth login          # follow the prompts for ewilliam
+gh auth login          # follow the prompts for ewilliam-csd
+```
+
+Once both accounts are added, switch between them anytime with the fish helpers:
+
+```fish
+ghme   # switch to ewilliam  (ping@ewilli.am)
+ghcsd  # switch to ewilliam-csd (walbright@csd.org)
+ghwho  # show current user
+```
+
+This updates both `gh auth` and `git config --global` (user.name, user.email, github.user) in one step. The `.gitconfig` is also wired to use `gh auth git-credential` for HTTPS pushes, so once you're logged in credentials just work.
+
 **Populate `~/.secrets.fish`** — the bootstrap creates this file empty. Add API keys and tokens your tools need:
 
 ```fish
