@@ -23,8 +23,8 @@ sudo scutil --set ComputerName "$COMPUTER_NAME"                          # Frien
 sudo scutil --set HostName "$COMPUTER_NAME"                              # DNS / fully-qualified hostname
 sudo scutil --set LocalHostName "$COMPUTER_NAME"                         # Bonjour (.local) hostname
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$COMPUTER_NAME"  # SMB/Windows network name
-sudo systemsetup -settimezone "America/Los_Angeles" > /dev/null          # Set timezone to Pacific
-sudo systemsetup -setrestartfreeze on                                    # Auto-restart after a system freeze
+sudo systemsetup -settimezone "America/Los_Angeles" &>/dev/null || true   # Set timezone to Pacific (systemsetup is deprecated, errors are harmless)
+sudo systemsetup -setrestartfreeze on &>/dev/null || true                # Auto-restart after a system freeze
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1         # Check for software updates daily
 
 # ── General UI/UX ──────────────────────────────────────────────────
