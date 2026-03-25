@@ -11,6 +11,8 @@ cask "codex"
 cask "opencode-desktop"
 
 # Languages
+tap "oven-sh/bun"
+brew "oven-sh/bun/bun"
 brew "mise"
 
 # Shell

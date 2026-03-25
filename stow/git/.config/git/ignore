@@ -206,3 +206,5 @@ tags
 [._]*.un~
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,vim,node,dotenv,fish,vercel
+
+**/.claude/settings.local.json
