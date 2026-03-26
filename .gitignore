@@ -7,3 +7,14 @@ stow/aerc/.config/aerc/accounts.conf
 
 # tmux plugins (managed by TPM, not tracked)
 stow/tmux/.config/tmux/plugins/
+
+# Fish plugins (managed by Fisher, not tracked)
+stow/fish/.config/fish/completions/
+stow/fish/.config/fish/conf.d/
+stow/fish/.config/fish/functions/
+
+# SSH secrets and state
+stow/ssh/.ssh/
+
+# Neovim plugin lockfile
+stow/nvim/.config/nvim/lazy-lock.json
