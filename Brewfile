@@ -34,6 +34,7 @@ cask "ghostty"
 
 # Editor
 brew "neovim", args: ['HEAD']
+cask "kaleidoscope"
 cask "libreoffice"
 cask "macdown-3000"
 cask "zed"
