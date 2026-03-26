@@ -5,8 +5,9 @@ tap "teamookla/speedtest"
 # AI
 brew "opencode"
 cask "chatgpt"
-cask "claude"
 cask "codex"
+cask "claude"
+cask "claude-code"
 cask "opencode-desktop"
 
 # Languages
