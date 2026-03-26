@@ -50,6 +50,7 @@ cask "tower"
 brew "fzf"
 brew "ripgrep"
 brew "ugrep"
+brew "peco"
 cask "raycast"
 
 # Dev Tools
