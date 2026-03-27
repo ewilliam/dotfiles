@@ -53,7 +53,7 @@ brew "fzf"
 brew "ripgrep"
 brew "ugrep"
 brew "peco"
-cask "raycast"
+cask "monarch"
 
 # Dev Tools
 brew "coreutils"
