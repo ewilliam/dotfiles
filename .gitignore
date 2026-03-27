@@ -18,3 +18,6 @@ stow/ssh/.ssh/
 
 # Neovim plugin lockfile
 stow/nvim/.config/nvim/lazy-lock.json
+
+# Zed prompts (local/generated)
+stow/zed/.config/zed/prompts/

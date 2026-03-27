@@ -95,6 +95,7 @@ cask "discord"
 cask "slack"
 cask "slack-cli"
 cask "microsoft-teams"
+cask "zoom"
 
 # Media
 brew "newsboat"
@@ -115,6 +116,7 @@ cask "steam"
 # Utilities
 brew "teamookla/speedtest/speedtest"
 cask "numi"
+cask "shottr"
 cask "soulver"
 cask "table-tool"
 
