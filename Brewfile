@@ -73,6 +73,7 @@ cask "tableplus"
 
 # Download
 brew "curlie"
+brew "xh"
 brew "yt-dlp"
 cask "transmit"
 
