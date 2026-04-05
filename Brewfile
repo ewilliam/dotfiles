@@ -25,7 +25,7 @@ brew "fish"
 brew "grc"
 brew "hyperfine"
 brew "stow"
-brew "tldr"
+brew "tlrc"
 brew "tmux"
 brew "trash"
 brew "yazi"
@@ -33,7 +33,7 @@ brew "zoxide"
 cask "ghostty"
 
 # Editor
-brew "neovim", args: ['HEAD']
+brew "neovim"
 cask "kaleidoscope"
 cask "libreoffice"
 cask "macdown-3000"
@@ -84,7 +84,6 @@ brew "isync"
 brew "msmtp"
 brew "notmuch"
 brew "urlscan"
-cask "microsoft-outlook"
 
 # Browser
 cask "firefox"
@@ -95,7 +94,6 @@ cask "microsoft-edge"
 cask "discord"
 cask "slack"
 cask "slack-cli"
-cask "microsoft-teams"
 cask "zoom"
 
 # Media
@@ -133,5 +131,5 @@ cask "tunnelbear"
 
 # System Management
 brew "mas"
-cask "appcleaner"
 cask "balenaetcher"
+cask "pearcleaner"

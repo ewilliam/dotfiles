@@ -8,6 +8,9 @@
 // from the command palette
 {
   "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    },
     "opencode": {
       "type": "registry",
     },
