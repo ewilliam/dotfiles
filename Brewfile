@@ -124,6 +124,7 @@ cask "hammerspoon"
 cask "karabiner-elements"
 
 # Security & Privacy
+brew "clamav"
 cask "1password"
 cask "1password-cli"
 cask "backblaze"

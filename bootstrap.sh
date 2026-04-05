@@ -12,7 +12,7 @@ set -euo pipefail
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 source "$DOTFILES/setup/lib.sh"
 
-STEP_TOTAL=8
+STEP_TOTAL=9
 START_TIME=$SECONDS
 
 printf "\n${BOLD}dotfiles bootstrap${RESET}\n"
@@ -25,8 +25,9 @@ source "$DOTFILES/setup/02-stow.sh"
 source "$DOTFILES/setup/03-1password.sh"
 source "$DOTFILES/setup/04-shell.sh"
 source "$DOTFILES/setup/05-tools.sh"
-source "$DOTFILES/setup/06-mas.sh"
-source "$DOTFILES/setup/07-macos.sh"
+source "$DOTFILES/setup/06-clamav.sh"
+source "$DOTFILES/setup/07-mas.sh"
+source "$DOTFILES/setup/08-macos.sh"
 
 elapsed=$(( SECONDS - START_TIME ))
 minutes=$(( elapsed / 60 ))
