@@ -6,6 +6,9 @@ font-size = 13
 font-feature = +liga
 font-feature = +calt
 
+# Theme
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+
 # Shell Integration
 shell-integration = fish
 
