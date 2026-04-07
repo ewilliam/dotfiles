@@ -74,6 +74,16 @@ function upall -d "Update all system packages and plugins"
         set -a skipped mas
     end
 
+    # --- ClamAV ---
+    if command -q freshclam
+        _upall_header ClamAV
+        _upall_run "Updating virus databases" freshclam
+            and set -a passed ClamAV:freshclam
+            or set -a failed ClamAV:freshclam
+    else
+        set -a skipped ClamAV
+    end
+
     # --- Fisher ---
     if functions -q fisher
         _upall_header Fisher
