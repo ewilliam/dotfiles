@@ -1,13 +1,14 @@
 # Ghostty Configuration
 
 # Font
-font-family = "InconsolataLGC Nerd Font Mono"
-font-size = 13
+# font-family = "FiraCode Nerd Font Mono"
+# font-family = "Inconsolata Nerd Font Mono"
+font-family = "Lilex Nerd Font Mono"
+font-size = 14
 font-feature = +liga
-font-feature = +calt
 
 # Theme
-theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+theme = Catppuccin Mocha
 
 # Shell Integration
 shell-integration = fish

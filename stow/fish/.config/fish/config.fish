@@ -37,3 +37,5 @@ source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 # secrets (API keys, tokens, etc.)
 source ~/.secrets.fish 2>/dev/null || :
+
+fish_config theme choose catppuccin-mocha

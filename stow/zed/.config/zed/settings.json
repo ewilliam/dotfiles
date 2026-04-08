@@ -7,9 +7,10 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
+  "icon_theme": "Catppuccin Mocha",
   "agent_servers": {
     "claude-acp": {
-      "type": "registry"
+      "type": "registry",
     },
     "opencode": {
       "type": "registry",
@@ -42,7 +43,7 @@
   "buffer_font_size": 14,
   "theme": {
     "mode": "system",
-    "light": "One Light",
-    "dark": "One Dark",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Mocha",
   },
 }

@@ -64,6 +64,7 @@ cask "insomnia"
 cask "ngrok"
 cask "orbstack"
 cask "font-inconsolata-nerd-font"
+cask "font-lilex-nerd-font"
 
 # Database
 brew "postgresql"

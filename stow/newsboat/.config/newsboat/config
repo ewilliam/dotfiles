@@ -1,4 +1,4 @@
-include ~/.config/newsboat/colorschemes/solarized-dark
+include ~/.config/newsboat/colorschemes/dark
 
 # NewsBlur login credentials
 urls-source newsblur
