@@ -105,5 +105,27 @@ abbr -a -- lzg lazygit
 abbr -a -- yt yt-dlp
 abbr -a -- hf hyperfine
 
+# Docker
+abbr -a -- d docker
+abbr -a -- dps 'docker ps'
+abbr -a -- dpsa 'docker ps -a'
+abbr -a -- di 'docker images'
+abbr -a -- drm 'docker rm'
+abbr -a -- drmi 'docker rmi'
+abbr -a -- dex 'docker exec -it'
+abbr -a -- dl 'docker logs'
+abbr -a -- dlf 'docker logs -f'
+abbr -a -- dsp 'docker system prune'
+abbr -a -- dspa 'docker system prune -a --volumes'
+abbr -a -- dc 'docker compose'
+abbr -a -- dcu 'docker compose up'
+abbr -a -- dcud 'docker compose up -d'
+abbr -a -- dcd 'docker compose down'
+abbr -a -- dcb 'docker compose build'
+abbr -a -- dcl 'docker compose logs'
+abbr -a -- dclf 'docker compose logs -f'
+abbr -a -- dcr 'docker compose restart'
+abbr -a -- dcps 'docker compose ps'
+
 # Fish specific
 abbr -a -- frl 'source ~/.config/fish/config.fish'
