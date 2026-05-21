@@ -8,6 +8,8 @@ Build a Bun-first `codex-runner` CLI in this dotfiles repo that can execute an i
 
 `codex-runner` is a headless orchestrator. It owns the worktree, branch, task queue, state, Codex process execution, verification, commits, notifications, push, and pull request creation. Codex owns only one bounded implementation slice at a time.
 
+Plan design happens in Codex App before execution. A personal Codex skill guides agents to write runner-optimized plans, and the CLI provides `lint-plan` to validate that a plan is structured, bounded, and verifiable enough for unattended execution.
+
 The CLI is implemented with Bun and TypeScript so it can run source files directly without a build step. It will live in this repo and be symlinked into `~/.local/bin`.
 
 ```text
@@ -17,12 +19,14 @@ tools/codex-runner/
     cli.ts
     codex.ts
     git.ts
+    lint.ts
     notify.ts
     plan.ts
     pr.ts
     runner.ts
     state.ts
   test/
+    lint.test.ts
     plan.test.ts
     runner.test.ts
     git.test.ts
@@ -50,7 +54,16 @@ Core options:
 - `--resume`: Continue from an existing runner state directory.
 - `--force`: Remove or overwrite existing runner state for the same repo and plan.
 - `--allow-dirty-base`: Permit starting from a source checkout with uncommitted changes.
+- `--allow-lint-warnings`: Permit runner execution when `lint-plan` reports P1 findings. P0 findings always stop execution.
 - `--notify-each-slice`: Send a local notification after every committed slice.
+
+Plan quality command:
+
+```bash
+codex-runner lint-plan --repo /path/to/repo --plan docs/plans/feature.md
+```
+
+`lint-plan` validates that a Codex App-authored plan is safe and well shaped for runner execution before the runner starts an unattended worktree run.
 
 Secondary commands may be added after v1:
 
@@ -58,6 +71,94 @@ Secondary commands may be added after v1:
 codex-runner status --repo /path/to/repo --plan docs/plans/feature.md
 codex-runner tui --repo /path/to/repo --plan docs/plans/feature.md
 ```
+
+## Codex App Plan Design
+
+Plans should be designed in Codex App through a personal skill named `codex-runner-plan`. The skill is not a replacement for conversation, design review, or judgment. It gives Codex App a strict output contract for plans that the runner can execute reliably.
+
+Plan authoring workflow:
+
+1. The user discusses the goal, constraints, and success criteria in Codex App.
+2. Codex App reads the target repo's instruction files, existing docs, tests, and relevant code.
+3. Codex App proposes the implementation shape and resolves ambiguity with the user.
+4. Codex App writes a runner-optimized plan to `docs/plans/YYYY-MM-DD-<slug>.md`.
+5. Codex App runs `codex-runner lint-plan --repo <repo> --plan <plan>`.
+6. The user reviews and approves the plan.
+7. `codex-runner --repo <repo> --plan <plan> --pr` executes the approved plan.
+
+The plan skill should produce:
+
+- phase-based structure
+- one bounded checkbox per future runner slice and commit
+- explicit files, modules, or ownership boundaries per slice where discoverable
+- acceptance criteria for each slice
+- verification commands per phase, task, or final run
+- stop conditions for unclear requirements, credentials, destructive operations, production deploys, or risky product decisions
+- final verification and pull request checklist
+
+The skill should avoid:
+
+- giant tasks such as "implement the feature"
+- vague tasks such as "clean this up" or "handle edge cases"
+- hidden dependencies on previous Codex session memory
+- tasks that require manual credentials or user decisions without a blocker rule
+- non-runner checkbox structures that the parser cannot track
+
+The plan should be executable from a fresh session at every slice. If a task needs context from prior work, that context must be present in the plan, committed files, or repo docs.
+
+## Plan Linting
+
+`lint-plan` is a local quality gate. It does not use an LLM in v1; it statically checks the plan structure and reports actionable findings with severity.
+
+Lint severities:
+
+- `P0`: The runner cannot safely execute the plan.
+- `P1`: The runner can parse the plan, but unattended execution quality is likely poor.
+- `P2`: The plan is executable but should be clearer.
+
+P0 examples:
+
+- no unchecked tasks
+- no parseable checkbox tasks
+- malformed nested checkbox structure that changes task identity unpredictably
+- plan path is missing or outside the repo without an explicit override
+- task text is empty
+
+P1 examples:
+
+- no `## Phase` sections
+- task text is too broad, such as "implement auth" or "build the dashboard"
+- task lacks acceptance criteria or an expected outcome
+- task lacks file/module ownership hints
+- plan has no verification commands or verification section
+- plan includes manual secrets, production deploys, or destructive database operations without stop conditions
+
+P2 examples:
+
+- phase has too many tasks
+- task text is long enough to suggest multiple responsibilities
+- final PR checklist is missing
+- commit boundaries are unclear
+
+Example output:
+
+```text
+Plan lint failed: docs/plans/2026-05-21-billing.md
+
+[P1] Phase 2 task 3 is too broad:
+- [ ] Implement billing settings
+
+Suggested split:
+- [ ] Add billing settings route and load test
+- [ ] Implement billing settings data query
+- [ ] Implement billing settings form action
+- [ ] Add UI component and focused component tests
+
+[P1] Missing final verification section:
+Add commands for final verification before PR.
+```
+
+Runner execution should run `lint-plan` automatically before creating the worktree. P0 findings stop execution. P1 findings stop execution unless `--allow-lint-warnings` is set. P2 findings warn but do not stop execution.
 
 ## Worktree And Branching
 
@@ -333,6 +434,8 @@ Use `bun test`.
 
 Focused test coverage:
 
+- plan linter reports missing phases, missing verification, broad tasks, and malformed checkboxes
+- plan linter exits nonzero on P0 and P1 findings by default
 - plan parser extracts phase/task structure
 - parser falls back to top-level checkboxes
 - task ids are stable across unrelated plan edits
@@ -357,13 +460,21 @@ ln -sf /Users/ewilliam/Projects/dotfiles/tools/codex-runner/bin/codex-runner.ts 
   /Users/ewilliam/.local/bin/codex-runner
 ```
 
+The install should also create or update the personal planning skill:
+
+```text
+/Users/ewilliam/.agents/skills/codex-runner-plan/SKILL.md
+```
+
+That skill should trigger when the user asks to create, design, optimize, or lint a plan for `codex-runner`.
+
 ## Non-Goals
 
 - No OpenTUI dashboard in v1.
 - No Slack/email notification adapter in v1.
 - No hosted service.
 - No multi-agent parallel execution inside the runner.
-- No automatic plan generation. The runner executes existing plans.
+- No noninteractive automatic plan generation in v1. Plans are designed conversationally in Codex App, then linted and executed by the runner.
 
 ## Implementation Constraint
 
