@@ -59,7 +59,16 @@ export interface LintFinding {
   remediation: string;
   line?: number;
   phaseTitle?: string;
+  phaseOrdinal?: number;
   taskId?: string;
+  taskOrdinal?: number;
+  taskText?: string;
+}
+
+export interface LintReport {
+  planPath?: string;
+  findings: LintFinding[];
+  document?: PlanDocument;
 }
 
 export interface CommandSpec {

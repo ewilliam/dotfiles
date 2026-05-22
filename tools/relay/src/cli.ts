@@ -1,3 +1,4 @@
+import { runLintPlan } from "./lint";
 import type { RelayOptions } from "./types";
 
 export interface ParseRelayArgsOptions {
@@ -133,7 +134,7 @@ export async function runCli(
     const relayOptions = parseRelayArgs(args, {
       cwd: options.cwd,
     });
-    const handlers = options.handlers ?? createDefaultHandlers();
+    const handlers = options.handlers ?? createDefaultHandlers({ stderr, stdout });
 
     switch (relayOptions.command) {
       case "install":
@@ -249,14 +250,14 @@ function isFlagName(value: string): value is FlagName {
   );
 }
 
-function createDefaultHandlers(): RelayHandlers {
+function createDefaultHandlers(io: Required<RelayIo>): RelayHandlers {
   const notImplemented = (options: RelayOptions) => {
     throw new RelayCliError(`${options.command} is not implemented yet`);
   };
 
   return {
     install: notImplemented,
-    lintPlan: notImplemented,
+    lintPlan: (options) => runLintPlan(options, io),
     run: notImplemented,
   };
 }
