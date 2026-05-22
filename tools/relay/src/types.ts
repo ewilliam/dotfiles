@@ -121,11 +121,31 @@ export interface RelayEvent {
   data?: Record<string, unknown>;
 }
 
+export type RelayEventInput = Omit<RelayEvent, "timestamp"> & {
+  timestamp?: string;
+};
+
 export interface RelayCommit {
   taskId: string;
   sha: string;
   message: string;
   createdAt: string;
+}
+
+export interface RelayStateIdentity {
+  sourceRepoPath: string;
+  worktreePath: string;
+  runnerBranch: string;
+  planPath: string;
+}
+
+export interface RelayStateInitInput extends RelayStateIdentity {
+  baseBranch: string;
+  baseHead: string;
+  tasks: PlanTask[];
+  resume?: boolean;
+  force?: boolean;
+  now?: () => Date;
 }
 
 export interface RelayState {
