@@ -92,6 +92,57 @@ export interface CommandResult {
 
 export type CommandExecutor = (spec: CommandSpec) => Promise<CommandResult>;
 
+export type GitOperationState =
+  | "clean"
+  | "merge"
+  | "rebase"
+  | "cherry-pick"
+  | "bisect";
+
+export interface GitRepositoryInfo {
+  repoPath: string;
+  gitDir: string;
+  branch: string;
+  head: string;
+}
+
+export interface SourceGitState extends GitRepositoryInfo {
+  dirty: boolean;
+  operationState: GitOperationState;
+}
+
+export interface ValidateSourceGitStateInput {
+  repoPath: string;
+  allowDirtyBase: boolean;
+  executor?: CommandExecutor;
+}
+
+export interface RelayWorktreeInput extends RelayStateIdentity {
+  baseHead: string;
+  executor?: CommandExecutor;
+}
+
+export interface RelayWorktreeResult {
+  worktreePath: string;
+  runnerBranch: string;
+  created: boolean;
+}
+
+export interface CommitRelaySliceInput {
+  worktreePath: string;
+  planPath: string;
+  touchedPaths: string[];
+  task: Pick<PlanTask, "id" | "text">;
+  executor?: CommandExecutor;
+  now?: () => Date;
+}
+
+export interface PushRelayBranchInput {
+  repoPath: string;
+  branch: string;
+  executor?: CommandExecutor;
+}
+
 export interface VerificationResult {
   command: string;
   exitCode: number;

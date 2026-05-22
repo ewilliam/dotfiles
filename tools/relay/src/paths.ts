@@ -48,6 +48,10 @@ export function deriveWorktreePath(input: WorktreePathInput): string {
   );
 }
 
+export function deriveRunnerBranch(planPath: string): string {
+  return `codex/${derivePlanSlug(planPath)}`;
+}
+
 export function getRelayPaths(worktreePath: string): RelayPaths {
   const relayDir = path.join(worktreePath, RELAY_STATE_DIR_NAME);
   return {
