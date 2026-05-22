@@ -22,6 +22,13 @@ export interface PlanPhase {
   tasks: PlanTask[];
 }
 
+export interface PlanDocument {
+  title?: string;
+  phases: PlanPhase[];
+  tasks: PlanTask[];
+  raw: string;
+}
+
 export interface PlanTask {
   id: string;
   text: string;
@@ -33,6 +40,15 @@ export interface PlanTask {
   phaseOrdinal?: number;
   detailLines: string[];
   blockerNote?: string;
+}
+
+export interface TaskSplitDetection {
+  previousTaskId: string;
+  previousText: string;
+  replacementTaskIds: string[];
+  replacementTexts: string[];
+  phaseId?: string;
+  phaseTitle?: string;
 }
 
 export type LintSeverity = "P0" | "P1" | "P2";
