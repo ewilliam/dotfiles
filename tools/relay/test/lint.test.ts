@@ -108,6 +108,32 @@ describe("relay plan linter rules", () => {
     );
   });
 
+  test("allows fully completed plans to pass lint for final verification", () => {
+    const report = lintPlanText(`# Completed plan
+
+## Phase 1: Done
+
+- [x] Add focused parser support
+  - Files:
+    - Modify: \`src/plan.ts\`
+  - Acceptance criteria:
+    - Parser support works.
+  - Verification commands:
+    - \`bun test\`
+  - Commit boundary:
+    - \`git add src/plan.ts\`
+
+## Final PR Checklist
+
+- Verification passes.
+`);
+
+    expect(report.findings).not.toContainEqual(
+      expect.objectContaining({ message: expect.stringContaining("No unchecked") }),
+    );
+    expect(getLintExitCode(report.findings, { allowLintWarnings: false })).toBe(0);
+  });
+
   test("reports P2 findings for clarity issues", () => {
     const report = lintPlanText(`# No final checklist
 

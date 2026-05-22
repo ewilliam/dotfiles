@@ -98,14 +98,6 @@ export function lintPlanDocument(document: PlanDocument): LintFinding[] {
     });
   }
 
-  if (document.tasks.length > 0 && !document.tasks.some((task) => !task.checked)) {
-    findings.push({
-      message: "No unchecked executable tasks were found.",
-      remediation: "Leave at least one top-level task unchecked before running Relay.",
-      severity: "P0",
-    });
-  }
-
   for (const task of document.tasks) {
     if (task.text.trim().length === 0) {
       findings.push(taskFinding("P0", task, {
