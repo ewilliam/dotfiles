@@ -254,6 +254,27 @@ export interface RelayCommit {
   createdAt: string;
 }
 
+export type RelayRunStatus = "completed" | "blocked";
+
+export interface RelayRunResult {
+  status: RelayRunStatus;
+  exitCode: number;
+  message: string;
+  worktreePath?: string;
+  runnerBranch?: string;
+  blockedTaskId?: string;
+  commits?: RelayCommit[];
+}
+
+export type RelayNotificationKind = "blocked" | "committed" | "completed";
+
+export interface RelayNotification {
+  kind: RelayNotificationKind;
+  message: string;
+  taskId?: string;
+  commit?: RelayCommit;
+}
+
 export interface RelayStateIdentity {
   sourceRepoPath: string;
   worktreePath: string;

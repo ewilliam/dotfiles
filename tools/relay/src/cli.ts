@@ -1,4 +1,5 @@
 import { runLintPlan } from "./lint";
+import { runRelay } from "./runner";
 import type { RelayOptions } from "./types";
 
 export interface ParseRelayArgsOptions {
@@ -22,6 +23,7 @@ export interface RunCliOptions extends RelayIo {
 }
 
 type FlagName =
+  | "--allow-dirty-base"
   | "--allow-lint-warnings"
   | "--final-verify"
   | "--force"
@@ -112,6 +114,7 @@ export function createHelpText(): string {
     "  --final-verify <command>   Final verification command. Repeatable.",
     "  --resume                   Continue from an existing .relay state directory.",
     "  --force                    Overwrite existing .relay state for the same run.",
+    "  --allow-dirty-base         Permit a dirty source checkout.",
     "  --allow-lint-warnings      Permit P1 lint findings.",
     "  --notify-each-slice        Notify after each committed slice.",
     "  --help                     Show this help.",
@@ -184,6 +187,9 @@ function applyFlag(
   value: string | undefined,
 ): void {
   switch (flag) {
+    case "--allow-dirty-base":
+      options.allowDirtyBase = true;
+      return;
     case "--allow-lint-warnings":
       options.allowLintWarnings = true;
       return;
@@ -239,6 +245,7 @@ function requiredValue(flag: FlagName, value: string | undefined): string {
 function isFlagName(value: string): value is FlagName {
   return (
     value === "--allow-lint-warnings" ||
+    value === "--allow-dirty-base" ||
     value === "--final-verify" ||
     value === "--force" ||
     value === "--notify-each-slice" ||
@@ -258,6 +265,11 @@ function createDefaultHandlers(io: Required<RelayIo>): RelayHandlers {
   return {
     install: notImplemented,
     lintPlan: (options) => runLintPlan(options, io),
-    run: notImplemented,
+    run: async (options) => {
+      const result = await runRelay(options);
+      const write = result.exitCode === 0 ? io.stdout : io.stderr;
+      write(result.message);
+      return result.exitCode;
+    },
   };
 }
