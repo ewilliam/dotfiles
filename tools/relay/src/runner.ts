@@ -28,6 +28,7 @@ import {
   appendRelayEvent,
   initializeRelayState,
   readRelayState,
+  recordRepairAttempt,
   writeRelayState,
 } from "./state";
 import { runFinalVerification, runSliceVerification } from "./verify";
@@ -75,6 +76,13 @@ interface CompletionResult {
 interface WorktreeDiffSnapshot {
   fingerprint: string;
   touchedPaths: string[];
+}
+
+interface CodexFailureRepairResult {
+  ok: boolean;
+  document: PlanDocument;
+  message?: string;
+  task?: PlanTask;
 }
 
 export async function runRelay(
@@ -250,31 +258,27 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       task,
       worktreePath: context.worktreePath,
     });
-    appendRelayEvent(context.worktreePath, {
-      data: {
-        durationMs: codexResult.durationMs,
-        exitCode: codexResult.exitCode,
-        logPath: codexResult.logPath,
-        timedOut: codexResult.timedOut,
-      },
-      message: codexResult.ok
-        ? `Codex completed relay task: ${task.text}`
-        : `Codex failed relay task: ${task.text}`,
-      taskId: task.id,
-      timestamp: context.now().toISOString(),
-      type: "codex_finished",
-    });
+    appendCodexFinishedEvent(context, task, codexResult);
 
+    let updatedDocument = readPlanDocument(context.worktreePlanPath);
     if (!codexResult.ok) {
-      return blockRun(
+      const repair = await repairFailedCodexSlice(
         context,
         task,
-        `Codex exited ${codexResult.exitCode}; see ${codexResult.logPath}.`,
-        readPlanDocument(context.worktreePlanPath),
+        codexResult,
+        document,
       );
+      if (!repair.ok) {
+        return blockRun(
+          context,
+          repair.task ?? task,
+          repair.message ?? `Codex exited ${codexResult.exitCode}; see ${codexResult.logPath}.`,
+          repair.document,
+        );
+      }
+      updatedDocument = repair.document;
     }
 
-    const updatedDocument = readPlanDocument(context.worktreePlanPath);
     const completion = resolveCompletedTask(document, task, updatedDocument);
     if (!completion.ok || !completion.completedTask) {
       return blockRun(
@@ -285,28 +289,84 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       );
     }
 
-    const preVerificationDiff = await readWorktreeDiffSnapshot(
+    let completedTask = completion.completedTask;
+    let preVerificationDiff = await readWorktreeDiffSnapshot(
       context.worktreePath,
       context.worktreePlanPath,
       context.executor,
     );
-    const verification = await runSliceVerification({
+    let verification = await runSliceVerification({
       commands: context.options.verifyCommands,
       executor: context.executor,
       now: context.now,
-      task: completion.completedTask,
+      task: completedTask,
       worktreePath: context.worktreePath,
     });
 
     if (!verification.ok) {
-      return blockRun(
+      if (!verification.repairable || !verification.failureLogPath) {
+        return blockRun(
+          context,
+          completedTask,
+          sliceVerificationFailureMessage(completedTask, verification),
+          updatedDocument,
+        );
+      }
+
+      const repairCodexResult = await runRepairSession(
         context,
-        completion.completedTask,
-        verification.failureLogPath
-          ? `Slice verification failed; see ${verification.failureLogPath}.`
-          : verification.message ?? "Slice verification failed.",
-        updatedDocument,
+        completedTask,
+        verification.failureLogPath,
       );
+      const repairedDocument = readPlanDocument(context.worktreePlanPath);
+      if (!repairCodexResult.ok) {
+        return blockRun(
+          context,
+          completedTask,
+          `Repair failed for relay task "${completedTask.text}"; see ${repairCodexResult.logPath}. Original failure log: ${verification.failureLogPath}.`,
+          repairedDocument,
+        );
+      }
+
+      const repairedCompletion = resolveCompletedTask(
+        updatedDocument,
+        completedTask,
+        repairedDocument,
+      );
+      if (!repairedCompletion.ok || !repairedCompletion.completedTask) {
+        return blockRun(
+          context,
+          repairedCompletion.blockedTask ?? completedTask,
+          repairedCompletion.message ?? `Task was not complete after repair: ${completedTask.text}`,
+          repairedDocument,
+        );
+      }
+
+      updatedDocument = repairedDocument;
+      completedTask = repairedCompletion.completedTask;
+      preVerificationDiff = await readWorktreeDiffSnapshot(
+        context.worktreePath,
+        context.worktreePlanPath,
+        context.executor,
+      );
+      verification = await runSliceVerification({
+        commands: context.options.verifyCommands,
+        executor: context.executor,
+        now: context.now,
+        task: completedTask,
+        worktreePath: context.worktreePath,
+      });
+
+      if (!verification.ok) {
+        return blockRun(
+          context,
+          completedTask,
+          sliceVerificationFailureMessage(completedTask, verification, {
+            afterRepair: true,
+          }),
+          updatedDocument,
+        );
+      }
     }
     const postVerificationDiff = await readWorktreeDiffSnapshot(
       context.worktreePath,
@@ -316,7 +376,7 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
     if (postVerificationDiff.fingerprint !== preVerificationDiff.fingerprint) {
       return blockRun(
         context,
-        completion.completedTask,
+        completedTask,
         [
           "Worktree changed during slice verification.",
           ...diffChangedPaths(preVerificationDiff.touchedPaths, postVerificationDiff.touchedPaths),
@@ -329,7 +389,7 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       executor: context.executor,
       now: context.now,
       planPath: context.worktreePlanPath,
-      task: completion.completedTask,
+      task: completedTask,
       touchedPaths: preVerificationDiff.touchedPaths,
       worktreePath: context.worktreePath,
     });
@@ -339,11 +399,11 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       commits: [...current.commits, commit],
       completedTaskIds: unique([
         ...current.completedTaskIds,
-        completion.completedTask.id,
+        completedTask.id,
       ]),
       currentTaskId: selectFirstIncompleteTask(updatedDocument)?.id,
       failedTaskIds: current.failedTaskIds.filter(
-        (taskId) => taskId !== completion.completedTask?.id,
+        (taskId) => taskId !== completedTask.id,
       ),
       tasks: updatedDocument.tasks,
       updatedAt: commit.createdAt,
@@ -354,7 +414,7 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
         sha: commit.sha,
       },
       message: `Committed relay task: ${commit.message}`,
-      taskId: completion.completedTask.id,
+      taskId: completedTask.id,
       timestamp: state.updatedAt,
       type: "commit_created",
     });
@@ -363,7 +423,7 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
         commit,
         kind: "committed",
         message: `Committed relay task: ${commit.message}`,
-        taskId: completion.completedTask.id,
+        taskId: completedTask.id,
       });
     }
 
@@ -432,6 +492,152 @@ async function completeRun(context: RunnerContext): Promise<RelayRunResult> {
     status: "completed",
     worktreePath: context.worktreePath,
   };
+}
+
+async function repairFailedCodexSlice(
+  context: RunnerContext,
+  task: PlanTask,
+  codexResult: CodexExecutionResult,
+  previousDocument: PlanDocument,
+): Promise<CodexFailureRepairResult> {
+  const failedDocument = readPlanDocument(context.worktreePlanPath);
+  const sameTask = failedDocument.tasks.find((candidate) => candidate.id === task.id);
+  if (!sameTask) {
+    return {
+      document: failedDocument,
+      message: `Codex exited ${codexResult.exitCode} and task context changed before repair: ${task.text}; see ${codexResult.logPath}.`,
+      ok: false,
+      task,
+    };
+  }
+  if (sameTask.blockerNote) {
+    return {
+      document: failedDocument,
+      message: sameTask.blockerNote,
+      ok: false,
+      task: sameTask,
+    };
+  }
+  if (!canAttemptRepair(context, sameTask)) {
+    return {
+      document: failedDocument,
+      message: `Codex exited ${codexResult.exitCode} after the repair attempt was already consumed for ${sameTask.text}; see ${codexResult.logPath}.`,
+      ok: false,
+      task: sameTask,
+    };
+  }
+
+  const diff = await readWorktreeDiffSnapshot(
+    context.worktreePath,
+    context.worktreePlanPath,
+    context.executor,
+  );
+  if (diff.touchedPaths.length === 0) {
+    return {
+      document: failedDocument,
+      message: `Codex exited ${codexResult.exitCode} without a safe diff to repair for ${sameTask.text}; see ${codexResult.logPath}.`,
+      ok: false,
+      task: sameTask,
+    };
+  }
+
+  const repairCodexResult = await runRepairSession(
+    context,
+    sameTask,
+    codexResult.logPath,
+  );
+  const repairedDocument = readPlanDocument(context.worktreePlanPath);
+  if (!repairCodexResult.ok) {
+    return {
+      document: repairedDocument,
+      message: `Repair failed for relay task "${sameTask.text}"; see ${repairCodexResult.logPath}. Original failure log: ${codexResult.logPath}.`,
+      ok: false,
+      task: sameTask,
+    };
+  }
+
+  const completion = resolveCompletedTask(previousDocument, task, repairedDocument);
+  if (!completion.ok || !completion.completedTask) {
+    return {
+      document: repairedDocument,
+      message: completion.message ?? `Task was not complete after repair: ${sameTask.text}`,
+      ok: false,
+      task: completion.blockedTask ?? sameTask,
+    };
+  }
+
+  return {
+    document: repairedDocument,
+    ok: true,
+    task: completion.completedTask,
+  };
+}
+
+async function runRepairSession(
+  context: RunnerContext,
+  task: PlanTask,
+  failureLogPath: string,
+): Promise<CodexExecutionResult> {
+  recordRepairAttempt(context.worktreePath, {
+    failureLogPath,
+    now: context.now,
+    task,
+  });
+  const codexResult = await context.runCodex({
+    executor: context.executor,
+    failureLogPath,
+    planPath: context.worktreePlanPath,
+    repair: true,
+    task,
+    worktreePath: context.worktreePath,
+  });
+  appendCodexFinishedEvent(context, task, codexResult, {
+    repair: true,
+  });
+  return codexResult;
+}
+
+function appendCodexFinishedEvent(
+  context: RunnerContext,
+  task: PlanTask,
+  codexResult: CodexExecutionResult,
+  options: { repair?: boolean } = {},
+): void {
+  appendRelayEvent(context.worktreePath, {
+    data: {
+      durationMs: codexResult.durationMs,
+      exitCode: codexResult.exitCode,
+      logPath: codexResult.logPath,
+      repair: options.repair ?? false,
+      timedOut: codexResult.timedOut,
+    },
+    message: codexResult.ok
+      ? `Codex completed relay ${options.repair ? "repair" : "task"}: ${task.text}`
+      : `Codex failed relay ${options.repair ? "repair" : "task"}: ${task.text}`,
+    taskId: task.id,
+    timestamp: context.now().toISOString(),
+    type: "codex_finished",
+  });
+}
+
+function canAttemptRepair(context: RunnerContext, task: PlanTask): boolean {
+  const state = readRelayState(context.worktreePath);
+  return (state.repairAttempts[task.id] ?? 0) < 1;
+}
+
+function sliceVerificationFailureMessage(
+  task: PlanTask,
+  verification: { failureLogPath?: string; message?: string },
+  options: { afterRepair?: boolean } = {},
+): string {
+  const prefix = options.afterRepair
+    ? "Slice verification failed after repair"
+    : "Slice verification failed";
+  if (verification.failureLogPath) {
+    return `${prefix} for relay task "${task.text}"; see ${verification.failureLogPath}.`;
+  }
+
+  return `${prefix} for relay task "${task.text}": ${verification.message ?? "no failure log was recorded."}`;
 }
 
 function resolveCompletedTask(

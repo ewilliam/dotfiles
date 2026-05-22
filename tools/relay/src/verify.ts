@@ -11,6 +11,7 @@ import type {
   PlanTask,
   RunFinalVerificationInput,
   RunSliceVerificationInput,
+  RelayState,
   VerificationResult,
   VerificationRunSummary,
   VerificationScope,
@@ -129,7 +130,7 @@ async function runVerificationCommands(input: {
     const completedAt = now().toISOString();
     const logPath = writeVerificationLog(
       input.worktreePath,
-      verificationLogFileName(input.scope, index, input.taskId),
+      verificationLogFileName(input.scope, index, input.taskId, state),
       formatVerificationLog(command, commandResult, {
         index,
         scope: input.scope,
@@ -222,16 +223,26 @@ function verificationLogFileName(
   scope: VerificationScope,
   index: number,
   taskId?: string,
+  state?: RelayState,
 ): string {
+  const priorCount = state
+    ? state.verificationResults.filter((result) =>
+        result.scope === scope &&
+        result.index === index &&
+        (result.taskId ?? undefined) === (taskId ?? undefined)
+      ).length
+    : 0;
+  const suffix = priorCount === 0 ? ".log" : `-${priorCount + 1}.log`;
+
   if (scope === "final") {
-    return `final-verify-${index}.log`;
+    return `final-verify-${index}${suffix}`;
   }
 
   if (!taskId) {
     throw new Error("Slice verification requires a task ID.");
   }
 
-  return `verify-${taskId}-${index}.log`;
+  return `verify-${taskId}-${index}${suffix}`;
 }
 
 function formatVerificationLog(

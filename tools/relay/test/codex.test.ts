@@ -64,6 +64,7 @@ describe("relay codex prompts", () => {
     expect(prompt).toContain("Current task: Implement bounded `codex exec` slice and repair prompt handling.");
     expect(prompt).toContain("Failure log: /worktree/.relay/logs/verify-phase-4.log");
     expect(prompt).toContain("You may only repair work for this same task.");
+    expect(prompt).toContain("cannot expand scope beyond the current task");
     expect(prompt).toContain("Make the smallest fix");
     expect(prompt).toContain("rerun verification");
     expect(prompt).toContain("update the plan note");

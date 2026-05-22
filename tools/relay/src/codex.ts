@@ -53,6 +53,7 @@ export function buildRepairPrompt(input: CodexRepairPromptInput): string {
     "",
     "Rules:",
     "- You may only repair work for this same task.",
+    "- The repair cannot expand scope beyond the current task.",
     "- Read the failure log and repo state.",
     "- Make the smallest fix, rerun verification, update the plan note, then stop.",
     "- Preserve unrelated changes.",

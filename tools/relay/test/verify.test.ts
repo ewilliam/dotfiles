@@ -227,6 +227,46 @@ describe("relay verification handling", () => {
     });
   });
 
+  test("keeps repeated slice verification logs distinct for repair failure context", async () => {
+    const { task, worktreePath } = createInitializedState();
+    const executor = fakeVerificationExecutor([], () => ({
+      durationMs: 3,
+      exitCode: 1,
+      stderr: "slice failed\n",
+      stdout: "",
+    }));
+
+    const firstRun = await runSliceVerification({
+      commands: ["bun test"],
+      executor,
+      now: createClock(),
+      task,
+      worktreePath,
+    });
+    const retryRun = await runSliceVerification({
+      commands: ["bun test"],
+      executor,
+      now: createClock(),
+      task,
+      worktreePath,
+    });
+
+    expect(firstRun.failureLogPath).toBe(path.join(
+      worktreePath,
+      ".relay",
+      "logs",
+      `verify-${task.id}-1.log`,
+    ));
+    expect(retryRun.failureLogPath).toBe(path.join(
+      worktreePath,
+      ".relay",
+      "logs",
+      `verify-${task.id}-1-2.log`,
+    ));
+    expect(readFileSync(firstRun.failureLogPath ?? "", "utf8")).toContain("slice failed\n");
+    expect(readFileSync(retryRun.failureLogPath ?? "", "utf8")).toContain("slice failed\n");
+  });
+
   test("allows missing slice verification commands only when the task records a verification note", async () => {
     const { worktreePath } = createInitializedState();
     const notedTask = parsePlan(`# Relay

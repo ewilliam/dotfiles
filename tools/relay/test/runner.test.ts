@@ -324,6 +324,169 @@ describe("relay runner loop", () => {
     expect(await gitStdout(worktreePath, ["status", "--short"])).toContain("src/verify-output.txt");
   });
 
+  test("runs one repair session after failed slice verification and commits the repaired slice", async () => {
+    const { homeDir, planPath, repoPath, worktreePath } = await createRunnerRepo(oneTaskPlan());
+    const codexCalls: Array<{ failureLogPath?: string; repair?: boolean; task: string }> = [];
+
+    const result = await runRelay(baseRunOptions(repoPath, planPath, {
+      verifyCommands: ["test -f src/repaired-output.txt"],
+    }), {
+      homeDir,
+      runCodex: async (input) => {
+        codexCalls.push({
+          failureLogPath: input.failureLogPath,
+          repair: input.repair,
+          task: input.task.text,
+        });
+        if (input.repair) {
+          expect(input.failureLogPath).toContain(`verify-${input.task.id}-1.log`);
+          writeRunnerOutput(input, "repaired", "repaired-output.txt");
+          return fakeCodexResult(input, { ok: true });
+        }
+
+        completeTask(input);
+        return fakeCodexResult(input, { ok: true });
+      },
+    });
+
+    expect(result).toMatchObject({
+      exitCode: 0,
+      status: "completed",
+    });
+    expect(codexCalls).toEqual([
+      {
+        failureLogPath: undefined,
+        repair: undefined,
+        task: "Wire first runner slice",
+      },
+      {
+        failureLogPath: path.join(
+          worktreePath,
+          ".relay",
+          "logs",
+          `verify-${readRelayState(worktreePath).tasks[0].id}-1.log`,
+        ),
+        repair: true,
+        task: "Wire first runner slice",
+      },
+    ]);
+
+    const state = readRelayState(worktreePath);
+    expect(state.repairAttempts).toEqual({
+      [state.tasks[0].id]: 1,
+    });
+    expect(state.commits).toHaveLength(1);
+    expect(state.verificationResults.map((verification) => verification.passed)).toEqual([
+      false,
+      true,
+    ]);
+    expect(readRelayEvents(worktreePath).map((event) => event.type)).toContain("repair_started");
+    expect(await gitStdout(worktreePath, ["status", "--short"])).toBe("");
+  });
+
+  test("hard-stops after one failed repair verification without a second repair", async () => {
+    const { homeDir, planPath, repoPath, worktreePath } = await createRunnerRepo(oneTaskPlan());
+    const codexCalls: Array<{ repair?: boolean; task: string }> = [];
+    const notifications: RelayNotification[] = [];
+
+    const result = await runRelay(baseRunOptions(repoPath, planPath, {
+      verifyCommands: ["test -f src/never-created.txt"],
+    }), {
+      homeDir,
+      notify: async (notification) => {
+        notifications.push(notification);
+      },
+      runCodex: async (input) => {
+        codexCalls.push({
+          repair: input.repair,
+          task: input.task.text,
+        });
+        if (input.repair) {
+          writeRunnerOutput(input, "repair-still-fails", "repair-output.txt");
+          return fakeCodexResult(input, { ok: true });
+        }
+
+        completeTask(input);
+        return fakeCodexResult(input, { ok: true });
+      },
+    });
+
+    const state = readRelayState(worktreePath);
+    expect(result).toMatchObject({
+      blockedTaskId: state.tasks[0].id,
+      exitCode: 1,
+      status: "blocked",
+    });
+    expect(result.message).toContain("Wire first runner slice");
+    expect(result.message).toContain(`verify-${state.tasks[0].id}-1-2.log`);
+    expect(codexCalls).toEqual([
+      {
+        repair: undefined,
+        task: "Wire first runner slice",
+      },
+      {
+        repair: true,
+        task: "Wire first runner slice",
+      },
+    ]);
+    expect(state.repairAttempts).toEqual({
+      [state.tasks[0].id]: 1,
+    });
+    expect(state.failedTaskIds).toEqual([state.tasks[0].id]);
+    expect(state.commits).toHaveLength(0);
+    expect(readRelayEvents(worktreePath).filter((event) => event.type === "repair_started")).toHaveLength(1);
+    expect(notifications.at(-1)).toMatchObject({
+      kind: "blocked",
+      message: expect.stringContaining(`verify-${state.tasks[0].id}-1-2.log`),
+    });
+  });
+
+  test("repairs an unsuccessful Codex slice only when a safe diff keeps task context intact", async () => {
+    const { homeDir, planPath, repoPath, worktreePath } = await createRunnerRepo(oneTaskPlan());
+    const codexCalls: Array<{ failureLogPath?: string; repair?: boolean; task: string }> = [];
+
+    const result = await runRelay(baseRunOptions(repoPath, planPath), {
+      homeDir,
+      runCodex: async (input) => {
+        codexCalls.push({
+          failureLogPath: input.failureLogPath,
+          repair: input.repair,
+          task: input.task.text,
+        });
+        if (input.repair) {
+          completeTask(input);
+          return fakeCodexResult(input, { ok: true });
+        }
+
+        writeRunnerOutput(input, "partial", "partial-output.txt");
+        return fakeCodexResult(input, { ok: false });
+      },
+    });
+
+    const state = readRelayState(worktreePath);
+    expect(result).toMatchObject({
+      exitCode: 0,
+      status: "completed",
+    });
+    expect(codexCalls).toEqual([
+      {
+        failureLogPath: undefined,
+        repair: undefined,
+        task: "Wire first runner slice",
+      },
+      {
+        failureLogPath: path.join(worktreePath, ".relay", "logs", "wire-first-runner-slice.log"),
+        repair: true,
+        task: "Wire first runner slice",
+      },
+    ]);
+    expect(state.repairAttempts).toEqual({
+      [state.tasks[0].id]: 1,
+    });
+    expect(state.commits).toHaveLength(1);
+    expect(await gitStdout(worktreePath, ["status", "--short"])).toBe("");
+  });
+
   test("resume blocks before starting the next task when stale dirty files remain", async () => {
     const { homeDir, planPath, repoPath, worktreePath } = await createRunnerRepo(twoTaskPlan());
     const firstRun = await runRelay(baseRunOptions(repoPath, planPath, {

@@ -175,6 +175,49 @@ export function recordVerificationResult(
   return updated;
 }
 
+export function recordRepairAttempt(
+  worktreePath: string,
+  input: {
+    failureLogPath: string;
+    now?: () => Date;
+    task: Pick<PlanTask, "id" | "text">;
+  },
+): RelayState {
+  const state = readRelayState(worktreePath);
+  const currentAttempts = state.repairAttempts[input.task.id] ?? 0;
+  if (currentAttempts >= 1) {
+    throw new RelayStateError(
+      `Repair attempt already consumed for relay task: ${input.task.text}`,
+    );
+  }
+
+  const attempt = currentAttempts + 1;
+  const updatedAt = (input.now ?? (() => new Date()))().toISOString();
+  const updated: RelayState = {
+    ...state,
+    currentTaskId: input.task.id,
+    repairAttempts: {
+      ...state.repairAttempts,
+      [input.task.id]: attempt,
+    },
+    updatedAt,
+  };
+
+  writeRelayState(worktreePath, updated);
+  appendRelayEvent(worktreePath, {
+    data: {
+      attempt,
+      failureLogPath: input.failureLogPath,
+    },
+    message: `Started relay repair attempt ${attempt} for task: ${input.task.text}`,
+    taskId: input.task.id,
+    timestamp: updatedAt,
+    type: "repair_started",
+  });
+
+  return updated;
+}
+
 export function getTaskLogPath(
   worktreePath: string,
   task: Pick<PlanTask, "ordinal" | "text">,
