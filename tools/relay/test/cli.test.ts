@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
 
 import {
   createHelpText,
@@ -95,7 +96,20 @@ describe("relay cli parser", () => {
     expect(help).toContain("install");
     expect(help).toContain(".relay");
     expect(help).toContain("~/.local/bin/relay");
-    expect(help).not.toContain("codex-runner");
+    expect(help).not.toContain(["codex", "runner"].join("-"));
+  });
+
+  test("README documents the same relay commands exposed by help", () => {
+    const help = createHelpText();
+    const readme = readFileSync("/Users/ewilliam/Projects/dotfiles/README.md", "utf8");
+
+    for (const command of ["relay lint-plan", "relay install"]) {
+      expect(help).toContain(command);
+      expect(readme).toContain(command);
+    }
+    expect(readme).toContain("relay --repo");
+    expect(readme).toContain("tools/relay/bin/relay.ts");
+    expect(readme).toContain("~/.local/bin/relay");
   });
 });
 
