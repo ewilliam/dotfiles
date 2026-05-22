@@ -7,6 +7,18 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
   "icon_theme": "Catppuccin Mocha",
   "agent_servers": {
     "claude-acp": {
@@ -20,6 +32,7 @@
     "provider": "zed",
   },
   "agent": {
+    "dock": "left",
     "tool_permissions": {
       "default": "allow",
     },
@@ -29,9 +42,10 @@
       "model": "claude-opus-4-6-latest",
     },
     "default_model": {
+      "effort": "high",
       "enable_thinking": true,
-      "provider": "anthropic",
-      "model": "claude-opus-4-6-latest",
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4-6",
     },
   },
   "telemetry": {

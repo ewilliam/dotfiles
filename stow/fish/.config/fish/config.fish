@@ -39,3 +39,10 @@ source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 source ~/.secrets.fish 2>/dev/null || :
 
 fish_config theme choose catppuccin-mocha
+
+# pnpm
+set -gx PNPM_HOME "/Users/ewilliam/Library/pnpm"
+if not string match -q -- "$PNPM_HOME/bin" $PATH
+  set -gx PATH "$PNPM_HOME/bin" $PATH
+end
+# pnpm end
