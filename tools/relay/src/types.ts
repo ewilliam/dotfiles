@@ -143,6 +143,43 @@ export interface PushRelayBranchInput {
   executor?: CommandExecutor;
 }
 
+export interface CodexPromptInput {
+  worktreePath: string;
+  planPath: string;
+  task: PlanTask;
+}
+
+export interface CodexRepairPromptInput extends CodexPromptInput {
+  failureLogPath: string;
+}
+
+export interface CodexExecArgsInput {
+  worktreePath: string;
+  prompt: string;
+}
+
+export interface RunCodexExecInput extends CodexPromptInput {
+  codexExecutable?: string;
+  env?: Record<string, string | undefined>;
+  executor?: CommandExecutor;
+  failureLogPath?: string;
+  repair?: boolean;
+  timeoutMs?: number;
+}
+
+export interface CodexExecutionResult {
+  ok: boolean;
+  taskId: string;
+  command: string;
+  args: string[];
+  stdout: string;
+  stderr: string;
+  exitCode: number;
+  durationMs: number;
+  timedOut: boolean;
+  logPath: string;
+}
+
 export interface VerificationResult {
   command: string;
   exitCode: number;
