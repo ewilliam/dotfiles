@@ -274,13 +274,18 @@ export interface RelayPrRecordInput {
   now?: () => Date;
 }
 
-export type RelayNotificationKind = "blocked" | "committed" | "completed";
+export type RelayNotificationKind =
+  | "blocked"
+  | "committed"
+  | "completed"
+  | "pr_ready";
 
 export interface RelayNotification {
   kind: RelayNotificationKind;
   message: string;
   taskId?: string;
   commit?: RelayCommit;
+  prUrl?: string;
 }
 
 export interface RelayStateIdentity {

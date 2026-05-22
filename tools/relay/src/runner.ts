@@ -16,6 +16,7 @@ import {
 } from "./git";
 import { formatLintReport, getLintExitCode, lintPlanFile } from "./lint";
 import {
+  derivePlanSlug,
   deriveRunnerBranch,
   deriveWorktreePath,
   getRelayPaths,
@@ -490,6 +491,11 @@ async function completeRun(context: RunnerContext): Promise<RelayRunResult> {
       });
       prUrl = pr.url;
       state = readRelayState(context.worktreePath);
+      await emitNotification(context, {
+        kind: "pr_ready",
+        message: `${pr.reused ? "Reused" : "Created"} relay pull request: ${pr.url}`,
+        prUrl,
+      });
     } catch (error) {
       return blockRun(
         context,
@@ -809,7 +815,7 @@ async function blockRun(
   });
   await emitNotification(context, {
     kind: "blocked",
-    message,
+    message: blockerNotificationMessage(context, task, message),
     taskId: task?.id,
   });
 
@@ -997,6 +1003,15 @@ function blockedBeforeState(
     message,
     status: "blocked",
   };
+}
+
+function blockerNotificationMessage(
+  context: Pick<RunnerContext, "planPath">,
+  task: PlanTask | undefined,
+  message: string,
+): string {
+  const prefix = `[${derivePlanSlug(context.planPath)}]`;
+  return task ? `${prefix} ${task.text}: ${message}` : `${prefix} ${message}`;
 }
 
 async function emitNotification(
