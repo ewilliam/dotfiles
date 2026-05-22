@@ -232,6 +232,7 @@ export type RelayEventType =
   | "verification_finished"
   | "repair_started"
   | "commit_created"
+  | "pr_ready"
   | "blocked"
   | "completed";
 
@@ -264,6 +265,13 @@ export interface RelayRunResult {
   runnerBranch?: string;
   blockedTaskId?: string;
   commits?: RelayCommit[];
+  prUrl?: string;
+}
+
+export interface RelayPrRecordInput {
+  reused: boolean;
+  url: string;
+  now?: () => Date;
 }
 
 export type RelayNotificationKind = "blocked" | "committed" | "completed";

@@ -23,6 +23,7 @@ import {
   resolveRepoPath,
 } from "./paths";
 import { normalizeTaskTextForId, parsePlan } from "./plan";
+import { publishRelayPullRequest } from "./pr";
 import { runCommand } from "./shell";
 import {
   appendRelayEvent,
@@ -470,10 +471,39 @@ async function completeRun(context: RunnerContext): Promise<RelayRunResult> {
     );
   }
 
-  const state = updateState(context.worktreePath, context.now, (current) => ({
+  let state = updateState(context.worktreePath, context.now, (current) => ({
     ...current,
     currentTaskId: undefined,
   }));
+  let prUrl: string | undefined;
+
+  if (context.options.pr) {
+    try {
+      const pr = await publishRelayPullRequest({
+        branch: context.runnerBranch,
+        document: readPlanDocument(context.worktreePlanPath),
+        executor: context.executor,
+        now: context.now,
+        repoPath: context.repoPath,
+        state,
+        worktreePath: context.worktreePath,
+      });
+      prUrl = pr.url;
+      state = readRelayState(context.worktreePath);
+    } catch (error) {
+      return blockRun(
+        context,
+        undefined,
+        errorMessage(error),
+        {
+          phases: [],
+          raw: "",
+          tasks: state.tasks,
+        },
+      );
+    }
+  }
+
   appendRelayEvent(context.worktreePath, {
     message: "Relay run completed.",
     timestamp: state.updatedAt,
@@ -488,6 +518,7 @@ async function completeRun(context: RunnerContext): Promise<RelayRunResult> {
     commits: state.commits,
     exitCode: 0,
     message: "Relay run completed.",
+    prUrl,
     runnerBranch: context.runnerBranch,
     status: "completed",
     worktreePath: context.worktreePath,

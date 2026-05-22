@@ -13,6 +13,7 @@ import type {
   PlanTask,
   RelayEvent,
   RelayEventInput,
+  RelayPrRecordInput,
   RelayState,
   RelayStateIdentity,
   RelayStateInitInput,
@@ -213,6 +214,34 @@ export function recordRepairAttempt(
     taskId: input.task.id,
     timestamp: updatedAt,
     type: "repair_started",
+  });
+
+  return updated;
+}
+
+export function recordPullRequest(
+  worktreePath: string,
+  state: RelayState,
+  input: RelayPrRecordInput,
+): RelayState {
+  const updatedAt = (input.now ?? (() => new Date()))().toISOString();
+  const updated: RelayState = {
+    ...state,
+    prUrl: input.url,
+    updatedAt,
+  };
+
+  writeRelayState(worktreePath, updated);
+  appendRelayEvent(worktreePath, {
+    data: {
+      reused: input.reused,
+      url: input.url,
+    },
+    message: input.reused
+      ? `Reused relay pull request: ${input.url}`
+      : `Created relay pull request: ${input.url}`,
+    timestamp: updatedAt,
+    type: "pr_ready",
   });
 
   return updated;
