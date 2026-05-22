@@ -189,7 +189,41 @@ export interface VerificationResult {
   passed: boolean;
   startedAt: string;
   completedAt: string;
+  index?: number;
+  logPath?: string;
+  scope?: VerificationScope;
   taskId?: string;
+}
+
+export type VerificationScope = "slice" | "final";
+
+export interface RunSliceVerificationInput {
+  commands: string[];
+  worktreePath: string;
+  task: PlanTask;
+  executor?: CommandExecutor;
+  env?: Record<string, string | undefined>;
+  timeoutMs?: number;
+  now?: () => Date;
+}
+
+export interface RunFinalVerificationInput {
+  commands: string[];
+  worktreePath: string;
+  executor?: CommandExecutor;
+  env?: Record<string, string | undefined>;
+  timeoutMs?: number;
+  now?: () => Date;
+}
+
+export interface VerificationRunSummary {
+  ok: boolean;
+  repairable: boolean;
+  stopBeforePr: boolean;
+  results: VerificationResult[];
+  failureLogPath?: string;
+  missingCommandsAllowed?: boolean;
+  message?: string;
 }
 
 export type RelayEventType =

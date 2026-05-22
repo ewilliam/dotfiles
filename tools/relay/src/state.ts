@@ -16,6 +16,7 @@ import type {
   RelayState,
   RelayStateIdentity,
   RelayStateInitInput,
+  VerificationResult,
 } from "./types";
 
 export const RELAY_STATE_VERSION = 1;
@@ -129,6 +130,49 @@ export function writeTaskLog(
   ensureRelayDirectories(worktreePath);
   writeFileSync(logPath, contents, "utf8");
   return logPath;
+}
+
+export function writeVerificationLog(
+  worktreePath: string,
+  fileName: string,
+  contents: string,
+): string {
+  const paths = getRelayPaths(worktreePath);
+  ensureRelayDirectories(worktreePath);
+  const logPath = path.join(paths.logsDir, fileName);
+  writeFileSync(logPath, contents, "utf8");
+  return logPath;
+}
+
+export function recordVerificationResult(
+  worktreePath: string,
+  state: RelayState,
+  result: VerificationResult,
+): RelayState {
+  const updated: RelayState = {
+    ...state,
+    updatedAt: result.completedAt,
+    verificationResults: [...state.verificationResults, result],
+  };
+
+  writeRelayState(worktreePath, updated);
+  appendRelayEvent(worktreePath, {
+    data: {
+      command: result.command,
+      durationMs: result.durationMs,
+      exitCode: result.exitCode,
+      index: result.index,
+      logPath: result.logPath,
+      passed: result.passed,
+      scope: result.scope,
+    },
+    message: `${result.scope ?? "verification"} verification ${result.passed ? "passed" : "failed"}: ${result.command}`,
+    taskId: result.taskId,
+    timestamp: result.completedAt,
+    type: "verification_finished",
+  });
+
+  return updated;
 }
 
 export function getTaskLogPath(
