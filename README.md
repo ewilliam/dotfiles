@@ -124,7 +124,7 @@ bash bootstrap.sh
 
 ## AI tooling
 
-Relay is a Bun + TypeScript CLI for running implementation plans one slice at a time. The installed command is `~/.local/bin/relay`, which points to `tools/relay/bin/relay.ts`.
+Relay is a Bun + TypeScript CLI for running implementation plans one slice at a time. `relay install` restows the `relay` package, which manages `~/.local/bin/relay` and `~/.agents/skills/relay-plan`; the package's bin entry points to `tools/relay/bin/relay.ts`.
 
 Common commands:
 

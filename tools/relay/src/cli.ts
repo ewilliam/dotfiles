@@ -260,9 +260,15 @@ function isFlagName(value: string): value is FlagName {
 
 function createDefaultHandlers(io: Required<RelayIo>): RelayHandlers {
   return {
-    install: () => {
-      const result = installRelay();
+    install: async () => {
+      const result = await installRelay();
+      io.stdout(
+        `Restowed ${result.packageName} package from ${result.stowDir} into ${result.targetDir}`,
+      );
       io.stdout(`Installed relay at ${result.linkPath} -> ${result.targetPath}`);
+      io.stdout(
+        `Installed relay plan skill at ${result.skillLinkPath} -> ${result.skillTargetPath}`,
+      );
       return 0;
     },
     lintPlan: (options) => runLintPlan(options, io),

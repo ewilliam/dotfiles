@@ -1,7 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, lstatSync, readFileSync, realpathSync } from "node:fs";
 
 const SKILL_PATH = "/Users/ewilliam/.agents/skills/relay-plan/SKILL.md";
+const SKILL_LINK_PATH = "/Users/ewilliam/.agents/skills/relay-plan";
+const STOW_SKILL_PATH =
+  "/Users/ewilliam/Projects/dotfiles/stow/relay/.agents/skills/relay-plan";
 const FORMER_TOOL_NAME = ["codex", "runner"].join("-");
 
 describe("relay planning skill", () => {
@@ -28,5 +31,12 @@ describe("relay planning skill", () => {
     expect(body).toContain("~/.agents/skills/relay-plan/SKILL.md");
     expect(skill).not.toContain(FORMER_TOOL_NAME);
     expect(skill.match(/\blint-plan\b/g)?.length).toBe(1);
+  });
+
+  test("installs the skill through the dotfiles stow package", () => {
+    expect(existsSync(SKILL_PATH)).toBe(true);
+    expect(existsSync(`${STOW_SKILL_PATH}/SKILL.md`)).toBe(true);
+    expect(lstatSync(SKILL_LINK_PATH).isSymbolicLink()).toBe(true);
+    expect(realpathSync(SKILL_LINK_PATH)).toBe(STOW_SKILL_PATH);
   });
 });

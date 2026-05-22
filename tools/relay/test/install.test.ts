@@ -1,20 +1,25 @@
 import { afterEach, describe, expect, test } from "bun:test";
 import {
-  lstatSync,
+  existsSync,
   mkdirSync,
   readFileSync,
-  readlinkSync,
+  realpathSync,
   symlinkSync,
-  writeFileSync,
 } from "node:fs";
 import path from "node:path";
 
 import { runCli } from "../src/cli";
 import {
   DEFAULT_RELAY_ENTRYPOINT,
+  DEFAULT_RELAY_STOW_DIR,
+  DEFAULT_RELAY_STOW_PACKAGE,
+  DEFAULT_RELAY_STOW_TARGET_DIR,
+  DEFAULT_RELAY_PLAN_STOW_SOURCE_DIR,
+  DEFAULT_LEGACY_RELAY_PLAN_STOW_SOURCE_DIR,
   installRelay,
   RelayInstallError,
 } from "../src/install";
+import type { CommandResult, CommandSpec } from "../src/types";
 import { makeTempDir, removeTempDir } from "./helpers";
 
 const tempDirs: string[] = [];
@@ -32,34 +37,78 @@ afterEach(() => {
 });
 
 describe("relay installer", () => {
-  test("creates the bin directory and symlinks relay to the source entrypoint", () => {
-    const binDir = path.join(tempDir("relay-install-"), "bin");
+  test("restows the relay package into the target home directory", async () => {
+    const tempRoot = tempDir("relay-install-");
+    const stowDir = path.join(tempRoot, "stow");
+    const targetDir = path.join(tempRoot, "home");
+    const calls: CommandSpec[] = [];
 
-    const result = installRelay({ binDir });
+    const result = await installRelay({
+      executor: async (spec) => {
+        calls.push(spec);
+        return commandResult(spec);
+      },
+      stowDir,
+      targetDir,
+    });
 
-    expect(result.linkPath).toBe(path.join(binDir, "relay"));
-    expect(result.targetPath).toBe(DEFAULT_RELAY_ENTRYPOINT);
-    expect(lstatSync(result.linkPath).isSymbolicLink()).toBe(true);
-    expect(readlinkSync(result.linkPath)).toBe(DEFAULT_RELAY_ENTRYPOINT);
+    expect(result.packageName).toBe(DEFAULT_RELAY_STOW_PACKAGE);
+    expect(result.linkPath).toBe(path.join(targetDir, ".local", "bin", "relay"));
+    expect(result.targetPath).toBe(path.join(stowDir, "relay", ".local", "bin", "relay"));
+    expect(result.skillLinkPath).toBe(
+      path.join(targetDir, ".agents", "skills", "relay-plan"),
+    );
+    expect(result.skillTargetPath).toBe(
+      path.join(stowDir, "relay", ".agents", "skills", "relay-plan"),
+    );
+    expect(calls).toEqual([
+      {
+        args: ["-d", stowDir, "-t", targetDir, "--restow", DEFAULT_RELAY_STOW_PACKAGE],
+        command: "stow",
+        cwd: "/Users/ewilliam/Projects/dotfiles",
+      },
+    ]);
   });
 
-  test("replaces stale symlinks but refuses to overwrite real files", () => {
-    const binDir = path.join(tempDir("relay-install-stale-"), "bin");
-    mkdirSync(binDir, { recursive: true });
-    symlinkSync("/tmp/stale-relay", path.join(binDir, "relay"));
+  test("removes known legacy symlinks before restowing relay", async () => {
+    const tempRoot = tempDir("relay-install-legacy-");
+    const stowDir = path.join(tempRoot, "stow");
+    const targetDir = path.join(tempRoot, "home");
+    const relayLink = path.join(targetDir, ".local", "bin", "relay");
+    const skillLink = path.join(targetDir, ".agents", "skills", "relay-plan");
+    mkdirSync(path.dirname(relayLink), { recursive: true });
+    mkdirSync(path.dirname(skillLink), { recursive: true });
+    symlinkSync(DEFAULT_RELAY_ENTRYPOINT, relayLink);
+    symlinkSync(DEFAULT_LEGACY_RELAY_PLAN_STOW_SOURCE_DIR, skillLink);
 
-    installRelay({ binDir });
-
-    expect(readlinkSync(path.join(binDir, "relay"))).toBe(DEFAULT_RELAY_ENTRYPOINT);
-
-    const realFileBinDir = path.join(tempDir("relay-install-real-file-"), "bin");
-    mkdirSync(realFileBinDir, { recursive: true });
-    writeFileSync(path.join(realFileBinDir, "relay"), "not a symlink\n");
-
-    expect(() => installRelay({ binDir: realFileBinDir })).toThrow(RelayInstallError);
+    await installRelay({
+      executor: async (spec) => {
+        expect(existsSync(relayLink)).toBe(false);
+        expect(existsSync(skillLink)).toBe(false);
+        return commandResult(spec);
+      },
+      stowDir,
+      targetDir,
+    });
   });
 
-  test("relay install calls the installer and prints the installed symlink path", async () => {
+  test("throws when stow cannot restow the relay package", async () => {
+    const tempRoot = tempDir("relay-install-fail-");
+
+    await expect(
+      installRelay({
+        executor: async (spec) =>
+          commandResult(spec, {
+            exitCode: 1,
+            stderr: "existing target is neither a link nor a directory\n",
+          }),
+        stowDir: path.join(tempRoot, "stow"),
+        targetDir: path.join(tempRoot, "home"),
+      }),
+    ).rejects.toThrow(RelayInstallError);
+  });
+
+  test("relay install calls stow and prints the installed package links", async () => {
     const output: string[] = [];
 
     const exitCode = await runCli(["install"], {
@@ -68,7 +117,13 @@ describe("relay installer", () => {
 
     expect(exitCode).toBe(0);
     expect(output.join("\n")).toContain("/Users/ewilliam/.local/bin/relay");
-    expect(readlinkSync("/Users/ewilliam/.local/bin/relay")).toBe(DEFAULT_RELAY_ENTRYPOINT);
+    expect(output.join("\n")).toContain("/Users/ewilliam/.agents/skills/relay-plan");
+    expect(realpathSync("/Users/ewilliam/.local/bin/relay")).toBe(DEFAULT_RELAY_ENTRYPOINT);
+    expect(realpathSync("/Users/ewilliam/.agents/skills/relay-plan")).toBe(
+      DEFAULT_RELAY_PLAN_STOW_SOURCE_DIR,
+    );
+    expect(DEFAULT_RELAY_STOW_DIR).toBe("/Users/ewilliam/Projects/dotfiles/stow");
+    expect(DEFAULT_RELAY_STOW_TARGET_DIR).toBe("/Users/ewilliam");
   });
 
   test("bootstrap script checks bun after brew bundle", () => {
@@ -84,3 +139,20 @@ describe("relay installer", () => {
     expect(script).toContain("warn");
   });
 });
+
+function commandResult(
+  spec: CommandSpec,
+  overrides: Partial<CommandResult> = {},
+): CommandResult {
+  return {
+    args: spec.args ?? [],
+    command: spec.command,
+    cwd: spec.cwd,
+    durationMs: 1,
+    exitCode: 0,
+    stderr: "",
+    stdout: "",
+    timedOut: false,
+    ...overrides,
+  };
+}
