@@ -1,3 +1,4 @@
+import { installRelay } from "./install";
 import { runLintPlan } from "./lint";
 import { runRelay } from "./runner";
 import type { RelayOptions } from "./types";
@@ -258,12 +259,12 @@ function isFlagName(value: string): value is FlagName {
 }
 
 function createDefaultHandlers(io: Required<RelayIo>): RelayHandlers {
-  const notImplemented = (options: RelayOptions) => {
-    throw new RelayCliError(`${options.command} is not implemented yet`);
-  };
-
   return {
-    install: notImplemented,
+    install: () => {
+      const result = installRelay();
+      io.stdout(`Installed relay at ${result.linkPath} -> ${result.targetPath}`);
+      return 0;
+    },
     lintPlan: (options) => runLintPlan(options, io),
     run: async (options) => {
       const result = await runRelay(options);

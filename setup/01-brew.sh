@@ -20,4 +20,11 @@ fi
 info "Bundling packages..."
 brew bundle --file="$DOTFILES/Brewfile"
 success "All packages installed"
+
+if bun --version >/dev/null 2>&1; then
+    success "Bun available: $(bun --version)"
+else
+    warn "Bun is unavailable after Homebrew bundle. Re-run setup/01-brew.sh or run: brew bundle --file=\"$DOTFILES/Brewfile\""
+fi
+
 spin "Cleaning up" brew cleanup --prune=30
