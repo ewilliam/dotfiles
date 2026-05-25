@@ -84,6 +84,8 @@ describe("relay codex execution", () => {
     expect(args).toContain("danger-full-access");
     expect(args).toContain("--config");
     expect(args).toContain('approval_policy="never"');
+    expect(args).not.toContain("--model");
+    expect(args).toContain('model_reasoning_effort="xhigh"');
     expect(args.at(-1)).toBe("prompt");
   });
 

@@ -11,11 +11,14 @@ import type {
 } from "./types";
 
 const DEFAULT_CODEX_EXECUTABLE = "codex";
+const HIGHEST_CODEX_REASONING_EFFORT = "xhigh";
 const CODEX_EXEC_OPTIONS = [
   "--sandbox",
   "danger-full-access",
   "--config",
   'approval_policy="never"',
+  "--config",
+  `model_reasoning_effort="${HIGHEST_CODEX_REASONING_EFFORT}"`,
   "--color",
   "never",
 ] as const;
