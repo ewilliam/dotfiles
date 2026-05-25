@@ -46,3 +46,6 @@ if not string match -q -- "$PNPM_HOME/bin" $PATH
   set -gx PATH "$PNPM_HOME/bin" $PATH
 end
 # pnpm end
+
+# Pi
+fish_add_path "/Users/ewilliam/.local/share/mise/installs/node/26.2.0/bin"
