@@ -8,6 +8,7 @@ import { readRelayEvents, readRelayState } from "../src/state";
 import type {
   CodexExecutionResult,
   CommandExecutor,
+  RelayProgressEvent,
   RelayNotification,
   RunCodexExecInput,
 } from "../src/types";
@@ -194,6 +195,90 @@ describe("relay runner loop", () => {
     });
     expect(timeouts).toEqual([expect.any(Number)]);
     expect(timeouts[0]).toBeGreaterThan(0);
+  });
+
+  test("emits progress milestones for a successful multi-task run", async () => {
+    const { homeDir, planPath, repoPath } = await createRunnerRepo(twoTaskPlan());
+    const progress: RelayProgressEvent[] = [];
+
+    const result = await runRelay(baseRunOptions(repoPath, planPath, {
+      finalVerifyCommands: [
+        "test -f src/wire-first-runner-slice.txt && test -f src/wire-second-runner-slice.txt",
+      ],
+      verifyCommands: ["test -f src/runner-output.txt"],
+    }), {
+      homeDir,
+      progress: (event) => {
+        progress.push(event);
+      },
+      runCodex: createCompletingCodex([]),
+    });
+
+    expect(result).toMatchObject({
+      exitCode: 0,
+      status: "completed",
+    });
+    expect(progress.map((event) => event.type)).toEqual([
+      "lint_started",
+      "lint_passed",
+      "git_checked",
+      "worktree_ready",
+      "state_ready",
+      "task_started",
+      "codex_finished",
+      "verification_finished",
+      "commit_created",
+      "task_started",
+      "codex_finished",
+      "verification_finished",
+      "commit_created",
+      "final_verification_started",
+      "final_verification_finished",
+      "completed",
+    ]);
+    expect(progress.find((event) => event.type === "task_started")).toMatchObject({
+      taskOrdinal: 1,
+      taskTotal: 2,
+      taskText: "Wire first runner slice",
+    });
+    expect(progress.filter((event) => event.type === "commit_created").at(-1)).toMatchObject({
+      completedTaskCount: 2,
+      taskTotal: 2,
+    });
+    expect(progress.at(-1)).toMatchObject({
+      message: "Relay run completed.",
+    });
+  });
+
+  test("emits progress when plan lint blocks before relay state exists", async () => {
+    const repoPath = tempDir("relay-runner-progress-lint-");
+    const homeDir = tempDir("relay-runner-progress-home-");
+    mkdirSync(path.join(repoPath, "docs", "plans"), { recursive: true });
+    writeFileSync(
+      path.join(repoPath, "docs", "plans", "relay.md"),
+      "# Weak plan\n\n## Phase 1: Weak\n\n- [ ] Implement feature\n",
+    );
+    const progress: RelayProgressEvent[] = [];
+
+    const result = await runRelay(baseRunOptions(repoPath, "docs/plans/relay.md", {
+      verifyCommands: [],
+    }), {
+      homeDir,
+      progress: (event) => {
+        progress.push(event);
+      },
+    });
+
+    expect(result).toMatchObject({
+      exitCode: 1,
+      status: "blocked",
+    });
+    expect(progress.map((event) => event.type)).toEqual([
+      "lint_started",
+      "lint_failed",
+      "blocked",
+    ]);
+    expect(progress.at(-1)?.message).toContain("Plan lint failed");
   });
 
   test("invokes fake Codex slices, verifies, commits, records SHAs, and continues to the next task", async () => {
@@ -510,9 +595,13 @@ describe("relay runner loop", () => {
 
   test("reports timed out Codex slices explicitly", async () => {
     const { homeDir, planPath, repoPath } = await createRunnerRepo(oneTaskPlan());
+    const progress: RelayProgressEvent[] = [];
 
     const result = await runRelay(baseRunOptions(repoPath, planPath), {
       homeDir,
+      progress: (event) => {
+        progress.push(event);
+      },
       runCodex: async (input) => fakeCodexResult(input, {
         ok: false,
         timedOut: true,
@@ -524,6 +613,46 @@ describe("relay runner loop", () => {
       status: "blocked",
     });
     expect(result.message).toContain("timed out");
+    expect(progress.map((event) => event.type)).toContain("codex_finished");
+    expect(progress.at(-1)).toMatchObject({
+      type: "blocked",
+    });
+  });
+
+  test("emits progress for repair attempts and failed verification", async () => {
+    const { homeDir, planPath, repoPath } = await createRunnerRepo(oneTaskPlan());
+    const progress: RelayProgressEvent[] = [];
+
+    const result = await runRelay(baseRunOptions(repoPath, planPath, {
+      verifyCommands: ["test -f src/never-created.txt"],
+    }), {
+      homeDir,
+      progress: (event) => {
+        progress.push(event);
+      },
+      runCodex: async (input) => {
+        if (input.repair) {
+          writeRunnerOutput(input, "repair-still-fails", "repair-output.txt");
+          return fakeCodexResult(input, { ok: true });
+        }
+
+        completeTask(input);
+        return fakeCodexResult(input, { ok: true });
+      },
+    });
+
+    expect(result).toMatchObject({
+      exitCode: 1,
+      status: "blocked",
+    });
+    expect(progress.map((event) => event.type)).toContain("repair_started");
+    expect(progress.filter((event) => event.type === "verification_finished")).toHaveLength(2);
+    expect(progress.filter((event) => event.type === "verification_finished").at(-1)).toMatchObject({
+      passed: false,
+    });
+    expect(progress.at(-1)).toMatchObject({
+      type: "blocked",
+    });
   });
 
   test("resume blocks before starting the next task when stale dirty files remain", async () => {

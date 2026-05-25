@@ -289,6 +289,49 @@ export interface RelayNotification {
   prUrl?: string;
 }
 
+export type RelayProgressEventType =
+  | "lint_started"
+  | "lint_passed"
+  | "lint_failed"
+  | "git_checked"
+  | "worktree_ready"
+  | "state_ready"
+  | "task_started"
+  | "codex_finished"
+  | "verification_finished"
+  | "repair_started"
+  | "commit_created"
+  | "final_verification_started"
+  | "final_verification_finished"
+  | "pr_ready"
+  | "blocked"
+  | "completed";
+
+export interface RelayProgressEvent {
+  type: RelayProgressEventType;
+  message: string;
+  timestamp: string;
+  planPath?: string;
+  repoPath?: string;
+  worktreePath?: string;
+  runnerBranch?: string;
+  taskId?: string;
+  taskText?: string;
+  taskOrdinal?: number;
+  taskTotal?: number;
+  completedTaskCount?: number;
+  command?: string;
+  durationMs?: number;
+  exitCode?: number;
+  logPath?: string;
+  passed?: boolean;
+  repair?: boolean;
+  timedOut?: boolean;
+  commitMessage?: string;
+  commitSha?: string;
+  prUrl?: string;
+}
+
 export interface RelayStateIdentity {
   sourceRepoPath: string;
   worktreePath: string;

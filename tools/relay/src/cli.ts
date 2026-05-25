@@ -1,7 +1,7 @@
 import { installRelay } from "./install";
 import { runLintPlan } from "./lint";
 import { runRelay } from "./runner";
-import type { RelayOptions } from "./types";
+import type { RelayOptions, RelayProgressEvent } from "./types";
 
 export interface ParseRelayArgsOptions {
   cwd?: string;
@@ -307,10 +307,18 @@ function createDefaultHandlers(io: Required<RelayIo>): RelayHandlers {
     },
     lintPlan: (options) => runLintPlan(options, io),
     run: async (options) => {
-      const result = await runRelay(options);
+      const result = await runRelay(options, {
+        progress: (event) => {
+          io.stderr(formatProgressEvent(event));
+        },
+      });
       const write = result.exitCode === 0 ? io.stdout : io.stderr;
       write(result.message);
       return result.exitCode;
     },
   };
+}
+
+function formatProgressEvent(event: RelayProgressEvent): string {
+  return `[relay] ${event.message}`;
 }

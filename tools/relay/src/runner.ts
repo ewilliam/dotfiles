@@ -42,9 +42,11 @@ import type {
   PlanTask,
   RelayNotification,
   RelayOptions,
+  RelayProgressEvent,
   RelayRunResult,
   RelayState,
   RunCodexExecInput,
+  VerificationRunSummary,
 } from "./types";
 
 export interface RunRelayDependencies {
@@ -52,6 +54,7 @@ export interface RunRelayDependencies {
   homeDir?: string;
   notify?: (notification: RelayNotification) => Promise<void> | void;
   now?: () => Date;
+  progress?: (event: RelayProgressEvent) => Promise<void> | void;
   runCodex?: (input: RunCodexExecInput) => Promise<CodexExecutionResult>;
 }
 
@@ -60,6 +63,7 @@ interface RunnerContext {
   now: () => Date;
   options: RelayOptions;
   planPath: string;
+  progress?: (event: RelayProgressEvent) => Promise<void> | void;
   repoPath: string;
   runnerBranch: string;
   notify?: (notification: RelayNotification) => Promise<void> | void;
@@ -91,16 +95,27 @@ export async function runRelay(
   options: RelayOptions,
   dependencies: RunRelayDependencies = {},
 ): Promise<RelayRunResult> {
+  const executor = dependencies.executor ?? runCommand;
+  const now = dependencies.now ?? (() => new Date());
+
   if (!options.planPath) {
+    await emitProgress(dependencies.progress, {
+      message: "blocked: run requires --plan <path>",
+      type: "blocked",
+    }, now);
     return blockedBeforeState("run requires --plan <path>");
   }
 
-  const executor = dependencies.executor ?? runCommand;
-  const now = dependencies.now ?? (() => new Date());
   const repoPath = resolveRepoPath(options.repoPath);
   const planPath = options.planPath;
   const sourcePlanPath = resolvePlanPath(repoPath, planPath);
   const worktreePlanRelativePath = path.relative(repoPath, sourcePlanPath);
+  await emitProgress(dependencies.progress, {
+    message: `linting ${planPath}`,
+    planPath,
+    repoPath,
+    type: "lint_started",
+  }, now);
   const lintReport = lintPlanFile({
     planPath,
     repoPath,
@@ -110,8 +125,28 @@ export async function runRelay(
   });
 
   if (lintExitCode !== 0) {
-    return blockedBeforeState(formatLintReport(lintReport));
+    const message = formatLintReport(lintReport);
+    await emitProgress(dependencies.progress, {
+      message: `lint failed: ${planPath}`,
+      planPath,
+      repoPath,
+      type: "lint_failed",
+    }, now);
+    await emitProgress(dependencies.progress, {
+      message: `blocked: ${firstLine(message)}`,
+      planPath,
+      repoPath,
+      type: "blocked",
+    }, now);
+    return blockedBeforeState(message);
   }
+
+  await emitProgress(dependencies.progress, {
+    message: `lint passed: ${planPath}`,
+    planPath,
+    repoPath,
+    type: "lint_passed",
+  }, now);
 
   const runnerBranch = deriveRunnerBranch(planPath);
   const worktreePath = deriveWorktreePath({
@@ -122,8 +157,17 @@ export async function runRelay(
   const worktreePlanPath = resolvePlanPath(worktreePath, worktreePlanRelativePath);
 
   if (options.resume && !existsSync(worktreePath)) {
+    const message = `No existing relay worktree found at ${worktreePath}; remove --resume or use --force to start over.`;
+    await emitProgress(dependencies.progress, {
+      message: `blocked: ${firstLine(message)}`,
+      planPath,
+      repoPath,
+      runnerBranch,
+      type: "blocked",
+      worktreePath,
+    }, now);
     return blockedBeforeState(
-      `No existing relay worktree found at ${worktreePath}; remove --resume or use --force to start over.`,
+      message,
       {
         runnerBranch,
         worktreePath,
@@ -137,6 +181,14 @@ export async function runRelay(
       executor,
       repoPath,
     });
+    await emitProgress(dependencies.progress, {
+      message: `git checked: ${sourceGitState.branch} ${shortSha(sourceGitState.head)}`,
+      planPath,
+      repoPath,
+      runnerBranch,
+      type: "git_checked",
+      worktreePath,
+    }, now);
 
     const worktreeResult = await ensureRelayWorktree({
       baseHead: sourceGitState.head,
@@ -146,10 +198,27 @@ export async function runRelay(
       sourceRepoPath: repoPath,
       worktreePath,
     });
+    await emitProgress(dependencies.progress, {
+      message: `worktree ${worktreePath} on ${runnerBranch}`,
+      planPath,
+      repoPath,
+      runnerBranch,
+      type: "worktree_ready",
+      worktreePath,
+    }, now);
 
     if (!worktreeResult.created && !options.resume && !options.force) {
+      const message = `Existing relay state found at ${getRelayPaths(worktreePath).stateFile}; use --resume or --force.`;
+      await emitProgress(dependencies.progress, {
+        message: `blocked: ${firstLine(message)}`,
+        planPath,
+        repoPath,
+        runnerBranch,
+        type: "blocked",
+        worktreePath,
+      }, now);
       return blockedBeforeState(
-        `Existing relay state found at ${getRelayPaths(worktreePath).stateFile}; use --resume or --force.`,
+        message,
         {
           runnerBranch,
           worktreePath,
@@ -164,8 +233,17 @@ export async function runRelay(
         executor,
       );
       if (stalePaths.length > 0) {
+        const message = `Existing relay worktree has stale non-plan changes:\n${stalePaths.join("\n")}`;
+        await emitProgress(dependencies.progress, {
+          message: `blocked: ${firstLine(message)}`,
+          planPath,
+          repoPath,
+          runnerBranch,
+          type: "blocked",
+          worktreePath,
+        }, now);
         return blockedBeforeState(
-          `Existing relay worktree has stale non-plan changes:\n${stalePaths.join("\n")}`,
+          message,
           {
             runnerBranch,
             worktreePath,
@@ -193,12 +271,21 @@ export async function runRelay(
       tasks: initialDocument.tasks,
       worktreePath,
     });
+    await emitProgress(dependencies.progress, {
+      message: options.resume ? "resumed relay state" : "initialized relay state",
+      planPath,
+      repoPath,
+      runnerBranch,
+      type: "state_ready",
+      worktreePath,
+    }, now);
 
     const context: RunnerContext = {
       executor,
       now,
       options,
       planPath,
+      progress: dependencies.progress,
       repoPath,
       runnerBranch,
       notify: dependencies.notify,
@@ -218,7 +305,16 @@ export async function runRelay(
       );
     }
   } catch (error) {
-    return blockedBeforeState(errorMessage(error), {
+    const message = errorMessage(error);
+    await emitProgress(dependencies.progress, {
+      message: `blocked: ${firstLine(message)}`,
+      planPath,
+      repoPath,
+      runnerBranch,
+      type: "blocked",
+      worktreePath,
+    }, now);
+    return blockedBeforeState(message, {
       runnerBranch,
       worktreePath,
     });
@@ -263,6 +359,14 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       timestamp: state.updatedAt,
       type: "task_started",
     });
+    await emitRunnerProgress(context, {
+      message: `task ${task.ordinal}/${document.tasks.length} started: ${task.text}`,
+      taskId: task.id,
+      taskOrdinal: task.ordinal,
+      taskText: task.text,
+      taskTotal: document.tasks.length,
+      type: "task_started",
+    });
 
     const codexResult = await context.runCodex({
       executor: context.executor,
@@ -271,7 +375,7 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       timeoutMs: resolveCodexTimeoutMs(context.options),
       worktreePath: context.worktreePath,
     });
-    appendCodexFinishedEvent(context, task, codexResult);
+    await appendCodexFinishedEvent(context, task, codexResult);
 
     let updatedDocument = readPlanDocument(context.worktreePlanPath);
     if (!codexResult.ok) {
@@ -315,6 +419,7 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       task: completedTask,
       worktreePath: context.worktreePath,
     });
+    await emitSliceVerificationProgress(context, completedTask, verification);
 
     if (!verification.ok) {
       if (!verification.repairable || !verification.failureLogPath) {
@@ -369,6 +474,7 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
         task: completedTask,
         worktreePath: context.worktreePath,
       });
+      await emitSliceVerificationProgress(context, completedTask, verification);
 
       if (!verification.ok) {
         return blockRun(
@@ -431,6 +537,16 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       timestamp: state.updatedAt,
       type: "commit_created",
     });
+    await emitRunnerProgress(context, {
+      commitMessage: commit.message,
+      commitSha: commit.sha,
+      completedTaskCount: state.completedTaskIds.length,
+      message: `committed ${state.completedTaskIds.length}/${updatedDocument.tasks.length} ${shortSha(commit.sha)} ${commit.message}`,
+      taskId: completedTask.id,
+      taskText: completedTask.text,
+      taskTotal: updatedDocument.tasks.length,
+      type: "commit_created",
+    });
     if (context.options.notifyEachSlice) {
       await emitNotification(context, {
         commit,
@@ -445,12 +561,17 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
 }
 
 async function completeRun(context: RunnerContext): Promise<RelayRunResult> {
+  await emitRunnerProgress(context, {
+    message: "final verification started",
+    type: "final_verification_started",
+  });
   const finalVerification = await runFinalVerification({
     commands: context.options.finalVerifyCommands,
     executor: context.executor,
     now: context.now,
     worktreePath: context.worktreePath,
   });
+  await emitFinalVerificationProgress(context, finalVerification);
 
   if (!finalVerification.ok) {
     const state = readRelayState(context.worktreePath);
@@ -502,6 +623,11 @@ async function completeRun(context: RunnerContext): Promise<RelayRunResult> {
       });
       prUrl = pr.url;
       state = readRelayState(context.worktreePath);
+      await emitRunnerProgress(context, {
+        message: `pr ready: ${pr.url}`,
+        prUrl,
+        type: "pr_ready",
+      });
       await emitNotification(context, {
         kind: "pr_ready",
         message: `${pr.reused ? "Reused" : "Created"} relay pull request: ${pr.url}`,
@@ -524,6 +650,10 @@ async function completeRun(context: RunnerContext): Promise<RelayRunResult> {
   appendRelayEvent(context.worktreePath, {
     message: "Relay run completed.",
     timestamp: state.updatedAt,
+    type: "completed",
+  });
+  await emitRunnerProgress(context, {
+    message: "Relay run completed.",
     type: "completed",
   });
   await emitNotification(context, {
@@ -626,10 +756,17 @@ async function runRepairSession(
   task: PlanTask,
   failureLogPath: string,
 ): Promise<CodexExecutionResult> {
-  recordRepairAttempt(context.worktreePath, {
+  const state = recordRepairAttempt(context.worktreePath, {
     failureLogPath,
     now: context.now,
     task,
+  });
+  await emitRunnerProgress(context, {
+    logPath: displayPath(context.worktreePath, failureLogPath),
+    message: `repair attempt ${state.repairAttempts[task.id] ?? 1} started: ${task.text}`,
+    taskId: task.id,
+    taskText: task.text,
+    type: "repair_started",
   });
   const codexResult = await context.runCodex({
     executor: context.executor,
@@ -640,18 +777,18 @@ async function runRepairSession(
     timeoutMs: resolveCodexTimeoutMs(context.options),
     worktreePath: context.worktreePath,
   });
-  appendCodexFinishedEvent(context, task, codexResult, {
+  await appendCodexFinishedEvent(context, task, codexResult, {
     repair: true,
   });
   return codexResult;
 }
 
-function appendCodexFinishedEvent(
+async function appendCodexFinishedEvent(
   context: RunnerContext,
   task: PlanTask,
   codexResult: CodexExecutionResult,
   options: { repair?: boolean } = {},
-): void {
+): Promise<void> {
   appendRelayEvent(context.worktreePath, {
     data: {
       durationMs: codexResult.durationMs,
@@ -665,6 +802,20 @@ function appendCodexFinishedEvent(
       : `Codex failed relay ${options.repair ? "repair" : "task"}: ${task.text}`,
     taskId: task.id,
     timestamp: context.now().toISOString(),
+    type: "codex_finished",
+  });
+  await emitRunnerProgress(context, {
+    durationMs: codexResult.durationMs,
+    exitCode: codexResult.exitCode,
+    logPath: displayPath(context.worktreePath, codexResult.logPath),
+    message: [
+      `codex ${codexResult.ok ? "finished" : "failed"} in ${formatDuration(codexResult.durationMs)}`,
+      `log ${displayPath(context.worktreePath, codexResult.logPath)}`,
+    ].join(", "),
+    repair: options.repair ?? false,
+    taskId: task.id,
+    taskText: task.text,
+    timedOut: codexResult.timedOut,
     type: "codex_finished",
   });
 }
@@ -849,6 +1000,12 @@ async function blockRun(
     timestamp: state.updatedAt,
     type: "blocked",
   });
+  await emitRunnerProgress(context, {
+    message: `blocked: ${firstLine(message)}`,
+    taskId: task?.id,
+    taskText: task?.text,
+    type: "blocked",
+  });
   await emitNotification(context, {
     kind: "blocked",
     message: blockerNotificationMessage(context, task, message),
@@ -1029,6 +1186,88 @@ function updateState(
   return updated;
 }
 
+async function emitSliceVerificationProgress(
+  context: RunnerContext,
+  task: PlanTask,
+  summary: VerificationRunSummary,
+): Promise<void> {
+  if (summary.results.length === 0) {
+    await emitRunnerProgress(context, {
+      message: summary.message ?? `verification ${summary.ok ? "passed" : "failed"}: no commands configured`,
+      passed: summary.ok,
+      taskId: task.id,
+      taskText: task.text,
+      type: "verification_finished",
+    });
+    return;
+  }
+
+  for (const result of summary.results) {
+    await emitRunnerProgress(context, {
+      command: result.command,
+      durationMs: result.durationMs,
+      exitCode: result.exitCode,
+      logPath: result.logPath ? displayPath(context.worktreePath, result.logPath) : undefined,
+      message: `verification ${result.passed ? "passed" : "failed"}: ${result.command}`,
+      passed: result.passed,
+      taskId: task.id,
+      taskText: task.text,
+      type: "verification_finished",
+    });
+  }
+}
+
+async function emitFinalVerificationProgress(
+  context: RunnerContext,
+  summary: VerificationRunSummary,
+): Promise<void> {
+  const failureLogPath = summary.failureLogPath
+    ? displayPath(context.worktreePath, summary.failureLogPath)
+    : undefined;
+  await emitRunnerProgress(context, {
+    logPath: failureLogPath,
+    message: summary.ok
+      ? "final verification passed"
+      : `final verification failed${failureLogPath ? `, log ${failureLogPath}` : ""}`,
+    passed: summary.ok,
+    type: "final_verification_finished",
+  });
+}
+
+async function emitRunnerProgress(
+  context: RunnerContext,
+  event: Omit<RelayProgressEvent, "timestamp" | "planPath" | "repoPath" | "runnerBranch" | "worktreePath"> & {
+    timestamp?: string;
+  },
+): Promise<void> {
+  await emitProgress(context.progress, {
+    planPath: context.planPath,
+    repoPath: context.repoPath,
+    runnerBranch: context.runnerBranch,
+    worktreePath: context.worktreePath,
+    ...event,
+  }, context.now);
+}
+
+async function emitProgress(
+  progress: ((event: RelayProgressEvent) => Promise<void> | void) | undefined,
+  event: Omit<RelayProgressEvent, "timestamp"> & { timestamp?: string },
+  now: () => Date,
+): Promise<void> {
+  if (!progress) {
+    return;
+  }
+
+  try {
+    await progress({
+      ...event,
+      timestamp: event.timestamp ?? now().toISOString(),
+    });
+  } catch {
+    // Progress reporting is informational and must not mask runner results.
+  }
+}
+
 function blockedBeforeState(
   message: string,
   details: Pick<RelayRunResult, "runnerBranch" | "worktreePath"> = {},
@@ -1071,6 +1310,25 @@ function toGitPath(worktreePath: string, candidate: string): string {
 
 function isRelayStatePath(candidate: string): boolean {
   return candidate === ".relay" || candidate.startsWith(".relay/");
+}
+
+function displayPath(worktreePath: string, candidate: string): string {
+  if (!path.isAbsolute(candidate)) {
+    return candidate;
+  }
+
+  const relative = path.relative(worktreePath, candidate);
+  return relative && !relative.startsWith("..") && !path.isAbsolute(relative)
+    ? relative
+    : candidate;
+}
+
+function firstLine(message: string): string {
+  return message.split(/\r?\n/).find((line) => line.trim().length > 0)?.trim() ?? message;
+}
+
+function shortSha(sha: string): string {
+  return sha.slice(0, 7);
 }
 
 function phaseKey(task: PlanTask): string {

@@ -1,5 +1,6 @@
-import { describe, expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
+import { afterEach, describe, expect, test } from "bun:test";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import path from "node:path";
 
 import {
   createHelpText,
@@ -8,6 +9,21 @@ import {
   runCli,
   type RelayHandlers,
 } from "../src/cli";
+import { makeTempDir, removeTempDir } from "./helpers";
+
+const tempDirs: string[] = [];
+
+function tempDir(prefix?: string): string {
+  const dir = makeTempDir(prefix);
+  tempDirs.push(dir);
+  return dir;
+}
+
+afterEach(() => {
+  for (const dir of tempDirs.splice(0)) {
+    removeTempDir(dir);
+  }
+});
 
 describe("relay cli parser", () => {
   test("parses the default run command with repo, plan, verification, resume, pr, and notifications", () => {
@@ -187,5 +203,30 @@ describe("relay cli dispatch", () => {
 
     expect(exitCode).toBe(23);
     expect(calls).toEqual(["lint-plan:/repo:docs/plans/feature.md"]);
+  });
+
+  test("default run handler prints progress to stderr before the final result", async () => {
+    const repoPath = tempDir("relay-cli-progress-");
+    mkdirSync(path.join(repoPath, "docs", "plans"), { recursive: true });
+    writeFileSync(
+      path.join(repoPath, "docs", "plans", "relay.md"),
+      "# Weak plan\n\n## Phase 1: Weak\n\n- [ ] Implement feature\n",
+    );
+    const output: string[] = [];
+
+    const exitCode = await runCli([
+      "--repo",
+      repoPath,
+      "--plan",
+      "docs/plans/relay.md",
+    ], {
+      stderr: (message) => output.push(`stderr:${message}`),
+      stdout: (message) => output.push(`stdout:${message}`),
+    });
+
+    expect(exitCode).toBe(1);
+    expect(output[0]).toBe("stderr:[relay] linting docs/plans/relay.md");
+    expect(output[1]).toContain("stderr:[relay] lint failed");
+    expect(output.at(-1)).toContain("Plan lint failed");
   });
 });
