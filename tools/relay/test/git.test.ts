@@ -146,6 +146,35 @@ describe("relay git helpers", () => {
     })).rejects.toThrow(/plan path/i);
   });
 
+  test("prunes stale git worktree registrations before recreating a missing relay worktree", async () => {
+    const sourceRepoPath = await createGitRepo();
+    const root = tempDir("relay-stale-worktrees-");
+    const planPath = "docs/plans/relay.md";
+    const runnerBranch = deriveRunnerBranch(planPath);
+    const baseHead = (await readGitRepositoryInfo(sourceRepoPath)).head;
+    const worktreePath = path.join(root, "relay");
+
+    await ensureRelayWorktree({
+      baseHead,
+      planPath,
+      runnerBranch,
+      sourceRepoPath,
+      worktreePath,
+    });
+    rmSync(worktreePath, { force: true, recursive: true });
+
+    const recreated = await ensureRelayWorktree({
+      baseHead,
+      planPath,
+      runnerBranch,
+      sourceRepoPath,
+      worktreePath,
+    });
+
+    expect(recreated.created).toBe(true);
+    expect(existsSync(path.join(worktreePath, ".git"))).toBe(true);
+  });
+
   test("commits a completed slice with the plan file and touched files", async () => {
     const repoPath = await createGitRepo();
     const planPath = path.join(repoPath, "docs", "plans", "relay.md");

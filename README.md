@@ -124,13 +124,16 @@ bash bootstrap.sh
 
 ## AI tooling
 
-Relay is a Bun + TypeScript CLI for running implementation plans one slice at a time. `relay install` restows the `relay` package, which manages `~/.local/bin/relay` and `~/.agents/skills/relay-plan`; the package's bin entry points to `tools/relay/bin/relay.ts`.
+Relay is a Bun + TypeScript CLI for running implementation plans one slice at a time. See [docs/relay.md](docs/relay.md) for the full guide.
+
+`relay install` restows the `relay` package, which manages `~/.local/bin/relay` and `~/.agents/skills/relay-plan`; the package's bin entry points to `tools/relay/bin/relay.ts`.
 
 Common commands:
 
 ```bash
 relay lint-plan --repo ~/Projects/dotfiles --plan docs/plans/2026-05-21-relay.md
 relay --repo ~/Projects/dotfiles --plan docs/plans/2026-05-21-relay.md --verify "bun test tools/relay/test"
+relay --repo ~/Projects/dotfiles --plan docs/plans/feature.md --codex-timeout 1h --pr
 relay install
 ```
 

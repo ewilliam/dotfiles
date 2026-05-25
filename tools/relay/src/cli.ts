@@ -26,6 +26,7 @@ export interface RunCliOptions extends RelayIo {
 type FlagName =
   | "--allow-dirty-base"
   | "--allow-lint-warnings"
+  | "--codex-timeout"
   | "--final-verify"
   | "--force"
   | "--notify-each-slice"
@@ -36,6 +37,7 @@ type FlagName =
   | "--verify";
 
 const VALUE_FLAGS = new Set<FlagName>([
+  "--codex-timeout",
   "--final-verify",
   "--plan",
   "--repo",
@@ -111,6 +113,7 @@ export function createHelpText(): string {
     "  --repo <path>              Source repository. Defaults to the current directory.",
     "  --plan <path>              Plan file relative to the repo, or absolute.",
     "  --pr                       Push and open or update a pull request.",
+    "  --codex-timeout <duration>  Codex slice timeout like 45m, 1h, or 0 to disable.",
     "  --verify <command>         Per-slice verification command. Repeatable.",
     "  --final-verify <command>   Final verification command. Repeatable.",
     "  --resume                   Continue from an existing .relay state directory.",
@@ -194,6 +197,9 @@ function applyFlag(
     case "--allow-lint-warnings":
       options.allowLintWarnings = true;
       return;
+    case "--codex-timeout":
+      options.codexTimeoutMs = parseDurationMs(flag, requiredValue(flag, value));
+      return;
     case "--final-verify":
       options.finalVerifyCommands.push(requiredValue(flag, value));
       return;
@@ -247,6 +253,7 @@ function isFlagName(value: string): value is FlagName {
   return (
     value === "--allow-lint-warnings" ||
     value === "--allow-dirty-base" ||
+    value === "--codex-timeout" ||
     value === "--final-verify" ||
     value === "--force" ||
     value === "--notify-each-slice" ||
@@ -256,6 +263,33 @@ function isFlagName(value: string): value is FlagName {
     value === "--resume" ||
     value === "--verify"
   );
+}
+
+function parseDurationMs(flag: FlagName, value: string): number {
+  const trimmed = value.trim().toLowerCase();
+  if (trimmed === "0") {
+    return 0;
+  }
+
+  const match = trimmed.match(/^(\d+)(ms|s|m|h)?$/);
+  if (!match) {
+    throw new RelayCliError(`Invalid duration for ${flag}: ${value}`);
+  }
+
+  const amount = Number(match[1]);
+  if (!Number.isSafeInteger(amount) || amount < 0) {
+    throw new RelayCliError(`Invalid duration for ${flag}: ${value}`);
+  }
+
+  const unit = match[2] ?? "ms";
+  const multipliers: Record<string, number> = {
+    h: 60 * 60 * 1000,
+    m: 60 * 1000,
+    ms: 1,
+    s: 1000,
+  };
+
+  return amount * multipliers[unit];
 }
 
 function createDefaultHandlers(io: Required<RelayIo>): RelayHandlers {

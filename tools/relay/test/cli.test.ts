@@ -42,6 +42,36 @@ describe("relay cli parser", () => {
     });
   });
 
+  test("parses Codex timeout durations", () => {
+    const minutes = parseRelayArgs([
+      "--repo",
+      "/repo",
+      "--plan",
+      "docs/plans/feature.md",
+      "--codex-timeout",
+      "45m",
+    ]);
+    const disabled = parseRelayArgs([
+      "--repo",
+      "/repo",
+      "--plan",
+      "docs/plans/feature.md",
+      "--codex-timeout",
+      "0",
+    ]);
+
+    expect(minutes.codexTimeoutMs).toBe(45 * 60 * 1000);
+    expect(disabled.codexTimeoutMs).toBe(0);
+    expect(() => parseRelayArgs([
+      "--repo",
+      "/repo",
+      "--plan",
+      "docs/plans/feature.md",
+      "--codex-timeout",
+      "forever",
+    ])).toThrow("Invalid duration for --codex-timeout");
+  });
+
   test("defaults the run repo to the current working directory", () => {
     const options = parseRelayArgs(["--plan", "docs/plans/feature.md"], {
       cwd: "/repo/default",

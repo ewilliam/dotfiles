@@ -8,7 +8,7 @@ import {
 import { createHash } from "node:crypto";
 import path from "node:path";
 
-import { runCodexExec } from "./codex";
+import { DEFAULT_CODEX_TIMEOUT_MS, runCodexExec } from "./codex";
 import {
   commitRelaySlice,
   ensureRelayWorktree,
@@ -120,6 +120,16 @@ export async function runRelay(
     repoPath,
   });
   const worktreePlanPath = resolvePlanPath(worktreePath, worktreePlanRelativePath);
+
+  if (options.resume && !existsSync(worktreePath)) {
+    return blockedBeforeState(
+      `No existing relay worktree found at ${worktreePath}; remove --resume or use --force to start over.`,
+      {
+        runnerBranch,
+        worktreePath,
+      },
+    );
+  }
 
   try {
     const sourceGitState = await validateSourceGitState({
@@ -258,6 +268,7 @@ async function runTaskLoop(context: RunnerContext): Promise<RelayRunResult> {
       executor: context.executor,
       planPath: context.worktreePlanPath,
       task,
+      timeoutMs: resolveCodexTimeoutMs(context.options),
       worktreePath: context.worktreePath,
     });
     appendCodexFinishedEvent(context, task, codexResult);
@@ -542,7 +553,7 @@ async function repairFailedCodexSlice(
   if (!sameTask) {
     return {
       document: failedDocument,
-      message: `Codex exited ${codexResult.exitCode} and task context changed before repair: ${task.text}; see ${codexResult.logPath}.`,
+      message: `${codexFailureSummary(codexResult)} and task context changed before repair: ${task.text}; see ${codexResult.logPath}.`,
       ok: false,
       task,
     };
@@ -558,7 +569,7 @@ async function repairFailedCodexSlice(
   if (!canAttemptRepair(context, sameTask)) {
     return {
       document: failedDocument,
-      message: `Codex exited ${codexResult.exitCode} after the repair attempt was already consumed for ${sameTask.text}; see ${codexResult.logPath}.`,
+      message: `${codexFailureSummary(codexResult)} after the repair attempt was already consumed for ${sameTask.text}; see ${codexResult.logPath}.`,
       ok: false,
       task: sameTask,
     };
@@ -572,7 +583,7 @@ async function repairFailedCodexSlice(
   if (diff.touchedPaths.length === 0) {
     return {
       document: failedDocument,
-      message: `Codex exited ${codexResult.exitCode} without a safe diff to repair for ${sameTask.text}; see ${codexResult.logPath}.`,
+      message: `${codexFailureSummary(codexResult)} without a safe diff to repair for ${sameTask.text}; see ${codexResult.logPath}.`,
       ok: false,
       task: sameTask,
     };
@@ -626,6 +637,7 @@ async function runRepairSession(
     planPath: context.worktreePlanPath,
     repair: true,
     task,
+    timeoutMs: resolveCodexTimeoutMs(context.options),
     worktreePath: context.worktreePath,
   });
   appendCodexFinishedEvent(context, task, codexResult, {
@@ -660,6 +672,30 @@ function appendCodexFinishedEvent(
 function canAttemptRepair(context: RunnerContext, task: PlanTask): boolean {
   const state = readRelayState(context.worktreePath);
   return (state.repairAttempts[task.id] ?? 0) < 1;
+}
+
+function resolveCodexTimeoutMs(options: Pick<RelayOptions, "codexTimeoutMs">): number | undefined {
+  return options.codexTimeoutMs === 0
+    ? undefined
+    : options.codexTimeoutMs ?? DEFAULT_CODEX_TIMEOUT_MS;
+}
+
+function codexFailureSummary(result: CodexExecutionResult): string {
+  if (result.timedOut) {
+    return `Codex timed out after ${formatDuration(result.durationMs)}`;
+  }
+
+  return `Codex exited ${result.exitCode}`;
+}
+
+function formatDuration(durationMs: number): string {
+  if (durationMs >= 60 * 1000) {
+    return `${Math.round(durationMs / 1000 / 60)}m`;
+  }
+  if (durationMs >= 1000) {
+    return `${Math.round(durationMs / 1000)}s`;
+  }
+  return `${durationMs}ms`;
 }
 
 function sliceVerificationFailureMessage(

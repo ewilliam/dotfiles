@@ -175,6 +175,27 @@ describe("relay runner loop", () => {
     );
   });
 
+  test("passes a default timeout to Codex slice execution", async () => {
+    const { homeDir, planPath, repoPath } = await createRunnerRepo(oneTaskPlan());
+    const timeouts: Array<number | undefined> = [];
+
+    const result = await runRelay(baseRunOptions(repoPath, planPath), {
+      homeDir,
+      runCodex: async (input) => {
+        timeouts.push(input.timeoutMs);
+        completeTask(input);
+        return fakeCodexResult(input, { ok: true });
+      },
+    });
+
+    expect(result).toMatchObject({
+      exitCode: 0,
+      status: "completed",
+    });
+    expect(timeouts).toEqual([expect.any(Number)]);
+    expect(timeouts[0]).toBeGreaterThan(0);
+  });
+
   test("invokes fake Codex slices, verifies, commits, records SHAs, and continues to the next task", async () => {
     const { homeDir, planPath, repoPath, worktreePath } = await createRunnerRepo(twoTaskPlan());
     const codexCalls: string[] = [];
@@ -487,6 +508,24 @@ describe("relay runner loop", () => {
     expect(await gitStdout(worktreePath, ["status", "--short"])).toBe("");
   });
 
+  test("reports timed out Codex slices explicitly", async () => {
+    const { homeDir, planPath, repoPath } = await createRunnerRepo(oneTaskPlan());
+
+    const result = await runRelay(baseRunOptions(repoPath, planPath), {
+      homeDir,
+      runCodex: async (input) => fakeCodexResult(input, {
+        ok: false,
+        timedOut: true,
+      }),
+    });
+
+    expect(result).toMatchObject({
+      exitCode: 1,
+      status: "blocked",
+    });
+    expect(result.message).toContain("timed out");
+  });
+
   test("resume blocks before starting the next task when stale dirty files remain", async () => {
     const { homeDir, planPath, repoPath, worktreePath } = await createRunnerRepo(twoTaskPlan());
     const firstRun = await runRelay(baseRunOptions(repoPath, planPath, {
@@ -782,6 +821,26 @@ describe("relay runner loop", () => {
     expect(resumeCalls).toEqual(["Wire second runner slice"]);
     expect(readRelayState(worktreePath).completedTaskIds).toHaveLength(2);
   });
+
+  test("resume blocks without recreating a missing worktree", async () => {
+    const { homeDir, planPath, repoPath, worktreePath } = await createRunnerRepo(oneTaskPlan());
+    const codexCalls: string[] = [];
+
+    const result = await runRelay(baseRunOptions(repoPath, planPath, {
+      resume: true,
+    }), {
+      homeDir,
+      runCodex: createCompletingCodex(codexCalls),
+    });
+
+    expect(result).toMatchObject({
+      exitCode: 1,
+      status: "blocked",
+    });
+    expect(result.message).toContain("No existing relay worktree");
+    expect(codexCalls).toEqual([]);
+    expect(pathExists(worktreePath)).toBe(false);
+  });
 });
 
 function baseRunOptions(
@@ -924,7 +983,7 @@ function writeRunnerOutput(
 
 function fakeCodexResult(
   input: RunCodexExecInput,
-  options: { ok: boolean },
+  options: { ok: boolean; timedOut?: boolean },
 ): CodexExecutionResult {
   return {
     args: ["exec", "--cd", input.worktreePath, "prompt"],
@@ -936,7 +995,7 @@ function fakeCodexResult(
     stderr: options.ok ? "" : "failed\n",
     stdout: options.ok ? "ok\n" : "",
     taskId: input.task.id,
-    timedOut: false,
+    timedOut: options.timedOut ?? false,
   };
 }
 

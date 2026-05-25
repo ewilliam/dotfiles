@@ -11,6 +11,7 @@ export interface RelayOptions {
   force: boolean;
   allowDirtyBase: boolean;
   allowLintWarnings: boolean;
+  codexTimeoutMs?: number;
   notifyEachSlice: boolean;
 }
 

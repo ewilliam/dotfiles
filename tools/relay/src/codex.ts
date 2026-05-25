@@ -11,6 +11,7 @@ import type {
 } from "./types";
 
 const DEFAULT_CODEX_EXECUTABLE = "codex";
+export const DEFAULT_CODEX_TIMEOUT_MS = 45 * 60 * 1000;
 const HIGHEST_CODEX_REASONING_EFFORT = "xhigh";
 const CODEX_EXEC_OPTIONS = [
   "--sandbox",

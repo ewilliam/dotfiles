@@ -127,6 +127,7 @@ export async function ensureRelayWorktree(
     };
   }
 
+  await runGit(sourceRepoPath, ["worktree", "prune", "--expire=now"], executor);
   mkdirSync(path.dirname(worktreePath), { recursive: true });
   await runGit(sourceRepoPath, [
     "worktree",
