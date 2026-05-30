@@ -21,3 +21,5 @@ stow/nvim/.config/nvim/lazy-lock.json
 
 # Zed prompts (local/generated)
 stow/zed/.config/zed/prompts/
+
+docs/plans
