@@ -68,18 +68,16 @@ cd ~/Projects/dotfiles
 git remote set-url origin git@github.com:ewilliam/dotfiles.git
 ```
 
-**Authenticate the GitHub CLI** — the bootstrap installs `gh` but doesn't log in. Sign in to both accounts:
+**Authenticate the GitHub CLI** — the bootstrap installs `gh` but doesn't log in. Sign in to your account:
 
 ```bash
 gh auth login          # follow the prompts for ewilliam
-gh auth login          # follow the prompts for ewilliam-csd
 ```
 
-Once both accounts are added, switch between them anytime with the fish helpers:
+Once accounts are added, switch between them anytime with the fish helpers:
 
 ```fish
 ghme   # switch to ewilliam  (ping@ewilli.am)
-ghcsd  # switch to ewilliam-csd (walbright@csd.org)
 ghwho  # show current user
 ```
 
@@ -124,7 +122,7 @@ bash bootstrap.sh
 
 ## AI tooling
 
-Relay is a Bun + TypeScript CLI for running implementation plans one slice at a time. See [docs/relay.md](docs/relay.md) for the full guide.
+Relay is a Bun + TypeScript CLI for running implementation plans one slice at a time. See [tools/relay/README.md](tools/relay/README.md) for the full guide.
 
 `relay install` restows the `relay` package, which manages `~/.local/bin/relay` and `~/.agents/skills/relay-plan`; the package's bin entry points to `tools/relay/bin/relay.ts`.
 
